@@ -11,6 +11,7 @@ import {
   FileText,
   LayoutDashboard,
   LifeBuoy,
+  LockKeyhole,
   LogOut,
   MessageSquare,
   ShieldCheck,
@@ -30,14 +31,16 @@ type NavItem = {
 };
 
 const accountItems: NavItem[] = [
-  { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
+  { href: "/dashboard", label: "Recovery", icon: LayoutDashboard },
+  { href: "/dashboard/escrow", label: "Escrow", icon: LockKeyhole },
+  { href: "/dashboard/withdraw", label: "Release", icon: ArrowDownLeft },
   { href: "/dashboard/wallets", label: "Accounts", icon: Wallet },
   { href: "/dashboard/transactions", label: "Ledger", icon: ArrowLeftRight },
-  { href: "/dashboard/withdrawals", label: "Withdrawals", icon: ArrowDownLeft },
   { href: "/dashboard/beneficiaries", label: "Beneficiaries", icon: Banknote },
 ];
 
 const serviceItems: NavItem[] = [
+  { href: "/dashboard/withdrawals", label: "Request history", icon: ClipboardCheck },
   { href: "/dashboard/documents", label: "Documents", icon: FileText },
   { href: "/dashboard/messages", label: "Messages", icon: MessageSquare },
   { href: "/dashboard/refunds", label: "Refunds", icon: Undo2 },

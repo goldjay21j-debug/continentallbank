@@ -12,10 +12,15 @@ export interface Database {
           email: string;
           phone: string | null;
           country: string | null;
+          company: string | null;
           preferred_language: string;
           preferred_currency: string;
           role: "super_admin" | "finance_admin" | "support_admin" | "client";
           account_status: "pending" | "approved" | "rejected" | "suspended";
+          is_verified: boolean;
+          escrow_account_status: "not_started" | "active";
+          escrow_account_reference: string | null;
+          escrow_account_opened_at: string | null;
           kyc_status: "not_submitted" | "submitted" | "under_review" | "approved" | "rejected";
           kyc_method:
             | "passport"
@@ -114,7 +119,29 @@ export interface Database {
           method: string;
           payment_details: Json;
           notes: string | null;
-          status: "pending" | "approved" | "rejected" | "completed";
+          status:
+            | "draft"
+            | "submitted"
+            | "pending"
+            | "pending_review"
+            | "awaiting_fee_completion"
+            | "approved"
+            | "approved_for_processing"
+            | "processing"
+            | "paid"
+            | "completed"
+            | "rejected"
+            | "failed"
+            | "cancelled";
+          case_id: string | null;
+          escrow_contract_id: string | null;
+          release_processing_fee: number;
+          release_processing_fee_percentage: number;
+          net_amount: number | null;
+          fee_status: "unpaid" | "pending_verification" | "completed";
+          release_status: "not_eligible" | "eligible" | "blocked" | "under_review";
+          provider_status: string | null;
+          provider_reference: string | null;
           admin_note: string | null;
           processed_by_admin_id: string | null;
           created_at: string;
@@ -306,6 +333,211 @@ export interface Database {
         > & { id?: string; created_at?: string; updated_at?: string };
         Update: Partial<Database["public"]["Tables"]["beneficiaries"]["Row"]>;
       };
+      cases: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          complaint_type: string;
+          summary: string;
+          evidence_summary: string | null;
+          counterparty_name: string | null;
+          counterparty_contact: string | null;
+          amount_claimed: number;
+          currency: "USD" | "EUR" | "GBP";
+          status:
+            | "draft"
+            | "submitted"
+            | "under_review"
+            | "accepted"
+            | "rejected"
+            | "assigned"
+            | "recovered"
+            | "closed";
+          assigned_to_admin_id: string | null;
+          provider_reference: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["cases"]["Row"],
+          "id" | "created_at" | "updated_at"
+        > & { id?: string; created_at?: string; updated_at?: string };
+        Update: Partial<Database["public"]["Tables"]["cases"]["Row"]>;
+      };
+      case_parties: {
+        Row: {
+          id: string;
+          case_id: string;
+          user_id: string | null;
+          name: string;
+          email: string | null;
+          phone: string | null;
+          company: string | null;
+          role:
+            | "claimant"
+            | "counterparty"
+            | "beneficiary"
+            | "provider"
+            | "legal_representative"
+            | "other";
+          created_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["case_parties"]["Row"], "id" | "created_at"> & {
+          id?: string;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["case_parties"]["Row"]>;
+      };
+      kyc_submissions: {
+        Row: {
+          id: string;
+          user_id: string;
+          method:
+            | "passport"
+            | "national_id"
+            | "drivers_license"
+            | "proof_of_address"
+            | "source_of_funds"
+            | "business_registry";
+          status: "not_started" | "pending_review" | "verified" | "declined" | "resubmission_required";
+          document_file_id: string | null;
+          notes: string | null;
+          submitted_at: string;
+          reviewed_at: string | null;
+          reviewed_by_admin_id: string | null;
+          review_note: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["kyc_submissions"]["Row"],
+          "id" | "submitted_at" | "created_at" | "updated_at"
+        > & { id?: string; submitted_at?: string; created_at?: string; updated_at?: string };
+        Update: Partial<Database["public"]["Tables"]["kyc_submissions"]["Row"]>;
+      };
+      uploaded_files: {
+        Row: {
+          id: string;
+          user_id: string;
+          case_id: string | null;
+          kyc_submission_id: string | null;
+          file_kind: "evidence" | "kyc" | "receipt" | "admin_document" | "message_attachment";
+          bucket: string;
+          path: string;
+          file_name: string;
+          mime_type: string | null;
+          size_bytes: number | null;
+          visibility: "private" | "admin_only";
+          created_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["uploaded_files"]["Row"], "id" | "created_at"> & {
+          id?: string;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["uploaded_files"]["Row"]>;
+      };
+      recovery_kyc_reviews: {
+        Row: {
+          id: string;
+          user_id: string;
+          kyc_submission_id: string | null;
+          admin_id: string;
+          decision: "verified" | "declined" | "resubmission_required";
+          note: string | null;
+          created_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["recovery_kyc_reviews"]["Row"],
+          "id" | "created_at"
+        > & { id?: string; created_at?: string };
+        Update: Partial<Database["public"]["Tables"]["recovery_kyc_reviews"]["Row"]>;
+      };
+      escrow_contracts: {
+        Row: {
+          id: string;
+          user_id: string;
+          case_id: string;
+          reference: string;
+          status:
+            | "draft"
+            | "pending_setup"
+            | "active"
+            | "ready_for_release"
+            | "release_approved"
+            | "frozen"
+            | "closed";
+          release_status: "not_eligible" | "eligible" | "blocked" | "under_review";
+          release_conditions_open: boolean;
+          provider_reference: string | null;
+          currency: "USD" | "EUR" | "GBP";
+          total_recovered: number;
+          available_for_withdrawal: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["escrow_contracts"]["Row"],
+          "id" | "created_at" | "updated_at"
+        > & { id?: string; created_at?: string; updated_at?: string };
+        Update: Partial<Database["public"]["Tables"]["escrow_contracts"]["Row"]>;
+      };
+      recovered_funds_entries: {
+        Row: {
+          id: string;
+          escrow_contract_id: string;
+          case_id: string;
+          user_id: string;
+          currency: "USD" | "EUR" | "GBP";
+          amount: number;
+          source: string | null;
+          provider_reference: string | null;
+          note: string | null;
+          recorded_by_admin_id: string | null;
+          created_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["recovered_funds_entries"]["Row"],
+          "id" | "created_at"
+        > & { id?: string; created_at?: string };
+        Update: Partial<Database["public"]["Tables"]["recovered_funds_entries"]["Row"]>;
+      };
+      disputes: {
+        Row: {
+          id: string;
+          user_id: string;
+          case_id: string | null;
+          escrow_contract_id: string | null;
+          status: "open" | "under_review" | "resolved" | "closed";
+          title: string;
+          description: string;
+          resolved_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["disputes"]["Row"],
+          "id" | "created_at" | "updated_at"
+        > & { id?: string; created_at?: string; updated_at?: string };
+        Update: Partial<Database["public"]["Tables"]["disputes"]["Row"]>;
+      };
+      messages: {
+        Row: {
+          id: string;
+          user_id: string;
+          case_id: string | null;
+          escrow_contract_id: string | null;
+          sender_id: string;
+          body: string;
+          created_at: string;
+          read_at: string | null;
+        };
+        Insert: Omit<Database["public"]["Tables"]["messages"]["Row"], "id" | "created_at"> & {
+          id?: string;
+          created_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["messages"]["Row"]>;
+      };
     };
     Functions: Record<string, never>;
     Enums: Record<string, never>;
@@ -325,3 +557,13 @@ export type RefundClaim = Database["public"]["Tables"]["refund_claims"]["Row"];
 export type GeneratedDocument = Database["public"]["Tables"]["generated_documents"]["Row"];
 export type NotificationRow = Database["public"]["Tables"]["notifications"]["Row"];
 export type BeneficiaryRow = Database["public"]["Tables"]["beneficiaries"]["Row"];
+export type RecoveryCase = Database["public"]["Tables"]["cases"]["Row"];
+export type CaseParty = Database["public"]["Tables"]["case_parties"]["Row"];
+export type KycSubmission = Database["public"]["Tables"]["kyc_submissions"]["Row"];
+export type UploadedFile = Database["public"]["Tables"]["uploaded_files"]["Row"];
+export type RecoveryKycReview = Database["public"]["Tables"]["recovery_kyc_reviews"]["Row"];
+export type EscrowContract = Database["public"]["Tables"]["escrow_contracts"]["Row"];
+export type RecoveredFundsEntry =
+  Database["public"]["Tables"]["recovered_funds_entries"]["Row"];
+export type Dispute = Database["public"]["Tables"]["disputes"]["Row"];
+export type MessageRow = Database["public"]["Tables"]["messages"]["Row"];

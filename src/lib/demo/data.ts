@@ -32,6 +32,15 @@ type ProfileKycFields = Pick<
   | "kyc_review_note"
 >;
 
+type ProfileEscrowFields = Pick<
+  Profile,
+  | "company"
+  | "is_verified"
+  | "escrow_account_status"
+  | "escrow_account_reference"
+  | "escrow_account_opened_at"
+>;
+
 function kycFields(
   status: Profile["kyc_status"],
   method: Profile["kyc_method"] = null,
@@ -55,6 +64,70 @@ function kycFields(
   };
 }
 
+function escrowFields({
+  company = null,
+  isVerified = false,
+  status = "not_started",
+  reference = null,
+  openedAt = null,
+}: {
+  company?: string | null;
+  isVerified?: boolean;
+  status?: Profile["escrow_account_status"];
+  reference?: string | null;
+  openedAt?: string | null;
+} = {}): ProfileEscrowFields {
+  return {
+    company,
+    is_verified: isVerified,
+    escrow_account_status: status,
+    escrow_account_reference: reference,
+    escrow_account_opened_at: openedAt,
+  };
+}
+
+function withdrawalEscrowFields({
+  caseId = null,
+  contractId = null,
+  amount = 0,
+  feeStatus = "unpaid",
+  releaseStatus = "not_eligible",
+  providerStatus = null,
+  providerReference = null,
+}: {
+  caseId?: string | null;
+  contractId?: string | null;
+  amount?: number;
+  feeStatus?: WithdrawalRequest["fee_status"];
+  releaseStatus?: WithdrawalRequest["release_status"];
+  providerStatus?: string | null;
+  providerReference?: string | null;
+} = {}): Pick<
+  WithdrawalRequest,
+  | "case_id"
+  | "escrow_contract_id"
+  | "release_processing_fee"
+  | "release_processing_fee_percentage"
+  | "net_amount"
+  | "fee_status"
+  | "release_status"
+  | "provider_status"
+  | "provider_reference"
+> {
+  const fee = caseId ? amount * 0.2 : 0;
+  return {
+    case_id: caseId,
+    escrow_contract_id: contractId,
+    release_processing_fee: fee,
+    release_processing_fee_percentage: 20,
+    net_amount: amount - fee,
+    fee_status: feeStatus,
+    release_status: releaseStatus,
+    provider_status: providerStatus,
+    provider_reference: providerReference,
+  };
+}
+
 /* ------------------------------------------------------------------ *
  *  Demo client (signed-in)
  * ------------------------------------------------------------------ */
@@ -69,6 +142,12 @@ export const demoClientProfile: Profile = {
   preferred_currency: "USD",
   role: "client",
   account_status: "approved",
+  ...escrowFields({
+    isVerified: true,
+    status: "active",
+    reference: "ESC-CB4910-2026-017",
+    openedAt: ISO("2026-05-18T10:30:00Z"),
+  }),
   ...kycFields(
     "approved",
     "passport",
@@ -194,6 +273,14 @@ export const demoClientWithdrawals: WithdrawalRequest[] = [
     payment_details: { destination: "h.bertrand@example.com" },
     notes: "Routine quarterly distribution. Please confirm before settlement.",
     status: "pending",
+    ...withdrawalEscrowFields({
+      caseId: "demo-case-1",
+      contractId: "demo-escrow-1",
+      amount: 75000,
+      feeStatus: "pending_verification",
+      releaseStatus: "eligible",
+      providerStatus: "release_review",
+    }),
     admin_note: null,
     processed_by_admin_id: null,
     created_at: ISO("2026-05-17T16:48:00Z"),
@@ -208,6 +295,7 @@ export const demoClientWithdrawals: WithdrawalRequest[] = [
     payment_details: { destination: "12-34-56 · 12345678" },
     notes: null,
     status: "approved",
+    ...withdrawalEscrowFields(),
     admin_note: "Approved. Settlement scheduled for next business day.",
     processed_by_admin_id: "demo-officer-0001",
     created_at: ISO("2026-05-10T08:32:00Z"),
@@ -222,6 +310,12 @@ export const demoClientWithdrawals: WithdrawalRequest[] = [
     payment_details: { destination: "•••• •••• 4419" },
     notes: null,
     status: "completed",
+    ...withdrawalEscrowFields({
+      amount: 120000,
+      feeStatus: "completed",
+      providerStatus: "settled",
+      providerReference: "8821-5572",
+    }),
     admin_note: "Settled to Citibank reference 8821-5572.",
     processed_by_admin_id: "demo-officer-0001",
     created_at: ISO("2026-04-26T09:14:00Z"),
@@ -301,6 +395,7 @@ export const demoAdminProfile: Profile = {
   preferred_currency: "EUR",
   role: "super_admin",
   account_status: "approved",
+  ...escrowFields({ company: "Continental Bank", isVerified: true }),
   ...kycFields(
     "approved",
     null,
@@ -330,6 +425,7 @@ export const demoClientRoster: Profile[] = [
     preferred_currency: "GBP",
     role: "client",
     account_status: "approved",
+    ...escrowFields({ isVerified: true, status: "active", reference: "ESC-CB6620-2026-014", openedAt: ISO("2026-04-22T11:00:00Z") }),
     ...kycFields(
       "approved",
       "passport",
@@ -352,6 +448,7 @@ export const demoClientRoster: Profile[] = [
     preferred_currency: "USD",
     role: "client",
     account_status: "approved",
+    ...escrowFields(),
     ...kycFields(
       "under_review",
       "source_of_funds",
@@ -374,6 +471,7 @@ export const demoClientRoster: Profile[] = [
     preferred_currency: "EUR",
     role: "client",
     account_status: "pending",
+    ...escrowFields(),
     ...kycFields(
       "submitted",
       "national_id",
@@ -396,6 +494,7 @@ export const demoClientRoster: Profile[] = [
     preferred_currency: "USD",
     role: "client",
     account_status: "pending",
+    ...escrowFields(),
     ...kycFields("not_submitted"),
     account_number: "CB100558740043",
     avatar_url: null,
@@ -412,6 +511,7 @@ export const demoClientRoster: Profile[] = [
     preferred_currency: "EUR",
     role: "client",
     account_status: "suspended",
+    ...escrowFields({ isVerified: false, status: "active", reference: "ESC-CB4001-2026-004", openedAt: ISO("2026-01-17T10:12:00Z") }),
     ...kycFields(
       "rejected",
       "proof_of_address",
@@ -452,6 +552,7 @@ export const demoAdminWithdrawalQueue: (WithdrawalRequest & {
     payment_details: { destination: "20-15-04 · 11225599" },
     notes: "Office expenditure — please prioritise.",
     status: "pending",
+    ...withdrawalEscrowFields(),
     admin_note: null,
     processed_by_admin_id: null,
     created_at: ISO("2026-05-19T07:42:00Z"),
@@ -473,6 +574,7 @@ export const demoAdminWithdrawalQueue: (WithdrawalRequest & {
     payment_details: { destination: "Mashreq · 1004-5512-887" },
     notes: null,
     status: "pending",
+    ...withdrawalEscrowFields(),
     admin_note: null,
     processed_by_admin_id: null,
     created_at: ISO("2026-05-19T05:14:00Z"),

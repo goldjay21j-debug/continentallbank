@@ -54,8 +54,8 @@ export default async function WalletsPage() {
               </Link>
             </Button>
             <Button asChild>
-              <Link href="/dashboard/withdrawals">
-                New withdrawal <ArrowDownLeft className="h-4 w-4" />
+              <Link href="/dashboard/withdraw">
+                Request release <ArrowDownLeft className="h-4 w-4" />
               </Link>
             </Button>
           </>
@@ -193,8 +193,8 @@ export default async function WalletsPage() {
                     </Link>
                   </Button>
                   <Button variant="gold" size="sm" asChild>
-                    <Link href={`/dashboard/withdrawals?currency=${currency}`}>
-                      Withdraw
+                    <Link href="/dashboard/withdraw">
+                      Release
                       <ArrowDownLeft className="h-3.5 w-3.5" />
                     </Link>
                   </Button>

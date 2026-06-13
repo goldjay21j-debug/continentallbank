@@ -106,12 +106,23 @@ export async function decideKycVerification(input: unknown): Promise<ActionResul
     .from("profiles")
     .update({
       kyc_status: parsed.data.decision,
+      is_verified: parsed.data.decision === "approved",
       kyc_reviewed_at: now,
       kyc_reviewed_by_admin_id: admin.id,
       kyc_review_note: parsed.data.note ?? null,
     })
     .eq("id", parsed.data.userId);
   if (error) return { ok: false, error: error.message };
+
+  if (parsed.data.decision === "approved" || parsed.data.decision === "rejected") {
+    await service.from("recovery_kyc_reviews").insert({
+      user_id: parsed.data.userId,
+      kyc_submission_id: null,
+      admin_id: admin.id,
+      decision: parsed.data.decision === "approved" ? "verified" : "declined",
+      note: parsed.data.note ?? null,
+    });
+  }
 
   await issueKycDecisionReceipt(
     service,
@@ -129,6 +140,7 @@ export async function decideKycVerification(input: unknown): Promise<ActionResul
     old_value: { status: profile.kyc_status },
     new_value: {
       status: parsed.data.decision,
+      is_verified: parsed.data.decision === "approved",
       method: profile.kyc_method,
       document: profile.kyc_document_name,
     },

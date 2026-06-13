@@ -29,6 +29,17 @@ import {
 } from "./data";
 import { demoClientDocuments, type DocumentRecord } from "./documents";
 import { demoClientNotifications, type Notification } from "./notifications";
+import {
+  demoAdminEscrowContracts,
+  demoAdminRecoveredFunds,
+  demoAdminRecoveryCases,
+  demoClientDisputes,
+  demoClientEscrowContracts,
+  demoClientRecoveredFunds,
+  demoClientRecoveryCases,
+  recoveryAccessState,
+} from "./recovery";
+import type { Profile } from "@/lib/types/database";
 
 /* ---- Client-side fetchers --------------------------------------- */
 
@@ -73,7 +84,13 @@ export async function clientWithdrawals(userId: string, limit = 50) {
 export async function clientPendingWithdrawals(userId: string) {
   if (await isDemoMode()) {
     return demoClientWithdrawals.filter(
-      (w) => w.status === "pending" || w.status === "approved",
+      (w) =>
+        w.status === "pending" ||
+        w.status === "approved" ||
+        w.status === "awaiting_fee_completion" ||
+        w.status === "pending_review" ||
+        w.status === "approved_for_processing" ||
+        w.status === "processing",
     );
   }
   if (localAuthEnabled() || !supabaseConfigured()) {
@@ -84,7 +101,14 @@ export async function clientPendingWithdrawals(userId: string) {
     .from("withdrawal_requests")
     .select("*")
     .eq("user_id", userId)
-    .in("status", ["pending", "approved"])
+    .in("status", [
+      "pending",
+      "approved",
+      "awaiting_fee_completion",
+      "pending_review",
+      "approved_for_processing",
+      "processing",
+    ])
     .order("created_at", { ascending: false })
     .limit(4);
   return data ?? [];
@@ -178,6 +202,85 @@ export async function clientBeneficiaries(userId: string) {
   }));
 }
 
+export async function clientRecoveryCases(userId: string) {
+  if (await isDemoMode()) return demoClientRecoveryCases;
+  if (localAuthEnabled() || !supabaseConfigured()) return [];
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("cases")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(20);
+  return data ?? [];
+}
+
+export async function clientEscrowContract(userId: string) {
+  if (await isDemoMode()) return demoClientEscrowContracts[0] ?? null;
+  if (localAuthEnabled() || !supabaseConfigured()) return null;
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("escrow_contracts")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  return data ?? null;
+}
+
+export async function clientRecoveredFunds(userId: string) {
+  if (await isDemoMode()) return demoClientRecoveredFunds;
+  if (localAuthEnabled() || !supabaseConfigured()) return [];
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("recovered_funds_entries")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(50);
+  return data ?? [];
+}
+
+export async function clientActiveDisputes(userId: string) {
+  if (await isDemoMode()) return demoClientDisputes;
+  if (localAuthEnabled() || !supabaseConfigured()) return [];
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("disputes")
+    .select("*")
+    .eq("user_id", userId)
+    .in("status", ["open", "under_review"])
+    .order("created_at", { ascending: false })
+    .limit(20);
+  return data ?? [];
+}
+
+export async function clientEscrowOverview(userId: string, profile: Profile) {
+  const [recoveryCases, escrowContract, recoveredFunds, activeDisputes] =
+    await Promise.all([
+      clientRecoveryCases(userId),
+      clientEscrowContract(userId),
+      clientRecoveredFunds(userId),
+      clientActiveDisputes(userId),
+    ]);
+
+  const accessState = recoveryAccessState(profile, recoveryCases, escrowContract);
+
+  return {
+    recoveryCases,
+    primaryCase: recoveryCases[0] ?? null,
+    escrowContract,
+    recoveredFunds,
+    activeDisputes,
+    accessState,
+    withdrawalEligibility:
+      accessState.key === "ready" &&
+      escrowContract?.release_status === "eligible" &&
+      Number(escrowContract.available_for_withdrawal) > 0,
+  };
+}
+
 /* ---- Admin-side fetchers ---------------------------------------- */
 
 export async function adminCounts() {
@@ -195,7 +298,18 @@ export async function adminCounts() {
   const s = createServiceClient();
   const [a, b, c, d] = await Promise.all([
     s.from("profiles").select("id", { count: "exact", head: true }).eq("account_status", "pending"),
-    s.from("withdrawal_requests").select("id", { count: "exact", head: true }).eq("status", "pending"),
+    s
+      .from("withdrawal_requests")
+      .select("id", { count: "exact", head: true })
+      .in("status", [
+        "pending",
+        "submitted",
+        "pending_review",
+        "awaiting_fee_completion",
+        "approved",
+        "approved_for_processing",
+        "processing",
+      ]),
     s.from("support_tickets").select("id", { count: "exact", head: true }).in("status", ["open", "in_progress"]),
     s.from("profiles").select("id", { count: "exact", head: true }).eq("role", "client"),
   ]);
@@ -347,6 +461,80 @@ export async function adminBeneficiaryQueue(statusFilter?: string) {
   }));
 }
 
+export async function adminRecoveryCases(statusFilter?: string) {
+  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
+    if (statusFilter && statusFilter !== "all") {
+      return demoAdminRecoveryCases.filter((c) => c.status === statusFilter);
+    }
+    return demoAdminRecoveryCases;
+  }
+
+  const s = createServiceClient();
+  let q = s
+    .from("cases")
+    .select(
+      "*, profiles:profiles!cases_user_id_fkey(id, full_name, email, account_number, country, kyc_status, is_verified, escrow_account_status)",
+    )
+    .order("created_at", { ascending: false });
+  if (statusFilter && statusFilter !== "all") q = q.eq("status", statusFilter);
+  const { data } = await q.limit(200);
+  return data ?? [];
+}
+
+export async function adminEscrowContracts(statusFilter?: string) {
+  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
+    if (statusFilter && statusFilter !== "all") {
+      return demoAdminEscrowContracts.filter((c) => c.status === statusFilter);
+    }
+    return demoAdminEscrowContracts;
+  }
+
+  const s = createServiceClient();
+  let q = s
+    .from("escrow_contracts")
+    .select(
+      "*, profiles:profiles!escrow_contracts_user_id_fkey(id, full_name, email, account_number, country, kyc_status, is_verified, escrow_account_status), cases:cases!escrow_contracts_case_id_fkey(id, title, status, complaint_type)",
+    )
+    .order("created_at", { ascending: false });
+  if (statusFilter && statusFilter !== "all") q = q.eq("status", statusFilter);
+  const { data } = await q.limit(200);
+  return data ?? [];
+}
+
+export async function adminRecoveredFunds(limit = 50) {
+  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
+    return demoAdminRecoveredFunds.slice(0, limit);
+  }
+
+  const s = createServiceClient();
+  const { data } = await s
+    .from("recovered_funds_entries")
+    .select(
+      "*, profiles:profiles!recovered_funds_entries_user_id_fkey(id, full_name, account_number), cases:cases!recovered_funds_entries_case_id_fkey(id, title, status), escrow_contracts:escrow_contracts!recovered_funds_entries_escrow_contract_id_fkey(id, reference, status)",
+    )
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  return data ?? [];
+}
+
+export async function adminRecoveryMetrics() {
+  const [cases, contracts, funds] = await Promise.all([
+    adminRecoveryCases(),
+    adminEscrowContracts(),
+    adminRecoveredFunds(200),
+  ]);
+
+  return {
+    openCases: cases.filter((c: any) => !["rejected", "closed"].includes(c.status)).length,
+    recoveredCases: cases.filter((c: any) => c.status === "recovered").length,
+    activeEscrows: contracts.filter((c: any) =>
+      ["active", "ready_for_release", "release_approved"].includes(c.status),
+    ).length,
+    releaseEligible: contracts.filter((c: any) => c.release_status === "eligible").length,
+    totalRecovered: funds.reduce((sum: number, f: any) => sum + Number(f.amount ?? 0), 0),
+  };
+}
+
 export async function adminClientDetail(userId: string) {
   if (await isDemoMode()) {
     const profile =
@@ -495,7 +683,15 @@ export async function adminRecentWithdrawals() {
     .select(
       "id, amount, currency, method, status, created_at, user_id, profiles:profiles!withdrawal_requests_user_id_fkey(full_name, account_number)",
     )
-    .eq("status", "pending")
+    .in("status", [
+      "pending",
+      "submitted",
+      "pending_review",
+      "awaiting_fee_completion",
+      "approved",
+      "approved_for_processing",
+      "processing",
+    ])
     .order("created_at", { ascending: false })
     .limit(5);
   return data ?? [];

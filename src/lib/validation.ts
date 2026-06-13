@@ -29,6 +29,30 @@ export const WithdrawalRequestSchema = z.object({
   notes: z.string().max(2000).optional(),
 });
 
+export const RecoveryCaseSchema = z.object({
+  title: z.string().min(4, "Enter a short case title").max(160),
+  complaintType: z.string().min(3, "Select or enter a complaint type").max(80),
+  summary: z.string().min(30, "Describe the recovery matter in at least 30 characters").max(5000),
+  evidenceSummary: z.string().max(3000).optional().or(z.literal("")),
+  counterpartyName: z.string().max(160).optional().or(z.literal("")),
+  counterpartyContact: z.string().max(180).optional().or(z.literal("")),
+  amountClaimed: z
+    .number()
+    .min(0, "Amount cannot be negative")
+    .max(500_000_000, "Amount exceeds recovery desk intake limit"),
+  currency: z.enum(CURRENCIES as unknown as [string, ...string[]]),
+});
+
+export const EscrowReleaseRequestSchema = z.object({
+  escrowContractId: z.string().min(1),
+  caseId: z.string().min(1),
+  amount: z.number().positive("Enter a release amount greater than zero"),
+  currency: z.enum(CURRENCIES as unknown as [string, ...string[]]),
+  method: z.enum(["bank", "card", "paypal"]),
+  paymentDetails: z.record(z.string()).default({}),
+  notes: z.string().max(1000).optional(),
+});
+
 export const AdminBalanceAdjustmentSchema = z.object({
   userId: z.string().uuid(),
   currency: z.enum(CURRENCIES as unknown as [string, ...string[]]),

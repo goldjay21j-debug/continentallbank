@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { WithdrawalDecisionActions } from "@/components/admin/withdrawal-decision-actions";
 import { requireAdmin } from "@/lib/auth";
@@ -27,7 +28,17 @@ export default async function AdminWithdrawalsPage({
       />
 
       <div className="flex flex-wrap items-center gap-2">
-        {(["all", "pending", "approved", "completed", "rejected"] as const).map((s) => (
+        {([
+          "all",
+          "pending",
+          "awaiting_fee_completion",
+          "approved",
+          "approved_for_processing",
+          "processing",
+          "paid",
+          "completed",
+          "rejected",
+        ] as const).map((s) => (
           <Link
             key={s}
             href={`/admin/withdrawals${s === "all" ? "" : `?status=${s}`}`}
@@ -99,7 +110,14 @@ export default async function AdminWithdrawalsPage({
                     <div className="font-display text-2xl font-semibold tabular-figures text-foreground">
                       {formatCurrency(r.amount, r.currency)}
                     </div>
-                    {canProcess && r.status !== "completed" && r.status !== "rejected" && (
+                    {r.escrow_contract_id && (
+                      <Button variant="outline" size="sm" asChild>
+                        <Link href="/admin/recovery">
+                          Manage escrow release
+                        </Link>
+                      </Button>
+                    )}
+                    {canProcess && !r.escrow_contract_id && r.status !== "completed" && r.status !== "rejected" && (
                       <WithdrawalDecisionActions id={r.id} status={r.status} />
                     )}
                   </div>

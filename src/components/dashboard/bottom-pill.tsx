@@ -19,16 +19,20 @@ import {
   Users,
   ScrollText,
   LineChart,
+  LockKeyhole,
+  FolderOpen,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const clientItems = [
-  { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
+  { href: "/dashboard", label: "Recovery", icon: LayoutDashboard },
+  { href: "/dashboard/escrow", label: "Escrow", icon: LockKeyhole },
+  { href: "/dashboard/withdraw", label: "Release", icon: ArrowDownLeft },
   { href: "/dashboard/onboarding", label: "Onboarding", icon: ClipboardCheck },
   { href: "/dashboard/wallets", label: "Accounts", icon: Wallet },
   { href: "/dashboard/transactions", label: "Ledger", icon: ArrowLeftRight },
-  { href: "/dashboard/withdrawals", label: "Withdrawals", icon: ArrowDownLeft },
+  { href: "/dashboard/withdrawals", label: "Requests", icon: ClipboardCheck },
   { href: "/dashboard/beneficiaries", label: "Beneficiaries", icon: Banknote },
   { href: "/dashboard/refunds", label: "Refunds", icon: Undo2 },
   { href: "/dashboard/documents", label: "Documents", icon: FileText },
@@ -39,6 +43,7 @@ const clientItems = [
 
 const adminItems = [
   { href: "/admin", label: "Operations", icon: LayoutDashboard },
+  { href: "/admin/recovery", label: "Recovery", icon: FolderOpen },
   { href: "/admin/users", label: "Clients", icon: Users },
   { href: "/admin/compliance", label: "Compliance", icon: ShieldAlert },
   { href: "/admin/withdrawals", label: "Withdrawals", icon: ArrowDownLeft },

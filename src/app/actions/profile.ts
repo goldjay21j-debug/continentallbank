@@ -119,6 +119,45 @@ export async function submitKycVerification(formData: FormData): Promise<ActionR
   });
   if (uploadError) return { ok: false, error: uploadError.message };
 
+  const { data: uploadedFile } = await service
+    .from("uploaded_files")
+    .insert({
+      user_id: user.id,
+      case_id: null,
+      kyc_submission_id: null,
+      file_kind: "kyc",
+      bucket: KYC_BUCKET,
+      path,
+      file_name: document.name,
+      mime_type: document.type,
+      size_bytes: document.size,
+      visibility: "private",
+    })
+    .select()
+    .maybeSingle();
+
+  const { data: kycSubmission } = await service
+    .from("kyc_submissions")
+    .insert({
+      user_id: user.id,
+      method: parsed.data.method,
+      status: "pending_review",
+      document_file_id: uploadedFile?.id ?? null,
+      notes: null,
+      reviewed_at: null,
+      reviewed_by_admin_id: null,
+      review_note: null,
+    })
+    .select()
+    .maybeSingle();
+
+  if (uploadedFile?.id && kycSubmission?.id) {
+    await service
+      .from("uploaded_files")
+      .update({ kyc_submission_id: kycSubmission.id })
+      .eq("id", uploadedFile.id);
+  }
+
   const { error } = await service
     .from("profiles")
     .update({

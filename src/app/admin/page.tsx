@@ -10,6 +10,7 @@ import {
   ExternalLink,
   FileCheck2,
   FileText,
+  FolderOpen,
   Globe2,
   Landmark,
   LifeBuoy,
@@ -43,6 +44,7 @@ import {
   adminPendingRefundCount,
   adminRecentActivity,
   adminRecentWithdrawals,
+  adminRecoveryMetrics,
 } from "@/lib/demo/queries";
 import { formatCurrency, formatDateTime, maskAccountNumber } from "@/lib/utils";
 
@@ -90,12 +92,13 @@ const currencies = ["USD", "EUR", "GBP"] as const;
 
 export default async function AdminOverviewPage() {
   const admin = await requireAdmin();
-  const [counts, refundCount, dashboard, analytics, recentRequests, recentActivity] =
+  const [counts, refundCount, dashboard, analytics, recoveryMetrics, recentRequests, recentActivity] =
     await Promise.all([
       adminCounts(),
       adminPendingRefundCount(),
       adminDashboardMetrics(),
       adminAnalytics(),
+      adminRecoveryMetrics(),
       adminRecentWithdrawals(),
       adminRecentActivity(),
     ]);
@@ -104,6 +107,7 @@ export default async function AdminOverviewPage() {
     counts.pendingClients +
     counts.pendingWithdrawals +
     refundCount +
+    recoveryMetrics.openCases +
     counts.openTickets +
     dashboard.pendingKyc +
     dashboard.pendingBeneficiaries;
@@ -155,6 +159,14 @@ export default async function AdminOverviewPage() {
       active: refundCount > 0,
     },
     {
+      icon: FolderOpen,
+      label: "Recovery cases",
+      value: String(recoveryMetrics.openCases),
+      detail: "Complaint, evidence, and escrow readiness",
+      href: "/admin/recovery",
+      active: recoveryMetrics.openCases > 0,
+    },
+    {
       icon: LifeBuoy,
       label: "Support cases",
       value: String(counts.openTickets),
@@ -180,6 +192,13 @@ export default async function AdminOverviewPage() {
   ];
 
   const actionTiles = [
+    {
+      icon: FolderOpen,
+      label: "Manage recovery",
+      detail: "Review case intake, escrow contracts, recovered funds, and release eligibility.",
+      href: "/admin/recovery",
+      metric: recoveryMetrics.openCases,
+    },
     {
       icon: UserCheck,
       label: "Approve clients",

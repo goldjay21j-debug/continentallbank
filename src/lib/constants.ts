@@ -106,10 +106,19 @@ export const KYC_METHODS = [
 export type KycMethod = (typeof KYC_METHODS)[number]["id"];
 
 export const WITHDRAWAL_STATUS = {
+  draft: "Draft",
+  submitted: "Submitted",
   pending: "Pending Review",
+  pending_review: "Pending Review",
+  awaiting_fee_completion: "Awaiting Fee Completion",
   approved: "Approved",
+  approved_for_processing: "Approved for Processing",
+  processing: "Processing",
+  paid: "Paid",
   rejected: "Rejected",
   completed: "Completed",
+  failed: "Failed",
+  cancelled: "Cancelled",
 } as const;
 
 export type WithdrawalStatus = keyof typeof WITHDRAWAL_STATUS;
