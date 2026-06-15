@@ -41,9 +41,12 @@ import {
   adminAnalytics,
   adminCounts,
   adminDashboardMetrics,
+  adminEscrowContracts,
   adminPendingRefundCount,
   adminRecentActivity,
   adminRecentWithdrawals,
+  adminRecoveredFunds,
+  adminRecoveryCases,
   adminRecoveryMetrics,
 } from "@/lib/demo/queries";
 import { formatCurrency, formatDateTime, maskAccountNumber } from "@/lib/utils";
@@ -88,17 +91,75 @@ type BeneficiaryReviewRow = Beneficiary & {
   } | null;
 };
 
+type RecoveryCaseRow = {
+  id: string;
+  title: string;
+  complaint_type: string;
+  amount_claimed: number | string;
+  currency: string;
+  status: string;
+  created_at: string;
+  profiles?: {
+    full_name?: string | null;
+    account_number?: string | null;
+  } | null;
+};
+
+type EscrowContractRow = {
+  id: string;
+  reference: string;
+  status: string;
+  release_status: string;
+  available_for_withdrawal: number | string;
+  currency: string;
+  profiles?: {
+    full_name?: string | null;
+  } | null;
+  cases?: {
+    title?: string | null;
+  } | null;
+};
+
+type RecoveredFundRow = {
+  id: string;
+  source?: string | null;
+  provider_reference?: string | null;
+  amount: number | string;
+  currency: string;
+  created_at: string;
+  profiles?: {
+    full_name?: string | null;
+  } | null;
+  cases?: {
+    title?: string | null;
+  } | null;
+};
+
 const currencies = ["USD", "EUR", "GBP"] as const;
 
 export default async function AdminOverviewPage() {
   const admin = await requireAdmin();
-  const [counts, refundCount, dashboard, analytics, recoveryMetrics, recentRequests, recentActivity] =
+  const [
+    counts,
+    refundCount,
+    dashboard,
+    analytics,
+    recoveryMetrics,
+    recoveryCases,
+    escrowContracts,
+    recoveredFunds,
+    recentRequests,
+    recentActivity,
+  ] =
     await Promise.all([
       adminCounts(),
       adminPendingRefundCount(),
       adminDashboardMetrics(),
       adminAnalytics(),
       adminRecoveryMetrics(),
+      adminRecoveryCases(),
+      adminEscrowContracts(),
+      adminRecoveredFunds(6),
       adminRecentWithdrawals(),
       adminRecentActivity(),
     ]);
@@ -163,7 +224,7 @@ export default async function AdminOverviewPage() {
       label: "Recovery cases",
       value: String(recoveryMetrics.openCases),
       detail: "Complaint, evidence, and escrow readiness",
-      href: "/admin/recovery",
+      href: "/admin#recovery-command",
       active: recoveryMetrics.openCases > 0,
     },
     {
@@ -196,7 +257,7 @@ export default async function AdminOverviewPage() {
       icon: FolderOpen,
       label: "Manage recovery",
       detail: "Review case intake, escrow contracts, recovered funds, and release eligibility.",
-      href: "/admin/recovery",
+      href: "/admin#recovery-command",
       metric: recoveryMetrics.openCases,
     },
     {
@@ -386,9 +447,153 @@ export default async function AdminOverviewPage() {
         </MotionCard>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)]">
+      <section id="recovery-command" className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(380px,0.9fr)] scroll-mt-6">
         <MotionCard
           index={5}
+          surface="none"
+          className="overflow-hidden rounded-md border border-white/[0.09] bg-white/[0.045] shadow-[0_24px_70px_-46px_rgba(0,0,0,0.95)] backdrop-blur-xl"
+        >
+          <SectionHeader
+            eyebrow="Recovery and escrow"
+            title="Case intake inside the main dashboard"
+            href="/admin#recovery-command"
+            label="Current"
+          />
+          {(recoveryCases as RecoveryCaseRow[]).length === 0 ? (
+            <EmptyState message="No recovery cases are currently open." />
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[780px] text-left">
+                <thead className="border-b border-white/[0.07] bg-navy-950/42 text-[10px] uppercase tracking-[0.18em] text-ivory-100/40">
+                  <tr>
+                    <th className="px-5 py-3 font-medium">Client</th>
+                    <th className="px-5 py-3 font-medium">Case</th>
+                    <th className="px-5 py-3 text-right font-medium">Claimed</th>
+                    <th className="px-5 py-3 font-medium">Status</th>
+                    <th className="px-5 py-3 font-medium">Opened</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/[0.06]">
+                  {(recoveryCases as RecoveryCaseRow[]).slice(0, 6).map((item) => (
+                    <tr key={item.id} className="transition-colors hover:bg-white/[0.035]">
+                      <td className="px-5 py-4">
+                        <div className="text-[13.5px] font-medium text-ivory-100">
+                          {item.profiles?.full_name ?? "Client"}
+                        </div>
+                        <div className="mt-1 text-[12px] tabular-figures text-ivory-100/42">
+                          {maskAccountNumber(item.profiles?.account_number)}
+                        </div>
+                      </td>
+                      <td className="px-5 py-4">
+                        <div className="max-w-[300px] truncate text-[13.5px] text-ivory-100">
+                          {item.title}
+                        </div>
+                        <div className="mt-1 text-[12px] capitalize text-ivory-100/46">
+                          {formatMethod(item.complaint_type)}
+                        </div>
+                      </td>
+                      <td className="px-5 py-4 text-right text-[13.5px] font-semibold tabular-figures text-ivory-100">
+                        {formatCurrency(item.amount_claimed, item.currency)}
+                      </td>
+                      <td className="px-5 py-4">
+                        <Badge variant={item.status === "recovered" ? "success" : "warning"}>
+                          {formatMethod(item.status)}
+                        </Badge>
+                      </td>
+                      <td className="px-5 py-4 text-[12px] tabular-figures text-ivory-100/50">
+                        {formatDateTime(item.created_at)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </MotionCard>
+
+        <MotionCard
+          index={6}
+          surface="none"
+          className="overflow-hidden rounded-md border border-white/[0.09] bg-navy-950/62 shadow-[0_24px_70px_-46px_rgba(0,0,0,0.95)] backdrop-blur-xl"
+        >
+          <SectionHeader
+            eyebrow="Private escrow"
+            title="Release readiness"
+            href="/admin/withdrawals"
+            label="Queue"
+          />
+          {(escrowContracts as EscrowContractRow[]).length === 0 ? (
+            <EmptyState message="No escrow contracts have been opened yet." />
+          ) : (
+            <MotionList className="divide-y divide-white/[0.06]">
+              {(escrowContracts as EscrowContractRow[]).slice(0, 5).map((contract) => (
+                <MotionRow key={contract.id} className="px-5 py-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <div className="truncate text-[13.5px] font-medium text-ivory-100">
+                        {contract.reference}
+                      </div>
+                      <div className="mt-1 truncate text-[12px] text-ivory-100/46">
+                        {contract.profiles?.full_name ?? "Client"} -{" "}
+                        {contract.cases?.title ?? "Recovery case"}
+                      </div>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        <Badge variant="gold">{formatMethod(contract.status)}</Badge>
+                        <Badge variant={contract.release_status === "eligible" ? "success" : "warning"}>
+                          {formatMethod(contract.release_status)}
+                        </Badge>
+                      </div>
+                    </div>
+                    <div className="text-right text-[13px] font-semibold tabular-figures text-ivory-100">
+                      {formatCurrency(contract.available_for_withdrawal, contract.currency)}
+                    </div>
+                  </div>
+                </MotionRow>
+              ))}
+            </MotionList>
+          )}
+        </MotionCard>
+      </section>
+
+      <MotionCard
+        index={7}
+        surface="none"
+        className="overflow-hidden rounded-md border border-white/[0.09] bg-white/[0.045] shadow-[0_24px_70px_-46px_rgba(0,0,0,0.95)] backdrop-blur-xl"
+      >
+        <SectionHeader
+          eyebrow="Recovered funds"
+          title="Provider-posted recovery entries"
+          href="/admin/audit-logs"
+          label="Audit"
+        />
+        {(recoveredFunds as RecoveredFundRow[]).length === 0 ? (
+          <EmptyState message="No recovered funds have been posted." />
+        ) : (
+          <MotionList className="divide-y divide-white/[0.06]">
+            {(recoveredFunds as RecoveredFundRow[]).map((entry) => (
+              <MotionRow key={entry.id} className="grid gap-4 px-5 py-4 lg:grid-cols-[1fr_auto_auto] lg:items-center">
+                <div className="min-w-0">
+                  <div className="truncate text-[13.5px] font-medium text-ivory-100">
+                    {entry.source ?? "Recovered funds"}
+                  </div>
+                  <div className="mt-1 text-[12px] text-ivory-100/46">
+                    {entry.profiles?.full_name ?? "Client"} - {entry.cases?.title ?? "Case"} -{" "}
+                    {entry.provider_reference ?? "Provider reference pending"}
+                  </div>
+                </div>
+                <div className="text-[12px] text-ivory-100/48">{formatDateTime(entry.created_at)}</div>
+                <div className="text-right text-[14px] font-semibold tabular-figures text-ivory-100">
+                  {formatCurrency(entry.amount, entry.currency)}
+                </div>
+              </MotionRow>
+            ))}
+          </MotionList>
+        )}
+      </MotionCard>
+
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)]">
+        <MotionCard
+          index={8}
           surface="none"
           className="overflow-hidden rounded-md border border-white/[0.09] bg-white/[0.045] shadow-[0_24px_70px_-46px_rgba(0,0,0,0.95)] backdrop-blur-xl"
         >
@@ -445,7 +650,7 @@ export default async function AdminOverviewPage() {
         </MotionCard>
 
         <MotionCard
-          index={6}
+          index={9}
           surface="none"
           className="overflow-hidden rounded-md border border-white/[0.09] bg-navy-950/62 shadow-[0_24px_70px_-46px_rgba(0,0,0,0.95)] backdrop-blur-xl"
         >
@@ -488,7 +693,7 @@ export default async function AdminOverviewPage() {
 
       <section className="grid gap-6 xl:grid-cols-[minmax(360px,0.85fr)_minmax(0,1.15fr)]">
         <MotionCard
-          index={7}
+          index={10}
           surface="none"
           className="overflow-hidden rounded-md border border-white/[0.09] bg-white/[0.045] shadow-[0_24px_70px_-46px_rgba(0,0,0,0.95)] backdrop-blur-xl"
         >
@@ -536,7 +741,7 @@ export default async function AdminOverviewPage() {
         </MotionCard>
 
         <MotionCard
-          index={8}
+          index={11}
           surface="none"
           className="overflow-hidden rounded-md border border-white/[0.09] bg-navy-950/62 shadow-[0_24px_70px_-46px_rgba(0,0,0,0.95)] backdrop-blur-xl"
         >

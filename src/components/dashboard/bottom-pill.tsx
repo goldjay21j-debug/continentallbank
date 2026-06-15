@@ -20,7 +20,6 @@ import {
   ScrollText,
   LineChart,
   LockKeyhole,
-  FolderOpen,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -43,7 +42,6 @@ const clientItems = [
 
 const adminItems = [
   { href: "/admin", label: "Operations", icon: LayoutDashboard },
-  { href: "/admin/recovery", label: "Recovery", icon: FolderOpen },
   { href: "/admin/users", label: "Clients", icon: Users },
   { href: "/admin/compliance", label: "Compliance", icon: ShieldAlert },
   { href: "/admin/withdrawals", label: "Withdrawals", icon: ArrowDownLeft },

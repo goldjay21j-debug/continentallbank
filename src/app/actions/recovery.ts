@@ -60,7 +60,7 @@ export async function createRecoveryCase(input: unknown): Promise<ActionResult> 
 
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/escrow");
-  revalidatePath("/admin/recovery");
+  revalidatePath("/admin");
   return { ok: true, message: "Recovery case submitted for officer review." };
 }
 
@@ -139,7 +139,7 @@ export async function createSecureEscrowAccount(): Promise<ActionResult> {
 
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/escrow");
-  revalidatePath("/admin/recovery");
+  revalidatePath("/admin");
   return { ok: true, message: "Secure escrow account created." };
 }
 
@@ -203,7 +203,7 @@ export async function submitEscrowReleaseRequest(input: unknown): Promise<Action
   revalidatePath("/dashboard/withdrawals");
   revalidatePath("/dashboard/escrow");
   revalidatePath("/admin/withdrawals");
-  revalidatePath("/admin/recovery");
+  revalidatePath("/admin");
   return { ok: true, message: "Release request submitted for fee verification." };
 }
 

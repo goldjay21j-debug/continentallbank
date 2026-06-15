@@ -8,7 +8,6 @@ import {
   BarChart3,
   Banknote,
   LifeBuoy,
-  FolderOpen,
   LogOut,
   MessageSquare,
   ShieldCheck,
@@ -26,7 +25,6 @@ import { cn, initials } from "@/lib/utils";
 
 const primaryItems = [
   { href: "/admin", label: "Operations", icon: LayoutDashboard },
-  { href: "/admin/recovery", label: "Recovery", icon: FolderOpen },
   { href: "/admin/users", label: "Clients", icon: Users },
   { href: "/admin/compliance", label: "Compliance", icon: ShieldAlert },
   { href: "/admin/withdrawals", label: "Withdrawals", icon: ArrowDownLeft },
