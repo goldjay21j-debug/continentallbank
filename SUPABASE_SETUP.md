@@ -16,17 +16,21 @@ When you're done, the demo entry buttons on `/login` will still be available, bu
 6. Pick the **Free** plan.
 7. Click **Create new project** and wait ~2 minutes for it to provision.
 
-## Step 2 — Run the schema migration (1 min)
+## Step 2 — Run all database migrations (3 min)
 
 1. Once the project is ready, click **SQL Editor** in the left sidebar.
 2. Click **+ New query**.
-3. Open this file from your repo: [`supabase/migrations/0001_initial_schema.sql`](supabase/migrations/0001_initial_schema.sql)
-4. **Copy the entire contents** and paste into the SQL editor.
-5. Click **Run** (or `Ctrl+Enter` / `Cmd+Enter`).
+3. Open each migration file from your repo and run them **in this exact order**:
+   - [`supabase/migrations/0001_initial_schema.sql`](supabase/migrations/0001_initial_schema.sql)
+   - [`supabase/migrations/0002_refund_claims.sql`](supabase/migrations/0002_refund_claims.sql)
+   - [`supabase/migrations/0003_profile_kyc.sql`](supabase/migrations/0003_profile_kyc.sql)
+   - [`supabase/migrations/0004_documents_notifications_beneficiaries.sql`](supabase/migrations/0004_documents_notifications_beneficiaries.sql)
+   - [`supabase/migrations/0005_recovery_escrow_platform.sql`](supabase/migrations/0005_recovery_escrow_platform.sql)
+4. For each file, **copy the entire contents**, paste into the SQL editor, then click **Run**.
 
-You should see "Success. No rows returned." This creates 9 tables, 7 enums, full RLS policies, and the auto-profile-creation trigger.
+You should see "Success. No rows returned." after each migration. These create the auth-linked profiles, wallets, ledger, refunds, KYC, documents, notifications, beneficiaries, recovery cases, escrow contracts, uploaded file records, messages, withdrawal release workflow, RLS policies, and the auto-profile-creation trigger.
 
-**Verify it worked:** click **Table Editor** in the left sidebar. You should see `profiles`, `wallets`, `ledger_entries`, `transactions`, `withdrawal_requests`, `support_tickets`, `audit_logs`, `admin_notes`, `login_history`.
+**Verify it worked:** click **Table Editor** in the left sidebar. You should see tables including `profiles`, `wallets`, `ledger_entries`, `transactions`, `withdrawal_requests`, `support_tickets`, `audit_logs`, `generated_documents`, `notifications`, `beneficiaries`, `refund_claims`, `cases`, `kyc_submissions`, `uploaded_files`, `escrow_contracts`, `recovered_funds_entries`, `disputes`, and `messages`.
 
 ## Step 3 — Copy your three keys (1 min)
 
@@ -46,11 +50,12 @@ You should see "Success. No rows returned." This creates 9 tables, 7 enums, full
 
 1. Open your Vercel dashboard → your `continentalbank` project.
 2. Click **Settings** → **Environment Variables**.
-3. Add these four entries, one at a time:
+3. Add these five entries, one at a time:
 
 | Name | Value | Environments |
 |---|---|---|
-| `NEXT_PUBLIC_SITE_URL` | `https://your-domain.vercel.app` (your actual URL) | Production, Preview, Development |
+| `NEXT_PUBLIC_SITE_URL` | `https://continentallbank.com` | Production, Preview, Development |
+| `AUTH_MODE` | `supabase` | Production, Preview, Development |
 | `NEXT_PUBLIC_SUPABASE_URL` | (Project URL from Step 3) | Production, Preview, Development |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | (anon key from Step 3) | Production, Preview, Development |
 | `SUPABASE_SERVICE_ROLE_KEY` | (service_role key from Step 3) | **Production + Preview only** ⚠️ |
@@ -65,10 +70,11 @@ For the service role key, **uncheck Development** — it should never sit on a d
 This lets the email-confirmation links sent by Supabase point back to your site.
 
 1. In Supabase → **Authentication** → **URL Configuration**.
-2. Set **Site URL** to your Vercel domain: `https://your-domain.vercel.app`
+2. Set **Site URL** to your production domain: `https://continentallbank.com`
 3. Under **Redirect URLs**, add:
    ```
-   https://your-domain.vercel.app/auth/callback
+   https://continentallbank.com/auth/callback
+   https://*.vercel.app/auth/callback
    http://localhost:3000/auth/callback
    http://localhost:3001/auth/callback
    ```
