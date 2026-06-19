@@ -29,28 +29,28 @@ type Props = {
 
 export function DashboardTopbar({ fullName, email, accountNumber, locale, notifications }: Props) {
   return (
-    <header className="sticky top-[65px] z-30 border-b border-champagne-200/[0.12] bg-[#0E1A24]/94 shadow-[0_16px_36px_-34px_rgba(0,0,0,0.78)] backdrop-blur-xl lg:top-0">
+    <header className="sticky top-[65px] z-30 border-b border-[#D8DEE6] bg-white/88 shadow-[0_18px_46px_-42px_rgba(15,23,42,0.46)] backdrop-blur-xl lg:top-0">
       <div className="flex min-h-16 items-center justify-between gap-4 px-4 py-3 lg:px-8">
         <div className="hidden min-w-[220px] md:block">
-          <div className="text-[10px] font-medium uppercase tracking-[0.2em] text-champagne-300">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#B08231]">
             Private portal
           </div>
-          <div className="mt-1 text-[12px] tabular-figures text-ivory-100/52">
+          <div className="mt-1 text-[12px] tabular-figures text-slate-600">
             {formatAccountNumber(accountNumber)}
           </div>
         </div>
 
-        <label className="relative hidden h-10 max-w-xl flex-1 items-center rounded-md border border-ivory-100/[0.08] bg-ivory-100/[0.055] px-3 text-ivory-100/78 transition focus-within:border-champagne-400/35 focus-within:ring-2 focus-within:ring-ring/35 md:flex">
-          <Search className="mr-2 h-4 w-4 text-ivory-100/46" strokeWidth={1.6} />
+        <label className="relative hidden h-10 max-w-xl flex-1 items-center rounded-md border border-slate-200 bg-[#F7F8FA] px-3 text-slate-700 transition focus-within:border-champagne-500/45 focus-within:bg-white focus-within:ring-2 focus-within:ring-champagne-500/15 md:flex">
+          <Search className="mr-2 h-4 w-4 text-slate-400" strokeWidth={1.6} />
           <input
             type="search"
             placeholder="Search accounts, documents, messages"
-            className="h-full min-w-0 flex-1 bg-transparent text-[13px] outline-none placeholder:text-ivory-100/40"
+            className="h-full min-w-0 flex-1 bg-transparent text-[13px] outline-none placeholder:text-slate-400"
           />
         </label>
 
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="gold" size="sm" asChild className="hidden sm:inline-flex">
+          <Button variant="gold" size="sm" asChild className="hidden shadow-none sm:inline-flex">
             <Link href="/dashboard/messages">
               <MessageSquare className="h-3.5 w-3.5" />
               Message banker
@@ -65,15 +65,15 @@ export function DashboardTopbar({ fullName, email, accountNumber, locale, notifi
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="focus-ring flex items-center gap-3 rounded-md border border-ivory-100/[0.08] bg-ivory-100/[0.055] py-1 pl-1 pr-3 transition-colors hover:bg-ivory-100/[0.09]">
+              <button className="focus-ring flex items-center gap-3 rounded-md border border-slate-200 bg-[#F7F8FA] py-1 pl-1 pr-3 transition-colors hover:border-slate-300 hover:bg-white">
                 <Avatar>
                   <AvatarFallback>{initials(fullName)}</AvatarFallback>
                 </Avatar>
                 <div className="hidden text-left sm:block">
-                  <div className="text-[13px] font-medium leading-tight text-ivory-100">
+                  <div className="text-[13px] font-semibold leading-tight text-slate-900">
                     {fullName}
                   </div>
-                  <div className="mt-0.5 text-[11px] uppercase leading-tight tracking-[0.14em] text-ivory-100/46">
+                  <div className="mt-0.5 text-[11px] uppercase leading-tight tracking-[0.14em] text-slate-500">
                     Private Client
                   </div>
                 </div>

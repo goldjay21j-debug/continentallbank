@@ -38,70 +38,144 @@ export default async function EscrowDashboardPage() {
 
   if (overview.accessState.key !== "ready" || !contract || !primaryCase) {
     return (
-      <div className="space-y-8">
-        <PageHeader
-          eyebrow="Private escrow"
-          title={overview.accessState.title}
-          description={overview.accessState.description}
-        />
+      <div className="space-y-6">
+        <section className="grid gap-5 xl:grid-cols-[1fr_0.82fr]">
+          <MotionCard
+            index={0}
+            intensity="strong"
+            className="overflow-hidden border border-slate-200 bg-white"
+          >
+            <div className="grid gap-0 lg:grid-cols-[1fr_280px]">
+              <div className="p-6 sm:p-8">
+                <div className="eyebrow text-champagne-700">Private escrow control</div>
+                <h1 className="mt-3 max-w-3xl font-display text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
+                  {overview.accessState.title}
+                </h1>
+                <p className="mt-4 max-w-3xl text-[15px] leading-7 text-slate-600">
+                  {overview.accessState.description} Your release desk remains locked until the
+                  recovery case, identity review, and escrow account setup are all cleared by an
+                  officer.
+                </p>
+
+                <div className="mt-7 grid gap-3 sm:grid-cols-3">
+                  <GateStep
+                    icon={FolderOpen}
+                    label="Recovery case"
+                    description="Complaint and evidence logged"
+                    complete={Boolean(primaryCase)}
+                  />
+                  <GateStep
+                    icon={ShieldCheck}
+                    label="Identity review"
+                    description={KYC_STATUS[user.profile.kyc_status]}
+                    complete={verified}
+                  />
+                  <GateStep
+                    icon={LockKeyhole}
+                    label="Escrow access"
+                    description="Private account activated"
+                    complete={Boolean(contract)}
+                  />
+                </div>
+              </div>
+
+              <div className="border-t border-slate-200 bg-[#0B1722] p-6 text-ivory-100 lg:border-l lg:border-t-0">
+                <div className="flex h-full flex-col justify-between gap-8">
+                  <div>
+                    <div className="flex h-11 w-11 items-center justify-center rounded-md border border-champagne-300/22 bg-white/[0.07]">
+                      <WalletCards className="h-5 w-5 text-champagne-300" strokeWidth={1.6} />
+                    </div>
+                    <div className="mt-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-champagne-300">
+                      Current gate
+                    </div>
+                    <div className="mt-2 font-display text-2xl font-semibold">
+                      Controlled release only
+                    </div>
+                    <p className="mt-3 text-[13px] leading-6 text-ivory-100/70">
+                      Funds movement, document requests, provider references, and approval notes
+                      remain audit-logged throughout the recovery process.
+                    </p>
+                  </div>
+
+                  <div className="space-y-3">
+                    {overview.accessState.key === "identity_required" && (
+                      <Button asChild className="w-full">
+                        <Link href="/dashboard/profile">
+                          Upload KYC document
+                          <FileCheck2 className="h-4 w-4" />
+                        </Link>
+                      </Button>
+                    )}
+                    {overview.accessState.key === "escrow_required" && <EscrowCreateButton />}
+                    {overview.accessState.key === "case_required" && (
+                      <Button asChild className="w-full">
+                        <Link href="#recovery-intake">
+                          Start recovery case
+                          <ArrowRight className="h-4 w-4" />
+                        </Link>
+                      </Button>
+                    )}
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="w-full border-white/[0.12] bg-white/[0.04] text-ivory-100 hover:bg-white/[0.08] hover:text-ivory-100"
+                    >
+                      <Link href="/dashboard/messages">Message banker</Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </MotionCard>
+
+          <MotionCard index={1} className="p-5 sm:p-6">
+            <div className="eyebrow text-champagne-700">Security assurance</div>
+            <h2 className="mt-2 font-display text-xl font-semibold text-slate-950">
+              Officer-reviewed escrow access
+            </h2>
+            <div className="mt-5 space-y-3">
+              <AssuranceRow label="Browser session" value="HTTPS/TLS protected" />
+              <AssuranceRow label="Account changes" value="Audit logged" />
+              <AssuranceRow label="Fund release" value="No automatic settlement" />
+              <AssuranceRow label="KYC status" value={KYC_STATUS[user.profile.kyc_status]} />
+            </div>
+          </MotionCard>
+        </section>
+
         <TrustBadgeRail preset="dashboard" tone="light" compact />
 
-        <section className="grid gap-5 xl:grid-cols-[0.95fr_1.05fr]">
-          <MotionCard index={0} className="p-6 lg:p-8">
-            <div className="eyebrow text-champagne-700 dark:text-champagne-400">
-              Access gate
-            </div>
-            <h2 className="mt-2 font-display text-2xl font-semibold text-foreground">
-              Complete the required step.
+        <section className="grid gap-5 xl:grid-cols-[0.82fr_1.18fr]">
+          <MotionCard index={2} className="p-5 sm:p-6">
+            <div className="eyebrow text-champagne-700">Access checklist</div>
+            <h2 className="mt-2 font-display text-2xl font-semibold text-slate-950">
+              Required before escrow opens.
             </h2>
             <div className="mt-6 space-y-3">
               <GateRow icon={FolderOpen} label="Recovery case" complete={Boolean(primaryCase)} />
               <GateRow icon={ShieldCheck} label="KYC verification" complete={verified} />
               <GateRow icon={LockKeyhole} label="Private escrow account" complete={Boolean(contract)} />
             </div>
-
-            <div className="mt-6">
-              {overview.accessState.key === "identity_required" && (
-                <Button asChild>
-                  <Link href="/dashboard/profile">
-                    Upload KYC document
-                    <FileCheck2 className="h-4 w-4" />
-                  </Link>
-                </Button>
-              )}
-              {overview.accessState.key === "escrow_required" && <EscrowCreateButton />}
-              {overview.accessState.key === "case_required" && (
-                <Button asChild>
-                  <Link href="#recovery-intake">
-                    Start recovery case
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-              )}
-            </div>
           </MotionCard>
 
           {overview.accessState.key === "case_required" ? (
-            <MotionCard id="recovery-intake" index={1} className="p-6 lg:p-8">
+            <MotionCard id="recovery-intake" index={3} className="p-5 sm:p-6 lg:p-7">
               <RecoveryCaseForm defaultCurrency={user.profile.preferred_currency as Currency} />
             </MotionCard>
           ) : (
-            <MotionCard index={1} className="p-6">
-              <div className="eyebrow text-champagne-700 dark:text-champagne-400">
-                Verification status
-              </div>
-              <h2 className="mt-2 font-display text-xl font-semibold text-foreground">
+            <MotionCard index={3} className="p-5 sm:p-6">
+              <div className="eyebrow text-champagne-700">Verification status</div>
+              <h2 className="mt-2 font-display text-xl font-semibold text-slate-950">
                 {verified ? "Identity approved." : "KYC still required."}
               </h2>
-              <div className="mt-5 rounded-md border border-foreground/[0.06] bg-foreground/[0.025] p-4">
-                <div className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+              <div className="mt-5 rounded-md border border-slate-200 bg-slate-50 p-4">
+                <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500">
                   Current KYC status
                 </div>
-                <div className="mt-1.5 text-[14px] font-medium text-foreground">
+                <div className="mt-1.5 text-[14px] font-semibold text-slate-950">
                   {KYC_STATUS[user.profile.kyc_status]}
                 </div>
               </div>
-              <p className="mt-4 text-[13px] leading-6 text-muted-foreground">
+              <p className="mt-4 text-[13px] leading-6 text-slate-600">
                 Escrow remains locked until officers verify identity and account ownership. This
                 prevents recovered funds from being released to an unverified destination.
               </p>
@@ -257,6 +331,40 @@ function GateRow({
         <span className="text-[13px] font-medium text-foreground">{label}</span>
       </div>
       <Badge variant={complete ? "success" : "warning"}>{complete ? "Done" : "Required"}</Badge>
+    </div>
+  );
+}
+
+function GateStep({
+  icon: Icon,
+  label,
+  description,
+  complete,
+}: {
+  icon: typeof ShieldCheck;
+  label: string;
+  description: string;
+  complete: boolean;
+}) {
+  return (
+    <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
+      <div className="flex items-center justify-between gap-3">
+        <Icon className="h-4 w-4 text-champagne-700" strokeWidth={1.6} />
+        <Badge variant={complete ? "success" : "warning"}>{complete ? "Cleared" : "Required"}</Badge>
+      </div>
+      <div className="mt-4 text-[13px] font-semibold text-slate-950">{label}</div>
+      <div className="mt-1 text-[12px] leading-5 text-slate-500">{description}</div>
+    </div>
+  );
+}
+
+function AssuranceRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex items-start justify-between gap-4 rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
+      <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
+        {label}
+      </span>
+      <span className="max-w-[52%] text-right text-[13px] font-semibold text-slate-950">{value}</span>
     </div>
   );
 }
