@@ -1,18 +1,23 @@
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
-import { demoAuditLog } from "@/lib/demo/data";
+import { createServiceClient } from "@/lib/supabase/server";
 
 /**
  * Officer-only: exports the audit log as CSV. The browser triggers a
  * download via Content-Disposition: attachment.
  *
- * Demo mode returns the seeded audit log. When Supabase is wired, swap
- * in a service-client query.
  */
 export async function GET() {
   await requireAdmin();
 
-  const rows = demoAuditLog;
+  const service = createServiceClient();
+  const { data: rows } = await service
+    .from("audit_logs")
+    .select(
+      "id, created_at, action_type, currency, ip_address, old_value, new_value, note, admin:profiles!audit_logs_admin_id_fkey(full_name), client:profiles!audit_logs_user_id_fkey(full_name)",
+    )
+    .order("created_at", { ascending: false })
+    .limit(5000);
 
   const header = [
     "id",
@@ -29,7 +34,7 @@ export async function GET() {
 
   const csv = [
     header.join(","),
-    ...rows.map((a) =>
+    ...(rows ?? []).map((a: any) =>
       [
         a.id,
         a.created_at,

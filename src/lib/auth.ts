@@ -1,9 +1,5 @@
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
-import { getDemoAuthedUser, getDemoRole } from "@/lib/demo";
-import { localAuthEnabled, supabaseConfigured } from "@/lib/auth-mode";
-import { decodeLocalAuthSession, LOCAL_AUTH_COOKIE } from "@/lib/local-auth";
 import type { Profile } from "@/lib/types/database";
 
 export type AuthedUser = {
@@ -15,16 +11,6 @@ export type AuthedUser = {
 const ADMIN_ROLES = ["super_admin", "finance_admin", "support_admin"] as const;
 
 export async function getAuthedUser(): Promise<AuthedUser | null> {
-  // 1. Demo cookie present? — return a seeded user.
-  const demoRole = await getDemoRole();
-  if (demoRole) return await getDemoAuthedUser(demoRole);
-
-  // 2. Local build-mode auth while Supabase Auth is not connected.
-  if (localAuthEnabled()) {
-    const cookieStore = await cookies();
-    return decodeLocalAuthSession(cookieStore.get(LOCAL_AUTH_COOKIE)?.value);
-  }
-
   const supabase = await createClient();
   const {
     data: { user },

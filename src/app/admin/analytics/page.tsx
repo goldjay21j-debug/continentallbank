@@ -1,6 +1,6 @@
 import { PageHeader } from "@/components/dashboard/page-header";
 import { requireAdmin } from "@/lib/auth";
-import { adminAnalytics } from "@/lib/demo/queries";
+import { adminAnalytics } from "@/lib/portal/queries";
 import { formatCurrency } from "@/lib/utils";
 
 export const metadata = { title: "Analytics" };

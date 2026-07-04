@@ -5,7 +5,7 @@ import { BeneficiaryCard } from "@/components/dashboard/beneficiary-card";
 import { AddBeneficiaryForm } from "@/components/dashboard/add-beneficiary-form";
 import { MotionCard } from "@/components/motion/motion-card";
 import { requireApprovedClient } from "@/lib/auth";
-import { clientBeneficiaries } from "@/lib/demo/queries";
+import { clientBeneficiaries } from "@/lib/portal/queries";
 
 export const metadata = { title: "Beneficiaries" };
 

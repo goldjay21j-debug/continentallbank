@@ -1,9 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { demoClientDocuments, type DocumentRecord, DOCUMENT_TYPE_LABELS } from "@/lib/demo/documents";
+import { type DocumentRecord, DOCUMENT_TYPE_LABELS } from "@/lib/portal/documents";
 import { getAuthedUser, isAdmin } from "@/lib/auth";
 import { createServiceClient } from "@/lib/supabase/server";
-import { localAuthEnabled } from "@/lib/auth-mode";
-import { supabaseConfigured } from "@/lib/demo";
+import { supabaseConfigured } from "@/lib/auth-mode";
 
 /**
  * Serves a printable A4-styled HTML page for a document. The browser's
@@ -16,9 +15,9 @@ export async function GET(
 ) {
   const { id } = await params;
   const user = await getAuthedUser();
-  let doc = demoClientDocuments.find((d) => d.id === id) ?? null;
+  let doc: DocumentRecord | null = null;
 
-  if (!doc && user && !localAuthEnabled() && supabaseConfigured()) {
+  if (user && supabaseConfigured()) {
     const service = createServiceClient();
     const { data } = await service
       .from("generated_documents")

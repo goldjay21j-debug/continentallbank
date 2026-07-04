@@ -2,7 +2,7 @@ import Link from "next/link";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { MessageThreadList } from "@/components/dashboard/message-thread-list";
 import { requireAdmin } from "@/lib/auth";
-import { demoAdminThreads } from "@/lib/demo/messages";
+import { adminMessageThreads } from "@/lib/portal/queries";
 
 export const metadata = { title: "Secure Messages — Admin" };
 
@@ -21,8 +21,8 @@ export default async function AdminMessagesPage({
 }) {
   await requireAdmin();
   const { status } = await searchParams;
-  const all = demoAdminThreads;
-  const threads = status && status !== "all" ? all.filter((t) => t.status === status) : all;
+  const all = await adminMessageThreads();
+  const threads = status && status !== "all" ? await adminMessageThreads(status) : all;
 
   const open = all.filter((t) => t.status === "open").length;
   const awaiting = all.filter((t) => t.status === "awaiting_client").length;

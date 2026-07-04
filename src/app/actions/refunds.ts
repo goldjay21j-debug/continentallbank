@@ -4,8 +4,7 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { getAuthedUser, requireAdmin, requireApprovedClient } from "@/lib/auth";
 import { createServiceClient } from "@/lib/supabase/server";
-import { isDemoMode, supabaseConfigured } from "@/lib/demo";
-import { localAuthEnabled } from "@/lib/auth-mode";
+import { supabaseConfigured } from "@/lib/auth-mode";
 import { issueRefundReceipt } from "@/lib/receipts";
 import {
   ClientRefundDisputeSchema,
@@ -14,7 +13,7 @@ import {
 } from "@/lib/validation";
 import type { ActionResult } from "./withdrawals";
 
-const DEMO_MSG = "Demo mode — your claim is simulated, nothing is saved.";
+const LIVE_BACKEND_ERROR = "Live Supabase is not configured. Add Supabase environment variables before saving changes.";
 
 async function clientIp() {
   const h = await headers();
@@ -30,8 +29,8 @@ export async function submitPublicRefundClaim(input: unknown): Promise<ActionRes
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid claim" };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   // If the visitor happens to be signed-in, link the claim to their profile.
@@ -84,8 +83,8 @@ export async function submitClientRefundDispute(input: unknown): Promise<ActionR
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid claim" };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const service = createServiceClient();
@@ -126,8 +125,8 @@ export async function decideRefundClaim(input: unknown): Promise<ActionResult> {
   const parsed = RefundDecisionSchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: "Invalid decision" };
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const { id, decision, adminNote } = parsed.data;

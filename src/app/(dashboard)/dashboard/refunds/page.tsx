@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { RefundDisputeForm } from "@/components/dashboard/refund-dispute-form";
 import { MotionCard } from "@/components/motion/motion-card";
 import { requireApprovedClient } from "@/lib/auth";
-import { clientRefundClaims } from "@/lib/demo/queries";
+import { clientRefundClaims } from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime } from "@/lib/utils";
 import { REFUND_REASONS, type Currency } from "@/lib/constants";
 import type { RefundClaim } from "@/lib/types/database";

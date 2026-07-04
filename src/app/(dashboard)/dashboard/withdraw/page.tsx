@@ -7,8 +7,8 @@ import { EscrowCreateButton } from "@/components/dashboard/escrow-create-button"
 import { MotionCard } from "@/components/motion/motion-card";
 import { TrustBadgeRail } from "@/components/shared/trust-badges";
 import { requireApprovedClient } from "@/lib/auth";
-import { calculateReleaseFee } from "@/lib/demo/recovery";
-import { clientEscrowOverview } from "@/lib/demo/queries";
+import { calculateReleaseFee } from "@/lib/portal/recovery";
+import { clientEscrowOverview } from "@/lib/portal/queries";
 import { formatCurrency } from "@/lib/utils";
 
 export const metadata = { title: "Release Request" };

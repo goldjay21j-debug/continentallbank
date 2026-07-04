@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { MessageThreadView } from "@/components/dashboard/message-thread-view";
 import { requireAdmin } from "@/lib/auth";
-import { demoAdminThreads, threadClient } from "@/lib/demo/messages";
+import { adminClientDetail, adminMessageThreadById } from "@/lib/portal/queries";
 
 export const metadata = { title: "Conversation — Admin" };
 
@@ -12,10 +12,15 @@ export default async function AdminThreadPage({
 }) {
   const admin = await requireAdmin();
   const { id } = await params;
-  const thread = demoAdminThreads.find((t) => t.id === id);
+  const thread = await adminMessageThreadById(id);
   if (!thread) return notFound();
 
-  const client = threadClient(thread);
+  const { profile: client } = await adminClientDetail(thread.user_id);
+  const clientHeader = client ?? {
+    full_name: "Client",
+    account_number: null,
+    email: "",
+  };
 
   return (
     <div className="space-y-6">
@@ -25,9 +30,9 @@ export default async function AdminThreadPage({
           Client of record
         </div>
         <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-          <div className="text-[15px] font-medium text-foreground">{client.full_name}</div>
+          <div className="text-[15px] font-medium text-foreground">{clientHeader.full_name}</div>
           <div className="text-[12px] text-muted-foreground tabular-figures">
-            {client.account_number ?? "—"} · {client.email ?? ""}
+            {clientHeader.account_number ?? "—"} · {clientHeader.email ?? ""}
           </div>
         </div>
       </div>

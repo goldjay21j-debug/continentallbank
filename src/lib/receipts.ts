@@ -2,8 +2,8 @@ import { formatCurrency } from "@/lib/utils";
 import {
   BENEFICIARY_RAIL_LABEL,
   type BeneficiaryRail,
-} from "@/lib/demo/beneficiaries";
-import { DOCUMENT_TYPE_LABELS, type DocumentRecord, type DocumentType } from "@/lib/demo/documents";
+} from "@/lib/portal/beneficiaries";
+import { DOCUMENT_TYPE_LABELS, type DocumentRecord, type DocumentType } from "@/lib/portal/documents";
 import { KYC_METHODS, KYC_STATUS, type KycStatus } from "@/lib/constants";
 import type {
   BeneficiaryRow,

@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { DOCUMENT_TYPE_LABELS, type DocumentType } from "@/lib/demo/documents";
+import { DOCUMENT_TYPE_LABELS, type DocumentType } from "@/lib/portal/documents";
 
 const DOCUMENT_TYPES = Object.entries(DOCUMENT_TYPE_LABELS).map(([value, label]) => ({
   value: value as DocumentType,

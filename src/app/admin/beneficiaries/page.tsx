@@ -8,8 +8,8 @@ import {
   BENEFICIARY_RAIL_LABEL,
   BENEFICIARY_STATUS_LABEL,
   type Beneficiary,
-} from "@/lib/demo/beneficiaries";
-import { adminBeneficiaryQueue } from "@/lib/demo/queries";
+} from "@/lib/portal/beneficiaries";
+import { adminBeneficiaryQueue } from "@/lib/portal/queries";
 import { formatDate, maskAccountNumber } from "@/lib/utils";
 
 export const metadata = { title: "Beneficiaries — Admin" };

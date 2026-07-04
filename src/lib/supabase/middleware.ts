@@ -1,7 +1,6 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { localAuthEnabled, supabaseConfigured } from "@/lib/auth-mode";
-import { decodeLocalAuthSession, LOCAL_AUTH_COOKIE } from "@/lib/local-auth";
+import { supabaseConfigured } from "@/lib/auth-mode";
 
 type CookiePair = { name: string; value: string; options?: CookieOptions };
 
@@ -26,7 +25,6 @@ const PUBLIC_PATHS = [
   "/auth/callback",
 ];
 const ADMIN_ROLES = ["super_admin", "finance_admin", "support_admin"] as const;
-const DEMO_COOKIE = "cb_demo";
 
 function isAdminRole(role: string | null | undefined) {
   return Boolean(role && ADMIN_ROLES.includes(role as (typeof ADMIN_ROLES)[number]));
@@ -42,55 +40,9 @@ export async function updateSession(request: NextRequest) {
   const response = NextResponse.next({ request });
   const { pathname } = request.nextUrl;
 
-  // --- Demo mode short-circuit ---------------------------------------
-  // If the visitor has opted into demo mode, route them as if they were
-  // authenticated. Officers → /admin, clients → /dashboard.
-  const demoRole = request.cookies.get(DEMO_COOKIE)?.value;
-  if (demoRole === "client" || demoRole === "officer") {
-    if (pathname === "/login" || pathname === "/register") {
-      return redirectTo(request, demoRole === "officer" ? "/admin" : "/dashboard");
-    }
-    if (pathname.startsWith("/admin") && demoRole !== "officer") {
-      return redirectTo(request, "/dashboard");
-    }
-    if (pathname.startsWith("/dashboard") && demoRole === "officer") {
-      return redirectTo(request, "/admin");
-    }
-    return response;
-  }
-
-  // --- Supabase not configured? let everything pass through ---------
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (localAuthEnabled() || !supabaseConfigured()) {
-    const localSession = decodeLocalAuthSession(request.cookies.get(LOCAL_AUTH_COOKIE)?.value);
-    if (localSession) {
-      const role = localSession.profile.role;
-      const status = localSession.profile.account_status;
-
-      if (pathname === "/login" || pathname === "/register") {
-        return redirectTo(request, isAdminRole(role) ? "/admin" : "/dashboard");
-      }
-      if (pathname.startsWith("/admin") && !isAdminRole(role)) {
-        return redirectTo(request, status === "approved" ? "/dashboard" : "/pending");
-      }
-      if (pathname.startsWith("/dashboard") && isAdminRole(role)) {
-        return redirectTo(request, "/admin");
-      }
-      // Suspended users stay on the dashboard — the layout renders it
-      // in frozen mode. Only pending/rejected are bounced.
-      if (
-        pathname.startsWith("/dashboard") &&
-        status !== "approved" &&
-        status !== "suspended"
-      ) {
-        return redirectTo(request, "/pending");
-      }
-
-      return response;
-    }
-
-    // Only protect /admin and /dashboard so visitors land on /login first.
+  if (!supabaseConfigured() || !url || !key) {
     if (pathname.startsWith("/admin") || pathname.startsWith("/dashboard")) {
       const u = request.nextUrl.clone();
       u.pathname = "/login";
@@ -99,8 +51,6 @@ export async function updateSession(request: NextRequest) {
     }
     return response;
   }
-
-  if (!url || !key) return response;
 
   // --- Real Supabase session check ----------------------------------
   let responseRef = response;

@@ -15,8 +15,8 @@ import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { signOutAction } from "@/app/actions/auth";
 import { cn, initials } from "@/lib/utils";
-import { demoClientNotifications } from "@/lib/demo/notifications";
 import type { Locale } from "@/lib/i18n/dictionaries";
+import type { Notification } from "@/lib/portal/notifications";
 
 type Props = {
   fullName: string;
@@ -24,6 +24,7 @@ type Props = {
   accountNumber: string | null;
   locale: Locale;
   variant?: "client" | "admin";
+  notifications?: Notification[];
 };
 
 /**
@@ -31,7 +32,14 @@ type Props = {
  * Mirrors the example screenshot — search, view, calendar, notifications,
  * language. Sits on top of the ambient backdrop so the glass reads.
  */
-export function TopPill({ fullName, email, accountNumber, locale, variant = "client" }: Props) {
+export function TopPill({
+  fullName,
+  email,
+  accountNumber,
+  locale,
+  variant = "client",
+  notifications = [],
+}: Props) {
   return (
     <div className="sticky top-0 z-30 px-3 pt-3 lg:px-10 lg:pt-6">
       <div className="mx-auto max-w-7xl flex items-center gap-2 sm:gap-3">
@@ -46,7 +54,7 @@ export function TopPill({ fullName, email, accountNumber, locale, variant = "cli
           <PillButton aria-label="Calendar" className="hidden sm:inline-flex">
             <Calendar className="h-4 w-4" />
           </PillButton>
-          <NotificationBell notifications={demoClientNotifications} />
+          <NotificationBell notifications={notifications} />
           <div className="mx-1 h-5 w-px bg-foreground/10 hidden sm:block" />
           <div className="px-1 hidden sm:block">
             <LanguageSwitcher currentLocale={locale} />

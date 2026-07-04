@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { WithdrawalDecisionActions } from "@/components/admin/withdrawal-decision-actions";
 import { requireAdmin } from "@/lib/auth";
-import { adminWithdrawalQueue } from "@/lib/demo/queries";
+import { adminWithdrawalQueue } from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime, maskAccountNumber } from "@/lib/utils";
 
 export const metadata = { title: "Withdrawals — Admin" };

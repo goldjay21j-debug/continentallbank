@@ -3,13 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth";
 import { createClient, createServiceClient } from "@/lib/supabase/server";
-import { isDemoMode, supabaseConfigured } from "@/lib/demo";
-import { localAuthEnabled } from "@/lib/auth-mode";
+import { supabaseConfigured } from "@/lib/auth-mode";
 import { KycSubmissionSchema, PasswordChangeSchema, ProfileUpdateSchema } from "@/lib/validation";
 import { issueKycSubmissionReceipt, issueSecurityReceipt } from "@/lib/receipts";
 import type { ActionResult } from "./withdrawals";
 
-const DEMO_MSG = "Demo mode — your changes are simulated, nothing is saved.";
+const LIVE_BACKEND_ERROR = "Live Supabase is not configured. Add Supabase environment variables before saving changes.";
 const KYC_BUCKET = "kyc-documents";
 const MAX_KYC_FILE_SIZE = 10 * 1024 * 1024;
 const ALLOWED_KYC_MIME = new Set(["application/pdf", "image/jpeg", "image/png", "image/webp"]);
@@ -21,8 +20,8 @@ export async function updateProfile(input: unknown): Promise<ActionResult> {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const supabase = await createClient();
@@ -50,8 +49,8 @@ export async function changePassword(input: unknown): Promise<ActionResult> {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const supabase = await createClient();
@@ -91,12 +90,8 @@ export async function submitKycVerification(formData: FormData): Promise<ActionR
     return { ok: false, error: "Use PDF, JPG, PNG, or WebP for verification." };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    revalidatePath("/dashboard/profile");
-    return {
-      ok: true,
-      message: "Verification package received for admin review.",
-    };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const service = createServiceClient();

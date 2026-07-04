@@ -1,18 +1,10 @@
 "use server";
 
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
-import { localAuthEnabled, supabaseAuthEnabled } from "@/lib/auth-mode";
-import {
-  createLocalAdminSession,
-  createLocalClientSession,
-  encodeLocalAuthSession,
-  isLocalAdminCredential,
-  localNameFromEmail,
-  LOCAL_AUTH_COOKIE,
-} from "@/lib/local-auth";
+import { supabasePublicConfigured } from "@/lib/auth-mode";
 import { CURRENCIES, SUPPORTED_LOCALES_VALUES } from "@/lib/validation";
 
 const SignUpSchema = z.object({
@@ -53,20 +45,6 @@ export async function signUpAction(formData: FormData): Promise<SignUpResult> {
     return { ok: false, error: "Please review the highlighted fields.", fieldErrors };
   }
 
-  if (localAuthEnabled()) {
-    await setLocalAuthCookie(
-      createLocalClientSession({
-        fullName: parsed.data.fullName,
-        email: parsed.data.email,
-        phone: parsed.data.phone || null,
-        country: parsed.data.country,
-        preferredLanguage: parsed.data.preferredLanguage,
-        preferredCurrency: parsed.data.preferredCurrency as "USD" | "EUR" | "GBP",
-      }),
-    );
-    return { ok: true, redirectTo: "/dashboard/onboarding" };
-  }
-
   const supabase = await createClient();
   const h = await headers();
   const origin = h.get("origin") ?? process.env.NEXT_PUBLIC_SITE_URL ?? "";
@@ -100,20 +78,6 @@ export async function signInAction(formData: FormData): Promise<SignInResult> {
     password: formData.get("password"),
   });
   if (!parsed.success) return { ok: false, error: "Enter your email and password." };
-
-  if (localAuthEnabled()) {
-    const email = parsed.data.email.trim().toLowerCase();
-    const password = parsed.data.password;
-    const session = isLocalAdminCredential(email, password)
-      ? createLocalAdminSession()
-      : createLocalClientSession({
-          fullName: localNameFromEmail(email),
-          email,
-        });
-
-    await setLocalAuthCookie(session);
-    return { ok: true, redirectTo: session.profile.role === "client" ? "/dashboard" : "/admin" };
-  }
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithPassword({
@@ -157,13 +121,7 @@ export async function signInAction(formData: FormData): Promise<SignInResult> {
 }
 
 export async function signOutAction() {
-  // Clear demo session if present
-  const cookieStore = await cookies();
-  cookieStore.delete("cb_demo");
-  cookieStore.delete(LOCAL_AUTH_COOKIE);
-
-  // Real session (best effort — fine if Supabase isn't configured)
-  if (supabaseAuthEnabled()) {
+  if (supabasePublicConfigured()) {
     try {
       const supabase = await createClient();
       await supabase.auth.signOut();
@@ -172,32 +130,4 @@ export async function signOutAction() {
     }
   }
   redirect("/login");
-}
-
-async function setLocalAuthCookie(session: ReturnType<typeof createLocalClientSession>) {
-  const cookieStore = await cookies();
-  cookieStore.set(LOCAL_AUTH_COOKIE, encodeLocalAuthSession(session), {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    maxAge: 60 * 60 * 24 * 7,
-  });
-}
-
-/**
- * Demo entry — sets a cookie that puts the app into either "client" or
- * "officer" demo mode. Used when Supabase isn't yet configured so the
- * visitor can still explore the portal.
- */
-export async function enterDemoAction(role: "client" | "officer") {
-  const c = await cookies();
-  c.set("cb_demo", role, {
-    httpOnly: false,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    maxAge: 60 * 60 * 24, // 24h
-  });
-  redirect(role === "officer" ? "/admin" : "/dashboard");
 }

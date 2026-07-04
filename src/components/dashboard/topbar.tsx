@@ -16,7 +16,7 @@ import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { signOutAction } from "@/app/actions/auth";
 import type { Locale } from "@/lib/i18n/dictionaries";
-import type { Notification } from "@/lib/demo/notifications";
+import type { Notification } from "@/lib/portal/notifications";
 import { formatAccountNumber, initials } from "@/lib/utils";
 
 type Props = {

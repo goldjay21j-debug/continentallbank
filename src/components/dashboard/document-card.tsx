@@ -15,7 +15,7 @@ import {
   Landmark,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import type { DocumentRecord, DocumentType } from "@/lib/demo/documents";
+import type { DocumentRecord, DocumentType } from "@/lib/portal/documents";
 import { formatDate } from "@/lib/utils";
 
 const ICON_MAP: Record<DocumentType, LucideIcon> = {

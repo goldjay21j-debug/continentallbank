@@ -17,7 +17,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { TrustBadgeRail } from "@/components/shared/trust-badges";
 import { MotionCard } from "@/components/motion/motion-card";
 import { requireApprovedClient } from "@/lib/auth";
-import { clientWallets } from "@/lib/demo/queries";
+import { clientWallets } from "@/lib/portal/queries";
 import { CURRENCY_LABELS, type Currency } from "@/lib/constants";
 import { formatAccountNumber, formatCurrency, formatDate } from "@/lib/utils";
 import type { Wallet } from "@/lib/types/database";

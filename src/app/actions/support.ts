@@ -3,10 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { requireApprovedClient } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { isDemoMode, supabaseConfigured } from "@/lib/demo";
-import { localAuthEnabled } from "@/lib/auth-mode";
+import { supabaseConfigured } from "@/lib/auth-mode";
 import { SupportTicketSchema } from "@/lib/validation";
 import type { ActionResult } from "./withdrawals";
+
+const LIVE_BACKEND_ERROR = "Live Supabase is not configured. Add Supabase environment variables before saving changes.";
 
 export async function openTicket(input: unknown): Promise<ActionResult> {
   const user = await requireApprovedClient();
@@ -15,8 +16,8 @@ export async function openTicket(input: unknown): Promise<ActionResult> {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid ticket" };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: "Build mode — ticket simulated, nothing saved." };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const supabase = await createClient();

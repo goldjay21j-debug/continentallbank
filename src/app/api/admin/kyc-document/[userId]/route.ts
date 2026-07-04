@@ -1,7 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { requireAdmin } from "@/lib/auth";
-import { localAuthEnabled } from "@/lib/auth-mode";
-import { supabaseConfigured } from "@/lib/demo";
+import { supabaseConfigured } from "@/lib/auth-mode";
 import { createServiceClient } from "@/lib/supabase/server";
 
 const KYC_BUCKET = "kyc-documents";
@@ -13,8 +12,8 @@ export async function GET(
   await requireAdmin();
   const { userId } = await params;
 
-  if (localAuthEnabled() || !supabaseConfigured()) {
-    return NextResponse.json({ error: "KYC document storage is not available in local mode." }, { status: 404 });
+  if (!supabaseConfigured()) {
+    return NextResponse.json({ error: "KYC document storage is not configured." }, { status: 404 });
   }
 
   const service = createServiceClient();

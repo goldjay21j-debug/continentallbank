@@ -4,8 +4,7 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { requireApprovedClient, requireAdmin } from "@/lib/auth";
 import { createServiceClient } from "@/lib/supabase/server";
-import { isDemoMode, supabaseConfigured } from "@/lib/demo";
-import { localAuthEnabled } from "@/lib/auth-mode";
+import { supabaseConfigured } from "@/lib/auth-mode";
 import { WithdrawalRequestSchema, WithdrawalDecisionSchema } from "@/lib/validation";
 import { issueWithdrawalReceipt } from "@/lib/receipts";
 
@@ -13,7 +12,7 @@ export type ActionResult =
   | { ok: true; message?: string }
   | { ok: false; error: string };
 
-const DEMO_MSG = "Demo mode — your changes are simulated, nothing is saved.";
+const LIVE_BACKEND_ERROR = "Live Supabase is not configured. Add Supabase environment variables before saving changes.";
 
 /**
  * CLIENT — submit a new withdrawal request.
@@ -27,8 +26,8 @@ export async function submitWithdrawal(input: unknown): Promise<ActionResult> {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid request" };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const { currency, amount, method, paymentDetails, notes } = parsed.data;
@@ -121,8 +120,8 @@ export async function processWithdrawal(input: unknown): Promise<ActionResult> {
   const parsed = WithdrawalDecisionSchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: "Invalid decision" };
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const { id, decision, adminNote } = parsed.data;

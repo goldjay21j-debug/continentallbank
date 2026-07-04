@@ -20,7 +20,7 @@ import {
   BENEFICIARY_RAIL_BY_CURRENCY,
   BENEFICIARY_RAIL_LABEL,
   type BeneficiaryRail,
-} from "@/lib/demo/beneficiaries";
+} from "@/lib/portal/beneficiaries";
 
 const COUNTRIES = [
   "US",

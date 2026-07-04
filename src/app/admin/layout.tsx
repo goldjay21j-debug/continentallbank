@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { requireAdmin } from "@/lib/auth";
 import { AmbientBackdrop } from "@/components/shared/ambient-backdrop";
-import { DemoBanner } from "@/components/shared/demo-banner";
 import { PageTransition } from "@/components/motion/page-transition";
 import { AdminSidebar } from "@/components/admin/sidebar";
 import { AdminTopbar } from "@/components/admin/topbar";
@@ -32,7 +31,6 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           role={user.profile.role}
         />
         <div className="flex min-w-0 flex-1 flex-col">
-          <DemoBanner />
           <AdminTopbar
             fullName={user.profile.full_name}
             email={user.email ?? ""}

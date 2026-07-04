@@ -19,12 +19,13 @@ import { MotionList, MotionRow } from "@/components/motion/motion-list";
 import { RiskBandPill, SeverityChip } from "@/components/admin/risk-pill";
 import { requireAdmin } from "@/lib/auth";
 import {
-  complianceRoster,
-  demoComplianceEvents,
   KYC_STATUS_LABEL,
   RISK_CATEGORY_LABEL,
-  demoRiskFlags,
-} from "@/lib/demo/risk";
+  type KycDocStatus,
+  type KycDocKind,
+  type RiskFlag,
+} from "@/lib/portal/risk";
+import { adminAuditLogs, adminClientRoster } from "@/lib/portal/queries";
 import { formatDate, formatDateTime, maskAccountNumber } from "@/lib/utils";
 import { ACCOUNT_STATUS } from "@/lib/constants";
 
@@ -32,7 +33,20 @@ export const metadata = { title: "Compliance — Admin" };
 
 export default async function CompliancePage() {
   await requireAdmin();
-  const roster = complianceRoster();
+  const [profiles, auditLogs] = await Promise.all([adminClientRoster(), adminAuditLogs()]);
+  const roster = profiles.map((profile) => {
+    const kyc = kycSummaryFromProfile(profile as any);
+    return {
+      profile,
+      kyc,
+      score: { score: 0, band: "clear" as const },
+      flags: [] as RiskFlag[],
+    };
+  });
+  const activeRiskFlags: RiskFlag[] = [];
+  const complianceEvents = auditLogs
+    .filter((entry: any) => /kyc|user_|account/i.test(entry.action_type))
+    .slice(0, 10);
 
   const kycPending = roster.filter((r) => r.kyc.pending > 0);
   const kycExpired = roster.filter((r) => r.kyc.expired > 0);
@@ -161,13 +175,13 @@ export default async function CompliancePage() {
             </div>
             <ShieldAlert className="h-4 w-4 text-champagne-600" />
           </div>
-          {demoRiskFlags.length === 0 ? (
+          {activeRiskFlags.length === 0 ? (
             <div className="px-6 py-12 text-center text-[13px] text-muted-foreground">
               No active flags.
             </div>
           ) : (
             <MotionList className="divide-y divide-foreground/[0.05] max-h-[420px] overflow-y-auto">
-              {demoRiskFlags
+              {activeRiskFlags
                 .filter((f) => !f.resolved_at)
                 .map((f) => {
                   const client = roster.find((r) => r.profile.id === f.user_id)?.profile;
@@ -253,7 +267,8 @@ export default async function CompliancePage() {
                           : "muted"
                   }
                 >
-                  {ACCOUNT_STATUS[r.profile.account_status]}
+                  {ACCOUNT_STATUS[r.profile.account_status as keyof typeof ACCOUNT_STATUS] ??
+                    r.profile.account_status}
                 </Badge>
               </div>
               <div className="hidden md:block">
@@ -282,25 +297,29 @@ export default async function CompliancePage() {
           <h3 className="mt-1 font-display text-lg font-semibold">Recent compliance events</h3>
         </div>
         <ul className="divide-y divide-foreground/[0.05]">
-          {demoComplianceEvents.map((e) => (
+          {complianceEvents.length === 0 ? (
+            <li className="px-6 py-10 text-center text-[13px] text-muted-foreground">
+              No compliance events recorded yet.
+            </li>
+          ) : complianceEvents.map((e: any) => (
             <li key={e.id} className="px-6 py-4 flex items-start gap-3">
               <span
                 className={
                   "inline-flex h-8 w-8 items-center justify-center rounded-md border " +
-                  (e.kind === "account_frozen"
+                  (e.action_type === "user_suspend"
                     ? "border-destructive/30 bg-destructive/10 text-destructive"
-                    : e.kind === "flag_raised"
+                    : e.action_type.includes("flag")
                       ? "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300"
-                      : e.kind === "kyc_verified"
+                      : e.action_type.includes("kyc_approved")
                         ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
                         : "border-foreground/10 bg-foreground/[0.04] text-foreground")
                 }
               >
-                {e.kind === "account_frozen" ? (
+                {e.action_type === "user_suspend" ? (
                   <Snowflake className="h-4 w-4" strokeWidth={1.6} />
-                ) : e.kind === "flag_raised" ? (
+                ) : e.action_type.includes("flag") ? (
                   <FileWarning className="h-4 w-4" strokeWidth={1.6} />
-                ) : e.kind === "kyc_verified" ? (
+                ) : e.action_type.includes("kyc_approved") ? (
                   <CheckCircle2 className="h-4 w-4" strokeWidth={1.6} />
                 ) : (
                   <IdCard className="h-4 w-4" strokeWidth={1.6} />
@@ -308,14 +327,16 @@ export default async function CompliancePage() {
               </span>
               <div className="min-w-0 flex-1">
                 <Link
-                  href={`/admin/users/${e.user_id}`}
+                  href={e.user_id ? `/admin/users/${e.user_id}` : "/admin/users"}
                   className="text-[13.5px] font-medium text-foreground hover:underline underline-offset-4"
                 >
-                  {e.user_full_name}
+                  {e.client?.full_name ?? "Client record"}
                 </Link>
-                <p className="text-[12.5px] text-muted-foreground mt-0.5">{e.detail}</p>
+                <p className="text-[12.5px] text-muted-foreground mt-0.5">
+                  {String(e.action_type).replace(/_/g, " ")}
+                </p>
                 <div className="mt-1 text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground">
-                  {e.by_full_name} · {formatDateTime(e.at)}
+                  {e.admin?.full_name ?? "System"} · {formatDateTime(e.created_at)}
                 </div>
               </div>
             </li>
@@ -389,4 +410,47 @@ function KycChip({ kyc }: { kyc: { verified: number; pending: number; expired: n
   return (
     <span className="text-[12px] text-muted-foreground">No documents</span>
   );
+}
+
+function kycSummaryFromProfile(profile: {
+  id: string;
+  kyc_status?: string | null;
+  kyc_method?: string | null;
+  kyc_submitted_at?: string | null;
+  kyc_reviewed_at?: string | null;
+  kyc_review_note?: string | null;
+  updated_at?: string | null;
+}) {
+  const status = profile.kyc_status ?? "not_submitted";
+  const docStatus = kycDocStatusFromProfile(status);
+  const hasDocument = status !== "not_submitted";
+  const docs = hasDocument
+    ? [
+        {
+          id: `${profile.id}-kyc`,
+          user_id: profile.id,
+          kind: (profile.kyc_method ?? "national_id") as KycDocKind,
+          status: docStatus,
+          submitted_at: profile.kyc_submitted_at ?? profile.updated_at ?? new Date().toISOString(),
+          reviewed_at: profile.kyc_reviewed_at ?? undefined,
+          review_note: profile.kyc_review_note ?? undefined,
+        },
+      ]
+    : [];
+
+  return {
+    total: docs.length,
+    verified: docStatus === "verified" ? 1 : 0,
+    pending: docStatus === "submitted" ? 1 : 0,
+    expired: docStatus === "expired" ? 1 : 0,
+    rejected: docStatus === "rejected" ? 1 : 0,
+    docs,
+  };
+}
+
+function kycDocStatusFromProfile(status: string): KycDocStatus {
+  if (status === "approved") return "verified";
+  if (status === "rejected") return "rejected";
+  if (status === "submitted" || status === "under_review") return "submitted";
+  return "missing";
 }

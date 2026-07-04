@@ -17,8 +17,8 @@ import {
   NOTIFICATION_KIND_LABELS,
   type Notification,
   type NotificationKind,
-} from "@/lib/demo/notifications";
-import { clientNotifications } from "@/lib/demo/queries";
+} from "@/lib/portal/notifications";
+import { clientNotifications } from "@/lib/portal/queries";
 import { formatDateTime } from "@/lib/utils";
 
 export const metadata = { title: "Notifications" };

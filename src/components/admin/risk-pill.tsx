@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import type { RiskSeverity } from "@/lib/demo/risk";
-import { RISK_SEVERITY_LABEL } from "@/lib/demo/risk";
+import type { RiskSeverity } from "@/lib/portal/risk";
+import { RISK_SEVERITY_LABEL } from "@/lib/portal/risk";
 
 type Band = "clear" | "monitored" | "elevated" | "high" | "critical";
 

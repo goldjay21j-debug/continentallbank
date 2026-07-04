@@ -20,8 +20,8 @@ import { MotionList, MotionRow } from "@/components/motion/motion-list";
 import { TrustBadgeRail } from "@/components/shared/trust-badges";
 import { requireApprovedClient } from "@/lib/auth";
 import { KYC_STATUS, type Currency } from "@/lib/constants";
-import { calculateReleaseFee, isRecoveryVerified } from "@/lib/demo/recovery";
-import { clientEscrowOverview } from "@/lib/demo/queries";
+import { calculateReleaseFee, isRecoveryVerified } from "@/lib/portal/recovery";
+import { clientEscrowOverview } from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime } from "@/lib/utils";
 
 export const metadata = { title: "Escrow Dashboard" };

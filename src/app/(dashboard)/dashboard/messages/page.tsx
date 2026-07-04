@@ -5,13 +5,13 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { MessageThreadList } from "@/components/dashboard/message-thread-list";
 import { MotionCard } from "@/components/motion/motion-card";
 import { requireApprovedClient } from "@/lib/auth";
-import { demoClientThreads } from "@/lib/demo/messages";
+import { clientMessageThreads } from "@/lib/portal/queries";
 
 export const metadata = { title: "Secure Messages" };
 
 export default async function MessagesPage() {
   const user = await requireApprovedClient();
-  const threads = demoClientThreads.filter((t) => t.user_id === user.id);
+  const threads = await clientMessageThreads(user.id, user.profile.full_name);
 
   const unread = threads.filter((t) => t.unread_for_client).length;
   const open = threads.filter((t) => t.status === "open" || t.status === "awaiting_client").length;

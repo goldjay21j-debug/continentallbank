@@ -7,8 +7,8 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { EscrowReleaseSubmitButton } from "@/components/dashboard/escrow-release-submit-button";
 import { MotionCard } from "@/components/motion/motion-card";
 import { requireApprovedClient } from "@/lib/auth";
-import { calculateReleaseFee } from "@/lib/demo/recovery";
-import { clientEscrowOverview } from "@/lib/demo/queries";
+import { calculateReleaseFee } from "@/lib/portal/recovery";
+import { clientEscrowOverview } from "@/lib/portal/queries";
 import { formatCurrency } from "@/lib/utils";
 import type { Currency } from "@/lib/constants";
 

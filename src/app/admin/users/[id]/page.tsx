@@ -9,7 +9,7 @@ import { DocumentIssueForm } from "@/components/admin/document-issue-form";
 import { UserDecisionActions } from "@/components/admin/user-decision-actions";
 import { BalanceAdjustForm } from "@/components/admin/balance-adjust-form";
 import { requireAdmin } from "@/lib/auth";
-import { adminClientDetail } from "@/lib/demo/queries";
+import { adminClientDetail } from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime, maskAccountNumber } from "@/lib/utils";
 import { KYC_METHODS, KYC_STATUS, ROLE_LABELS, type KycStatus, type Role } from "@/lib/constants";
 import type { LedgerEntry, Profile, Wallet, WithdrawalRequest } from "@/lib/types/database";
@@ -105,7 +105,7 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
                 </p>
               </div>
             )}
-            {p.kyc_document_path && !p.kyc_document_path.startsWith("demo-kyc/") && (
+            {p.kyc_document_path && (
               <Button variant="outline" size="sm" asChild>
                 <a href={`/api/admin/kyc-document/${p.id}`} target="_blank" rel="noreferrer">
                   Open document

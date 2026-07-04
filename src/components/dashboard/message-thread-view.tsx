@@ -1,15 +1,12 @@
 "use client";
 
-import { useState, useTransition } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, FileText, Paperclip, Send, X } from "lucide-react";
+import { ArrowLeft, FileText } from "lucide-react";
 import Link from "next/link";
-import { toast } from "sonner";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { MESSAGE_STATUS_LABEL, type Message, type MessageThread } from "@/lib/demo/messages";
+import { MESSAGE_STATUS_LABEL, type Message, type MessageThread } from "@/lib/portal/messages";
 import { formatDateTime, initials } from "@/lib/utils";
 
 type Props = {
@@ -22,29 +19,6 @@ type Props = {
 };
 
 export function MessageThreadView({ thread, audience, selfName, backHref }: Props) {
-  const [text, setText] = useState("");
-  const [attached, setAttached] = useState<string[]>([]);
-  const [pending, startTransition] = useTransition();
-
-  function send() {
-    if (!text.trim()) return;
-    startTransition(async () => {
-      // Local-only mock — toast and clear. Real backend writes happen
-      // when Supabase is wired.
-      await new Promise((r) => setTimeout(r, 300));
-      toast.success("Sent. The Private Office will respond shortly.");
-      setText("");
-      setAttached([]);
-    });
-  }
-
-  function handleAttachClick() {
-    // Simulate adding a placeholder attachment chip
-    const name = `Attachment-${attached.length + 1}.pdf`;
-    setAttached((a) => [...a, name]);
-    toast.message("Attachment staged (preview only).");
-  }
-
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -115,51 +89,19 @@ export function MessageThreadView({ thread, audience, selfName, backHref }: Prop
             <div className="text-[12.5px]">
               <div className="font-medium text-foreground">{selfName}</div>
               <div className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                Reply to this conversation
+                Live conversation controls
               </div>
             </div>
           </div>
-
-          <Textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            rows={4}
-            className="mt-4"
-            placeholder="Write a message. Avoid passwords, OTPs, or full payment credentials."
-          />
-
-          {attached.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-2">
-              {attached.map((name, i) => (
-                <span
-                  key={i}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-foreground/10 bg-foreground/[0.04] px-2.5 py-1 text-[11px] text-foreground"
-                >
-                  <FileText className="h-3 w-3" />
-                  {name}
-                  <button
-                    type="button"
-                    aria-label="Remove attachment"
-                    onClick={() => setAttached((a) => a.filter((_, j) => j !== i))}
-                    className="text-muted-foreground hover:text-foreground"
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                </span>
-              ))}
-            </div>
-          )}
-
-          <div className="mt-4 flex items-center justify-between gap-3">
-            <Button variant="outline" size="sm" type="button" onClick={handleAttachClick}>
-              <Paperclip className="h-3.5 w-3.5" />
-              Attach
-            </Button>
-            <Button onClick={send} disabled={pending || !text.trim()}>
-              {pending ? "Sending…" : "Send reply"}
-              {!pending && <Send className="h-4 w-4" />}
-            </Button>
-          </div>
+          <p className="mt-4 max-w-2xl text-[13px] leading-6 text-muted-foreground">
+            Replies are handled through the live support workflow so every response is recorded
+            against the client file and audit trail.
+          </p>
+          <Button asChild className="mt-4">
+            <Link href={audience === "officer" ? "/admin/support" : "/dashboard/support"}>
+              Open support center
+            </Link>
+          </Button>
         </motion.div>
       )}
     </div>

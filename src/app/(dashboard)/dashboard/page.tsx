@@ -23,11 +23,11 @@ import { MotionCard } from "@/components/motion/motion-card";
 import { MotionList, MotionRow } from "@/components/motion/motion-list";
 import { requireApprovedClient } from "@/lib/auth";
 import { ACCOUNT_STATUS, KYC_STATUS, type Currency } from "@/lib/constants";
-import { calculateReleaseFee, isRecoveryVerified } from "@/lib/demo/recovery";
+import { calculateReleaseFee, isRecoveryVerified } from "@/lib/portal/recovery";
 import {
   clientEscrowOverview,
   clientPendingWithdrawals,
-} from "@/lib/demo/queries";
+} from "@/lib/portal/queries";
 import { formatAccountNumber, formatCurrency, formatDate, formatDateTime } from "@/lib/utils";
 import type { WithdrawalRequest } from "@/lib/types/database";
 

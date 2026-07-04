@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import {
   type Notification,
   type NotificationKind,
-} from "@/lib/demo/notifications";
+} from "@/lib/portal/notifications";
 import { cn } from "@/lib/utils";
 
 const ICON_MAP: Record<NotificationKind, LucideIcon> = {

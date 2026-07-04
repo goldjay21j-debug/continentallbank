@@ -1,8 +1,8 @@
 # Wiring Up Supabase
 
-Step-by-step guide to switching Continental Bank from demo mode to a real Supabase backend. **Total time: ~10 minutes** if you have a Supabase and Vercel account ready.
+Step-by-step guide to wiring Continental Bank to a real Supabase backend. **Total time: ~10 minutes** if you have a Supabase and Vercel account ready.
 
-When you're done, the demo entry buttons on `/login` will still be available, but real sign-ups will create real Supabase users, and every dashboard / admin page will read from your Supabase database.
+When you're done, real sign-ups will create real Supabase users, and every dashboard / admin page will read from your Supabase database.
 
 ---
 
@@ -50,12 +50,11 @@ You should see "Success. No rows returned." after each migration. These create t
 
 1. Open your Vercel dashboard → your `continentalbank` project.
 2. Click **Settings** → **Environment Variables**.
-3. Add these five entries, one at a time:
+3. Add these four entries, one at a time:
 
 | Name | Value | Environments |
 |---|---|---|
 | `NEXT_PUBLIC_SITE_URL` | `https://continentallbank.com` | Production, Preview, Development |
-| `AUTH_MODE` | `supabase` | Production, Preview, Development |
 | `NEXT_PUBLIC_SUPABASE_URL` | (Project URL from Step 3) | Production, Preview, Development |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | (anon key from Step 3) | Production, Preview, Development |
 | `SUPABASE_SERVICE_ROLE_KEY` | (service_role key from Step 3) | **Production + Preview only** ⚠️ |
@@ -102,7 +101,7 @@ From here, **all other users can be provisioned through the admin panel** — `/
 
 | Action | Expected behaviour |
 |---|---|
-| Visit `/` while signed out | Marketing landing page, no demo banner |
+| Visit `/` while signed out | Marketing landing page |
 | Click **Open Account** → fill the form → submit | Lands on `/pending`, "Application under review" |
 | As super admin, go to `/admin/users` | The new applicant appears with status `pending` |
 | Click them → click **Approve** | Status changes to `approved`, audit log entry written |
@@ -113,14 +112,6 @@ If any of those don't work, check:
 - **Browser console** for errors (often hints at a missing env var)
 - **Vercel deployment logs** for server-side errors
 - **Supabase SQL Editor**: run `select count(*) from public.profiles;` to confirm rows exist
-
-## What happens to demo mode?
-
-The demo entry buttons on `/login` stay. They set a cookie (`cb_demo=client|officer`) that the auth helpers honour. A visitor in demo mode still sees seeded data — useful for showing the portal to a prospect without giving them a real account. The demo mode and real Supabase coexist; the cookie is the only switch.
-
-To remove the demo buttons before going live, edit [`src/components/auth/login-form.tsx`](src/components/auth/login-form.tsx) and delete the "Live demonstration" block at the bottom.
-
----
 
 ## Optional — production hardening
 

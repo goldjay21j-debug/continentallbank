@@ -7,7 +7,7 @@ import { ActivityTicker } from "@/components/shared/activity-ticker";
 import { TrustBadgeRail } from "@/components/shared/trust-badges";
 import { MotionCard } from "@/components/motion/motion-card";
 import { requireApprovedClient } from "@/lib/auth";
-import { clientWithdrawals } from "@/lib/demo/queries";
+import { clientWithdrawals } from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime } from "@/lib/utils";
 import type { WithdrawalRequest } from "@/lib/types/database";
 

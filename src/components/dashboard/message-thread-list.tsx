@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   MESSAGE_STATUS_LABEL,
   type MessageThread,
-} from "@/lib/demo/messages";
+} from "@/lib/portal/messages";
 import { formatDate } from "@/lib/utils";
 
 type Props = {

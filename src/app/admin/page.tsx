@@ -32,11 +32,11 @@ import { SITE } from "@/lib/constants";
 import {
   DOCUMENT_TYPE_LABELS,
   type DocumentRecord,
-} from "@/lib/demo/documents";
+} from "@/lib/portal/documents";
 import {
   BENEFICIARY_RAIL_LABEL,
   type Beneficiary,
-} from "@/lib/demo/beneficiaries";
+} from "@/lib/portal/beneficiaries";
 import {
   adminAnalytics,
   adminCounts,
@@ -48,7 +48,7 @@ import {
   adminRecoveredFunds,
   adminRecoveryCases,
   adminRecoveryMetrics,
-} from "@/lib/demo/queries";
+} from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime, maskAccountNumber } from "@/lib/utils";
 
 export const metadata = { title: "Operations" };

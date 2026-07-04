@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { Badge } from "@/components/ui/badge";
 import { SupportForm } from "@/components/dashboard/support-form";
 import { requireApprovedClient } from "@/lib/auth";
-import { clientTickets } from "@/lib/demo/queries";
+import { clientTickets } from "@/lib/portal/queries";
 import { formatDateTime } from "@/lib/utils";
 import type { SupportTicket } from "@/lib/types/database";
 

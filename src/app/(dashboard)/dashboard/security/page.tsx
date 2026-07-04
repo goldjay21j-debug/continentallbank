@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { TrustBadgeRail } from "@/components/shared/trust-badges";
 import { PasswordChangeForm } from "@/components/dashboard/password-change-form";
 import { requireApprovedClient } from "@/lib/auth";
-import { clientLoginHistory } from "@/lib/demo/queries";
+import { clientLoginHistory } from "@/lib/portal/queries";
 import { formatDateTime } from "@/lib/utils";
 import type { LoginHistoryEntry } from "@/lib/types/database";
 

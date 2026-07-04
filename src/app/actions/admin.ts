@@ -4,14 +4,13 @@ import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { requireAdmin, requireSuperAdmin } from "@/lib/auth";
 import { createServiceClient } from "@/lib/supabase/server";
-import { isDemoMode, supabaseConfigured } from "@/lib/demo";
-import { localAuthEnabled } from "@/lib/auth-mode";
+import { supabaseConfigured } from "@/lib/auth-mode";
 import {
   issueKycDecisionReceipt,
   issueManualClientDocument,
   issueSupportReceipt,
 } from "@/lib/receipts";
-import type { DocumentType } from "@/lib/demo/documents";
+import type { DocumentType } from "@/lib/portal/documents";
 import {
   AdminIssueDocumentSchema,
   AdminBalanceAdjustmentSchema,
@@ -22,7 +21,7 @@ import {
 } from "@/lib/validation";
 import type { ActionResult } from "./withdrawals";
 
-const DEMO_MSG = "Demo mode — your changes are simulated, nothing is saved.";
+const LIVE_BACKEND_ERROR = "Live Supabase is not configured. Add Supabase environment variables before saving changes.";
 
 async function getClientMeta() {
   const h = await headers();
@@ -39,8 +38,8 @@ export async function decideUser(input: unknown): Promise<ActionResult> {
   const parsed = UserDecisionSchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: "Invalid decision" };
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const service = createServiceClient();
@@ -89,8 +88,8 @@ export async function decideKycVerification(input: unknown): Promise<ActionResul
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid KYC decision" };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const service = createServiceClient();
@@ -171,8 +170,8 @@ export async function adjustBalance(input: unknown): Promise<ActionResult> {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const { userId, currency, type, amount, description } = parsed.data;
@@ -251,8 +250,8 @@ export async function replyTicket(input: unknown): Promise<ActionResult> {
   const parsed = TicketReplySchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: "Invalid ticket reply" };
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const service = createServiceClient();
@@ -310,8 +309,8 @@ export async function createUserAsAdmin(input: unknown): Promise<ActionResult> {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const data = parsed.data;
@@ -361,8 +360,8 @@ export async function issueClientDocument(input: unknown): Promise<ActionResult>
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid document" };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const service = createServiceClient();

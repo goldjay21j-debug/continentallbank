@@ -3,14 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin, requireApprovedClient } from "@/lib/auth";
 import { createServiceClient } from "@/lib/supabase/server";
-import { isDemoMode, supabaseConfigured } from "@/lib/demo";
-import { localAuthEnabled } from "@/lib/auth-mode";
+import { supabaseConfigured } from "@/lib/auth-mode";
 import { BeneficiaryDecisionSchema, BeneficiarySubmissionSchema } from "@/lib/validation";
 import { issueBeneficiaryReceipt } from "@/lib/receipts";
 import type { ActionResult } from "./withdrawals";
 import type { BeneficiaryRow } from "@/lib/types/database";
 
-const DEMO_MSG = "Build mode — beneficiary workflow simulated, nothing saved.";
+const LIVE_BACKEND_ERROR = "Live Supabase is not configured. Add Supabase environment variables before saving changes.";
 
 export async function submitBeneficiary(input: unknown): Promise<ActionResult> {
   const user = await requireApprovedClient();
@@ -19,8 +18,8 @@ export async function submitBeneficiary(input: unknown): Promise<ActionResult> {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid beneficiary" };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: "Beneficiary submitted for officer review." };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const service = createServiceClient();
@@ -67,8 +66,8 @@ export async function decideBeneficiary(input: unknown): Promise<ActionResult> {
     return { ok: false, error: "Add a reason before rejecting this beneficiary." };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const service = createServiceClient();

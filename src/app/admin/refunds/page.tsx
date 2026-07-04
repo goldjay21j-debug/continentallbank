@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { RefundDecisionActions } from "@/components/admin/refund-decision-actions";
 import { requireAdmin } from "@/lib/auth";
-import { adminRefundQueue } from "@/lib/demo/queries";
+import { adminRefundQueue } from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime, maskAccountNumber } from "@/lib/utils";
 import { REFUND_REASONS } from "@/lib/constants";
 

@@ -3,10 +3,9 @@ import { requireApprovedClient } from "@/lib/auth";
 import { detectLocale } from "@/lib/i18n/detect";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
 import { DashboardTopbar } from "@/components/dashboard/topbar";
-import { DemoBanner } from "@/components/shared/demo-banner";
 import { FrozenOverlay } from "@/components/dashboard/frozen-overlay";
 import { PageTransition } from "@/components/motion/page-transition";
-import { clientNotifications } from "@/lib/demo/queries";
+import { clientNotifications } from "@/lib/portal/queries";
 
 export const dynamic = "force-dynamic";
 
@@ -57,7 +56,6 @@ export default async function DashboardLayout({ children }: { children: React.Re
           accountNumber={user.profile.account_number}
         />
         <div className="flex min-w-0 flex-1 flex-col">
-          <DemoBanner />
           <DashboardTopbar
             fullName={user.profile.full_name}
             email={user.email ?? ""}

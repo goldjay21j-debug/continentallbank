@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { CURRENCIES as CURRENCY_CONST, KYC_METHODS } from "@/lib/constants";
-import { DOCUMENT_TYPE_LABELS } from "@/lib/demo/documents";
+import { DOCUMENT_TYPE_LABELS } from "@/lib/portal/documents";
 import { SUPPORTED_LOCALES } from "@/lib/i18n/dictionaries";
 
 export const CURRENCIES = CURRENCY_CONST as unknown as [string, ...string[]];

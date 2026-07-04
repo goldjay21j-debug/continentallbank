@@ -1,51 +1,17 @@
 /**
- * Demo-aware data fetchers used by dashboard/admin pages.
- *
- * Each function returns the same shape Supabase would return so the page
- * code is identical regardless of the data source.
+ * Live Supabase data fetchers used by dashboard/admin pages.
  */
 
 import { createClient, createServiceClient } from "@/lib/supabase/server";
-import { isDemoMode, supabaseConfigured } from "./index";
-import { localTransactions, localWallets, localWithdrawals } from "@/lib/local-auth";
-import { localAuthEnabled } from "@/lib/auth-mode";
-import { demoClientBeneficiaries, demoAdminBeneficiaryQueue } from "./beneficiaries";
-import {
-  demoAdminRecentLedger,
-  demoAdminRefundQueue,
-  demoAdminTicketQueue,
-  demoAdminWithdrawalQueue,
-  demoAnalytics,
-  demoAuditLog,
-  demoClientLoginHistory,
-  demoClientProfile,
-  demoClientRefundClaims,
-  demoClientRoster,
-  demoClientTickets,
-  demoClientTransactions,
-  demoClientWallets,
-  demoClientWithdrawals,
-  demoLedgerForClient,
-} from "./data";
-import { demoClientDocuments, type DocumentRecord } from "./documents";
-import { demoClientNotifications, type Notification } from "./notifications";
-import {
-  demoAdminEscrowContracts,
-  demoAdminRecoveredFunds,
-  demoAdminRecoveryCases,
-  demoClientDisputes,
-  demoClientEscrowContracts,
-  demoClientRecoveredFunds,
-  demoClientRecoveryCases,
-  recoveryAccessState,
-} from "./recovery";
+import { type DocumentRecord } from "./documents";
+import { type Notification } from "./notifications";
+import type { MessageThread, MessageThreadStatus } from "./messages";
+import { recoveryAccessState } from "./recovery";
 import type { Profile } from "@/lib/types/database";
 
 /* ---- Client-side fetchers --------------------------------------- */
 
 export async function clientWallets(userId: string) {
-  if (await isDemoMode()) return demoClientWallets;
-  if (localAuthEnabled() || !supabaseConfigured()) return localWallets(userId);
   const supabase = await createClient();
   const { data } = await supabase
     .from("wallets")
@@ -56,8 +22,6 @@ export async function clientWallets(userId: string) {
 }
 
 export async function clientTransactions(userId: string, limit = 200) {
-  if (await isDemoMode()) return demoClientTransactions.slice(0, limit);
-  if (localAuthEnabled() || !supabaseConfigured()) return localTransactions(userId).slice(0, limit);
   const supabase = await createClient();
   const { data } = await supabase
     .from("transactions")
@@ -69,8 +33,6 @@ export async function clientTransactions(userId: string, limit = 200) {
 }
 
 export async function clientWithdrawals(userId: string, limit = 50) {
-  if (await isDemoMode()) return demoClientWithdrawals.slice(0, limit);
-  if (localAuthEnabled() || !supabaseConfigured()) return localWithdrawals(userId).slice(0, limit);
   const supabase = await createClient();
   const { data } = await supabase
     .from("withdrawal_requests")
@@ -82,20 +44,6 @@ export async function clientWithdrawals(userId: string, limit = 50) {
 }
 
 export async function clientPendingWithdrawals(userId: string) {
-  if (await isDemoMode()) {
-    return demoClientWithdrawals.filter(
-      (w) =>
-        w.status === "pending" ||
-        w.status === "approved" ||
-        w.status === "awaiting_fee_completion" ||
-        w.status === "pending_review" ||
-        w.status === "approved_for_processing" ||
-        w.status === "processing",
-    );
-  }
-  if (localAuthEnabled() || !supabaseConfigured()) {
-    return localWithdrawals(userId).filter((w) => w.status === "pending" || w.status === "approved");
-  }
   const supabase = await createClient();
   const { data } = await supabase
     .from("withdrawal_requests")
@@ -115,8 +63,6 @@ export async function clientPendingWithdrawals(userId: string) {
 }
 
 export async function clientTickets(userId: string) {
-  if (await isDemoMode()) return demoClientTickets;
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const supabase = await createClient();
   const { data } = await supabase
     .from("support_tickets")
@@ -127,9 +73,17 @@ export async function clientTickets(userId: string) {
   return data ?? [];
 }
 
+export async function clientMessageThreads(userId: string, clientName: string) {
+  const tickets = await clientTickets(userId);
+  return tickets.map((ticket: any) =>
+    supportTicketToThread(ticket, {
+      clientName,
+      officerName: "Private Office",
+    }),
+  );
+}
+
 export async function clientLoginHistory(userId: string) {
-  if (await isDemoMode()) return demoClientLoginHistory;
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const supabase = await createClient();
   const { data } = await supabase
     .from("login_history")
@@ -141,10 +95,6 @@ export async function clientLoginHistory(userId: string) {
 }
 
 export async function clientDocuments(userId: string) {
-  if (await isDemoMode()) return demoClientDocuments;
-  if (localAuthEnabled() || !supabaseConfigured()) {
-    return demoClientDocuments.map((d) => ({ ...d, user_id: userId }));
-  }
   const supabase = await createClient();
   const { data } = await supabase
     .from("generated_documents")
@@ -156,10 +106,6 @@ export async function clientDocuments(userId: string) {
 }
 
 export async function clientNotifications(userId: string, limit = 100) {
-  if (await isDemoMode()) return demoClientNotifications;
-  if (localAuthEnabled() || !supabaseConfigured()) {
-    return demoClientNotifications.map((n) => ({ ...n, user_id: userId }));
-  }
   const supabase = await createClient();
   const { data } = await supabase
     .from("notifications")
@@ -183,8 +129,6 @@ export async function clientNotifications(userId: string, limit = 100) {
 }
 
 export async function clientBeneficiaries(userId: string) {
-  if (await isDemoMode()) return demoClientBeneficiaries;
-  if (localAuthEnabled() || !supabaseConfigured()) return demoClientBeneficiaries.map((b) => ({ ...b, user_id: userId }));
   const supabase = await createClient();
   const { data } = await supabase
     .from("beneficiaries")
@@ -203,8 +147,6 @@ export async function clientBeneficiaries(userId: string) {
 }
 
 export async function clientRecoveryCases(userId: string) {
-  if (await isDemoMode()) return demoClientRecoveryCases;
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const supabase = await createClient();
   const { data } = await supabase
     .from("cases")
@@ -216,8 +158,6 @@ export async function clientRecoveryCases(userId: string) {
 }
 
 export async function clientEscrowContract(userId: string) {
-  if (await isDemoMode()) return demoClientEscrowContracts[0] ?? null;
-  if (localAuthEnabled() || !supabaseConfigured()) return null;
   const supabase = await createClient();
   const { data } = await supabase
     .from("escrow_contracts")
@@ -230,8 +170,6 @@ export async function clientEscrowContract(userId: string) {
 }
 
 export async function clientRecoveredFunds(userId: string) {
-  if (await isDemoMode()) return demoClientRecoveredFunds;
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const supabase = await createClient();
   const { data } = await supabase
     .from("recovered_funds_entries")
@@ -243,8 +181,6 @@ export async function clientRecoveredFunds(userId: string) {
 }
 
 export async function clientActiveDisputes(userId: string) {
-  if (await isDemoMode()) return demoClientDisputes;
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const supabase = await createClient();
   const { data } = await supabase
     .from("disputes")
@@ -284,17 +220,6 @@ export async function clientEscrowOverview(userId: string, profile: Profile) {
 /* ---- Admin-side fetchers ---------------------------------------- */
 
 export async function adminCounts() {
-  if (await isDemoMode()) {
-    return {
-      pendingClients: demoAnalytics.pendingClients,
-      pendingWithdrawals: demoAnalytics.pendingWithdrawals,
-      openTickets: demoAnalytics.openTickets,
-      totalClients: demoAnalytics.totalClients,
-    };
-  }
-  if (localAuthEnabled() || !supabaseConfigured()) {
-    return { pendingClients: 0, pendingWithdrawals: 0, openTickets: 0, totalClients: 0 };
-  }
   const s = createServiceClient();
   const [a, b, c, d] = await Promise.all([
     s.from("profiles").select("id", { count: "exact", head: true }).eq("account_status", "pending"),
@@ -322,28 +247,6 @@ export async function adminCounts() {
 }
 
 export async function adminDashboardMetrics() {
-  const demoMetrics = () => ({
-    pendingKyc: demoClientRoster.filter((p) =>
-      ["submitted", "under_review"].includes(p.kyc_status),
-    ).length,
-    pendingBeneficiaries: demoAdminBeneficiaryQueue.filter((b) => b.status === "pending").length,
-    documentsIssued: demoClientDocuments.length,
-    unreadNotifications: demoClientNotifications.filter((n) => !n.read).length,
-    recentDocuments: demoClientDocuments.slice(0, 5).map((document) => ({
-      ...document,
-      profiles: {
-        full_name: demoClientProfile.full_name,
-        account_number: demoClientProfile.account_number,
-      },
-    })),
-    recentBeneficiaries: demoAdminBeneficiaryQueue
-      .filter((b) => b.status === "pending")
-      .slice(0, 4),
-  });
-
-  if (await isDemoMode()) return demoMetrics();
-  if (localAuthEnabled() || !supabaseConfigured()) return demoMetrics();
-
   const s = createServiceClient();
   const [
     { count: pendingKyc },
@@ -387,13 +290,6 @@ export async function adminDashboardMetrics() {
 }
 
 export async function adminWithdrawalQueue(statusFilter?: string) {
-  if (await isDemoMode()) {
-    if (statusFilter && statusFilter !== "all") {
-      return demoAdminWithdrawalQueue.filter((w) => w.status === statusFilter);
-    }
-    return demoAdminWithdrawalQueue;
-  }
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const s = createServiceClient();
   let q = s
     .from("withdrawal_requests")
@@ -407,23 +303,6 @@ export async function adminWithdrawalQueue(statusFilter?: string) {
 }
 
 export async function adminClientRoster(statusFilter?: string, q?: string) {
-  if (await isDemoMode()) {
-    let list = demoClientRoster;
-    if (statusFilter && statusFilter !== "all") {
-      list = list.filter((p) => p.account_status === statusFilter);
-    }
-    if (q) {
-      const lc = q.toLowerCase();
-      list = list.filter(
-        (p) =>
-          p.full_name.toLowerCase().includes(lc) ||
-          p.email.toLowerCase().includes(lc) ||
-          (p.account_number ?? "").toLowerCase().includes(lc),
-      );
-    }
-    return list;
-  }
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const s = createServiceClient();
   let query = s.from("profiles").select("*").order("created_at", { ascending: false });
   if (statusFilter && statusFilter !== "all") query = query.eq("account_status", statusFilter);
@@ -435,13 +314,6 @@ export async function adminClientRoster(statusFilter?: string, q?: string) {
 }
 
 export async function adminBeneficiaryQueue(statusFilter?: string) {
-  if (await isDemoMode()) {
-    if (statusFilter && statusFilter !== "all") {
-      return demoAdminBeneficiaryQueue.filter((b) => b.status === statusFilter);
-    }
-    return demoAdminBeneficiaryQueue;
-  }
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const s = createServiceClient();
   let q = s
     .from("beneficiaries")
@@ -462,13 +334,6 @@ export async function adminBeneficiaryQueue(statusFilter?: string) {
 }
 
 export async function adminRecoveryCases(statusFilter?: string) {
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    if (statusFilter && statusFilter !== "all") {
-      return demoAdminRecoveryCases.filter((c) => c.status === statusFilter);
-    }
-    return demoAdminRecoveryCases;
-  }
-
   const s = createServiceClient();
   let q = s
     .from("cases")
@@ -482,13 +347,6 @@ export async function adminRecoveryCases(statusFilter?: string) {
 }
 
 export async function adminEscrowContracts(statusFilter?: string) {
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    if (statusFilter && statusFilter !== "all") {
-      return demoAdminEscrowContracts.filter((c) => c.status === statusFilter);
-    }
-    return demoAdminEscrowContracts;
-  }
-
   const s = createServiceClient();
   let q = s
     .from("escrow_contracts")
@@ -502,10 +360,6 @@ export async function adminEscrowContracts(statusFilter?: string) {
 }
 
 export async function adminRecoveredFunds(limit = 50) {
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    return demoAdminRecoveredFunds.slice(0, limit);
-  }
-
   const s = createServiceClient();
   const { data } = await s
     .from("recovered_funds_entries")
@@ -536,19 +390,6 @@ export async function adminRecoveryMetrics() {
 }
 
 export async function adminClientDetail(userId: string) {
-  if (await isDemoMode()) {
-    const profile =
-      demoClientRoster.find((p) => p.id === userId) ?? demoClientProfile;
-    return {
-      profile,
-      wallets: demoClientWallets,
-      ledger: demoLedgerForClient,
-      withdrawals: demoClientWithdrawals,
-    };
-  }
-  if (localAuthEnabled() || !supabaseConfigured()) {
-    return { profile: null, wallets: [], ledger: [], withdrawals: [] };
-  }
   const s = createServiceClient();
   const [{ data: profile }, { data: wallets }, { data: ledger }, { data: withdrawals }] =
     await Promise.all([
@@ -566,16 +407,6 @@ export async function adminClientDetail(userId: string) {
 }
 
 export async function adminAllTransactions() {
-  if (await isDemoMode()) {
-    return demoAdminRecentLedger.map((t) => ({
-      ...t,
-      profiles: (() => {
-        const p = demoClientRoster.find((x) => x.id === t.user_id) ?? demoClientProfile;
-        return { id: p.id, full_name: p.full_name, account_number: p.account_number };
-      })(),
-    }));
-  }
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const s = createServiceClient();
   const { data } = await s
     .from("transactions")
@@ -586,13 +417,6 @@ export async function adminAllTransactions() {
 }
 
 export async function adminTickets(statusFilter?: string) {
-  if (await isDemoMode()) {
-    if (statusFilter && statusFilter !== "all") {
-      return demoAdminTicketQueue.filter((t) => t.status === statusFilter);
-    }
-    return demoAdminTicketQueue;
-  }
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const s = createServiceClient();
   let q = s
     .from("support_tickets")
@@ -605,9 +429,48 @@ export async function adminTickets(statusFilter?: string) {
   return data ?? [];
 }
 
+export async function adminMessageThreads(statusFilter?: string) {
+  const tickets = await adminTickets(statusFilter === "awaiting_client" ? "in_progress" : statusFilter);
+  return tickets.map((ticket: any) =>
+    supportTicketToThread(ticket, {
+      clientName: ticket.profiles?.full_name ?? "Client",
+      officerName: "Private Office",
+    }),
+  );
+}
+
+export async function clientMessageThreadById(userId: string, id: string, clientName: string) {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("support_tickets")
+    .select("*")
+    .eq("id", id)
+    .eq("user_id", userId)
+    .maybeSingle();
+  return data
+    ? supportTicketToThread(data, {
+        clientName,
+        officerName: "Private Office",
+      })
+    : null;
+}
+
+export async function adminMessageThreadById(id: string) {
+  const s = createServiceClient();
+  const { data } = await s
+    .from("support_tickets")
+    .select("*, profiles:profiles!support_tickets_user_id_fkey(id, full_name, account_number, email)")
+    .eq("id", id)
+    .maybeSingle();
+  return data
+    ? supportTicketToThread(data as any, {
+        clientName: (data as any).profiles?.full_name ?? "Client",
+        officerName: "Private Office",
+      })
+    : null;
+}
+
 export async function adminAuditLogs() {
-  if (await isDemoMode()) return demoAuditLog;
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const s = createServiceClient();
   const { data } = await s
     .from("audit_logs")
@@ -620,13 +483,6 @@ export async function adminAuditLogs() {
 }
 
 export async function adminAnalytics() {
-  if (await isDemoMode()) {
-    return demoAnalytics;
-  }
-  if (localAuthEnabled() || !supabaseConfigured()) {
-    return demoAnalytics; // fall back to seeded numbers so the page renders
-  }
-
   const s = createServiceClient();
   const [
     { count: totalClients },
@@ -675,8 +531,6 @@ export async function adminAnalytics() {
 }
 
 export async function adminRecentWithdrawals() {
-  if (await isDemoMode()) return demoAdminWithdrawalQueue.slice(0, 5);
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const s = createServiceClient();
   const { data } = await s
     .from("withdrawal_requests")
@@ -700,8 +554,6 @@ export async function adminRecentWithdrawals() {
 /* ---- Refund claims --------------------------------------------- */
 
 export async function clientRefundClaims(userId: string) {
-  if (await isDemoMode()) return demoClientRefundClaims;
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const supabase = await createClient();
   const { data } = await supabase
     .from("refund_claims")
@@ -713,13 +565,6 @@ export async function clientRefundClaims(userId: string) {
 }
 
 export async function adminRefundQueue(statusFilter?: string) {
-  if (await isDemoMode()) {
-    if (statusFilter && statusFilter !== "all") {
-      return demoAdminRefundQueue.filter((r) => r.status === statusFilter);
-    }
-    return demoAdminRefundQueue;
-  }
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const s = createServiceClient();
   let q = s
     .from("refund_claims")
@@ -733,10 +578,6 @@ export async function adminRefundQueue(statusFilter?: string) {
 }
 
 export async function adminPendingRefundCount() {
-  if (await isDemoMode()) {
-    return demoAdminRefundQueue.filter((r) => r.status === "pending" || r.status === "under_review").length;
-  }
-  if (localAuthEnabled() || !supabaseConfigured()) return 0;
   const s = createServiceClient();
   const { count } = await s
     .from("refund_claims")
@@ -746,15 +587,6 @@ export async function adminPendingRefundCount() {
 }
 
 export async function adminRecentActivity() {
-  if (await isDemoMode()) {
-    return demoAuditLog.map((a) => ({
-      id: a.id,
-      action_type: a.action_type,
-      created_at: a.created_at,
-      profiles: { full_name: a.admin.full_name },
-    }));
-  }
-  if (localAuthEnabled() || !supabaseConfigured()) return [];
   const s = createServiceClient();
   const { data } = await s
     .from("audit_logs")
@@ -785,6 +617,58 @@ function generatedDocumentToRecord(row: any): DocumentRecord {
     created_at: row.created_at,
     body,
   };
+}
+
+function supportTicketToThread(
+  ticket: any,
+  names: { clientName: string; officerName: string },
+): MessageThread {
+  const status = supportStatusToThreadStatus(ticket.status);
+  const messages: MessageThread["messages"] = [
+    {
+      id: `${ticket.id}-client`,
+      thread_id: ticket.id,
+      sender_id: ticket.user_id,
+      sender_name: names.clientName,
+      sender_role: "client" as const,
+      body: ticket.message,
+      created_at: ticket.created_at,
+    },
+  ];
+
+  if (ticket.admin_reply) {
+    messages.push({
+      id: `${ticket.id}-officer`,
+      thread_id: ticket.id,
+      sender_id: ticket.assigned_to_admin_id ?? "private-office",
+      sender_name: names.officerName,
+      sender_role: "officer" as const,
+      body: ticket.admin_reply,
+      created_at: ticket.updated_at ?? ticket.created_at,
+    });
+  }
+
+  return {
+    id: ticket.id,
+    user_id: ticket.user_id,
+    subject: ticket.subject,
+    status,
+    assigned_to: ticket.assigned_to_admin_id
+      ? { id: ticket.assigned_to_admin_id, full_name: names.officerName }
+      : null,
+    last_message_at: messages[messages.length - 1]?.created_at ?? ticket.created_at,
+    unread_for_client: false,
+    unread_for_officer: status === "open" || status === "awaiting_client",
+    created_at: ticket.created_at,
+    messages,
+  };
+}
+
+function supportStatusToThreadStatus(status: string): MessageThreadStatus {
+  if (status === "resolved") return "resolved";
+  if (status === "closed") return "closed";
+  if (status === "in_progress") return "awaiting_client";
+  return "open";
 }
 
 function isDocumentBody(value: unknown): value is DocumentRecord["body"] {

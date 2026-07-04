@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { TicketReplyForm } from "@/components/admin/ticket-reply-form";
 import { requireAdmin } from "@/lib/auth";
-import { adminTickets } from "@/lib/demo/queries";
+import { adminTickets } from "@/lib/portal/queries";
 import { formatDateTime } from "@/lib/utils";
 
 export const metadata = { title: "Support — Admin" };

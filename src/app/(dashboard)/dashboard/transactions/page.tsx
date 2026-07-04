@@ -2,7 +2,7 @@ import { ArrowDownLeft, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { requireApprovedClient } from "@/lib/auth";
-import { clientTransactions } from "@/lib/demo/queries";
+import { clientTransactions } from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime } from "@/lib/utils";
 import type { Transaction } from "@/lib/types/database";
 

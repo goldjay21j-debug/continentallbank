@@ -8,8 +8,8 @@ import {
   DOCUMENT_TYPE_LABELS,
   DOCUMENT_SCENARIOS,
   type DocumentType,
-} from "@/lib/demo/documents";
-import { clientDocuments } from "@/lib/demo/queries";
+} from "@/lib/portal/documents";
+import { clientDocuments } from "@/lib/portal/queries";
 
 export const metadata = { title: "Document Vault" };
 

@@ -13,7 +13,7 @@ import {
   BENEFICIARY_RAIL_LABEL,
   BENEFICIARY_STATUS_LABEL,
   type Beneficiary,
-} from "@/lib/demo/beneficiaries";
+} from "@/lib/portal/beneficiaries";
 import { formatDate } from "@/lib/utils";
 
 export function BeneficiaryCard({

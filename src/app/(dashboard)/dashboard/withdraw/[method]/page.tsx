@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { MotionCard } from "@/components/motion/motion-card";
 import { requireApprovedClient } from "@/lib/auth";
-import { clientEscrowOverview } from "@/lib/demo/queries";
+import { clientEscrowOverview } from "@/lib/portal/queries";
 import { formatCurrency } from "@/lib/utils";
 
 const methodConfig = {

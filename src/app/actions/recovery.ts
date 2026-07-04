@@ -2,14 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 import { requireApprovedClient } from "@/lib/auth";
-import { localAuthEnabled } from "@/lib/auth-mode";
-import { isDemoMode, supabaseConfigured } from "@/lib/demo";
-import { calculateReleaseFee, isRecoveryVerified } from "@/lib/demo/recovery";
+import { supabaseConfigured } from "@/lib/auth-mode";
+import { calculateReleaseFee, isRecoveryVerified } from "@/lib/portal/recovery";
 import { createServiceClient } from "@/lib/supabase/server";
 import { EscrowReleaseRequestSchema, RecoveryCaseSchema } from "@/lib/validation";
 import type { ActionResult } from "./withdrawals";
 
-const DEMO_MSG = "Demo mode — your changes are simulated, nothing is saved.";
+const LIVE_BACKEND_ERROR = "Live Supabase is not configured. Add Supabase environment variables before saving changes.";
 
 export async function createRecoveryCase(input: unknown): Promise<ActionResult> {
   const user = await requireApprovedClient();
@@ -18,9 +17,8 @@ export async function createRecoveryCase(input: unknown): Promise<ActionResult> 
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid recovery case" };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    revalidatePath("/dashboard");
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const data = parsed.data;
@@ -71,9 +69,8 @@ export async function createSecureEscrowAccount(): Promise<ActionResult> {
     return { ok: false, error: "Complete KYC verification before opening escrow access." };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    revalidatePath("/dashboard/escrow");
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const service = createServiceClient();
@@ -150,9 +147,8 @@ export async function submitEscrowReleaseRequest(input: unknown): Promise<Action
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid release request" };
   }
 
-  if ((await isDemoMode()) || localAuthEnabled() || !supabaseConfigured()) {
-    revalidatePath("/dashboard/withdraw/success");
-    return { ok: true, message: DEMO_MSG };
+  if (!supabaseConfigured()) {
+    return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
   const request = parsed.data;

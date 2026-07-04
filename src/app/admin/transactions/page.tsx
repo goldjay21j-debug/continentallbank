@@ -3,7 +3,7 @@ import { ArrowDownLeft, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { requireAdmin } from "@/lib/auth";
-import { adminAllTransactions } from "@/lib/demo/queries";
+import { adminAllTransactions } from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime, maskAccountNumber } from "@/lib/utils";
 
 export const metadata = { title: "Ledger — Admin" };

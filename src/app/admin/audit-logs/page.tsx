@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/dashboard/page-header";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { requireAdmin } from "@/lib/auth";
-import { adminAuditLogs } from "@/lib/demo/queries";
+import { adminAuditLogs } from "@/lib/portal/queries";
 import { formatDateTime } from "@/lib/utils";
 
 export const metadata = { title: "Audit logs" };

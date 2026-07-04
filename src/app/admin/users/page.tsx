@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { CreateUserDialog } from "@/components/admin/create-user-dialog";
 import { requireAdmin } from "@/lib/auth";
-import { adminClientRoster } from "@/lib/demo/queries";
+import { adminClientRoster } from "@/lib/portal/queries";
 import { formatDate, maskAccountNumber } from "@/lib/utils";
 import { KYC_STATUS, ROLE_LABELS, type KycStatus, type Role } from "@/lib/constants";
 import type { Profile } from "@/lib/types/database";
