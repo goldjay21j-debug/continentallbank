@@ -21,6 +21,7 @@ const PUBLIC_PATHS = [
   "/refund",
   "/terms",
   "/login",
+  "/admin/login",
   "/register",
   "/auth/callback",
 ];
@@ -45,7 +46,7 @@ export async function updateSession(request: NextRequest) {
   if (!supabaseConfigured() || !url || !key) {
     if (pathname.startsWith("/admin") || pathname.startsWith("/dashboard")) {
       const u = request.nextUrl.clone();
-      u.pathname = "/login";
+      u.pathname = pathname.startsWith("/admin") ? "/admin/login" : "/login";
       u.searchParams.set("redirect", pathname);
       return NextResponse.redirect(u);
     }
@@ -83,7 +84,7 @@ export async function updateSession(request: NextRequest) {
 
   if (!user && !isPublic) {
     const u = request.nextUrl.clone();
-    u.pathname = "/login";
+    u.pathname = pathname.startsWith("/admin") ? "/admin/login" : "/login";
     u.searchParams.set("redirect", pathname);
     return NextResponse.redirect(u);
   }
@@ -97,13 +98,16 @@ export async function updateSession(request: NextRequest) {
 
     if (!profile) {
       const u = request.nextUrl.clone();
-      u.pathname = "/login";
+      u.pathname = pathname.startsWith("/admin") ? "/admin/login" : "/login";
       return NextResponse.redirect(u);
     }
     const role = (profile as { role: string }).role;
     const status = (profile as { account_status: string }).account_status;
 
     if (pathname.startsWith("/admin")) {
+      if (pathname === "/admin/login") {
+        return redirectTo(request, isAdminRole(role) ? "/admin" : status === "approved" ? "/dashboard" : "/pending");
+      }
       if (!isAdminRole(role)) {
         return redirectTo(request, status === "approved" ? "/dashboard" : "/pending");
       }
@@ -118,7 +122,7 @@ export async function updateSession(request: NextRequest) {
     }
   }
 
-  if (user && (pathname === "/login" || pathname === "/register")) {
+  if (user && (pathname === "/login" || pathname === "/register" || pathname === "/admin/login")) {
     const { data: profile } = await supabase
       .from("profiles")
       .select("role, account_status")

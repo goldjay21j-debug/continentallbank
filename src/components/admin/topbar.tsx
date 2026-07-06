@@ -112,6 +112,7 @@ export function AdminTopbar({
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <form action={signOutAction}>
+                <input type="hidden" name="redirectTo" value="/admin/login" />
                 <button
                   type="submit"
                   className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-foreground hover:bg-muted"

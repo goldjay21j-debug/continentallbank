@@ -22,6 +22,12 @@ const SignInSchema = z.object({
   password: z.string().min(1),
 });
 
+const ADMIN_ROLES = ["super_admin", "finance_admin", "support_admin"] as const;
+
+function isAdminRole(role: string | null | undefined) {
+  return Boolean(role && ADMIN_ROLES.includes(role as (typeof ADMIN_ROLES)[number]));
+}
+
 export type SignUpResult =
   | { ok: true; redirectTo?: string }
   | { ok: false; error: string; fieldErrors?: Partial<Record<keyof z.infer<typeof SignUpSchema>, string>> };
@@ -109,8 +115,7 @@ export async function signInAction(formData: FormData): Promise<SignInResult> {
     .eq("id", data.user.id)
     .maybeSingle();
 
-  const isAdmin =
-    profile && ["super_admin", "finance_admin", "support_admin"].includes(profile.role);
+  const isAdmin = isAdminRole(profile?.role);
   const redirectTo = isAdmin
     ? "/admin"
     : profile?.account_status === "approved"
@@ -120,7 +125,51 @@ export async function signInAction(formData: FormData): Promise<SignInResult> {
   return { ok: true, redirectTo };
 }
 
-export async function signOutAction() {
+export async function signInAdminAction(formData: FormData): Promise<SignInResult> {
+  const parsed = SignInSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+  if (!parsed.success) return { ok: false, error: "Enter your officer email and password." };
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: parsed.data.email,
+    password: parsed.data.password,
+  });
+  if (error || !data.user) {
+    return { ok: false, error: "We could not sign you in. Verify your credentials." };
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role, account_status")
+    .eq("id", data.user.id)
+    .maybeSingle();
+
+  if (!isAdminRole(profile?.role)) {
+    await supabase.auth.signOut();
+    return { ok: false, error: "Officer access is required for the administration portal." };
+  }
+
+  try {
+    const h = await headers();
+    await supabase.from("login_history").insert({
+      user_id: data.user.id,
+      ip_address:
+        h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? h.get("x-real-ip") ?? null,
+      device: null,
+      browser: h.get("user-agent") ?? null,
+      location: h.get("x-vercel-ip-city") ?? h.get("cf-ipcity") ?? null,
+    });
+  } catch {
+    // non-fatal
+  }
+
+  return { ok: true, redirectTo: "/admin" };
+}
+
+export async function signOutAction(formData?: FormData) {
   if (supabasePublicConfigured()) {
     try {
       const supabase = await createClient();
@@ -129,5 +178,11 @@ export async function signOutAction() {
       // ignore
     }
   }
-  redirect("/login");
+
+  const requestedRedirect = formData?.get("redirectTo");
+  const redirectTo =
+    typeof requestedRedirect === "string" && ["/login", "/admin/login"].includes(requestedRedirect)
+      ? requestedRedirect
+      : "/login";
+  redirect(redirectTo);
 }

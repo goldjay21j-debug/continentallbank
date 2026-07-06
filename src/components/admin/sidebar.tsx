@@ -107,6 +107,7 @@ export function AdminSidebar({
               {email}
             </div>
             <form action={signOutAction} className="mt-3">
+              <input type="hidden" name="redirectTo" value="/admin/login" />
               <button
                 type="submit"
                 className="focus-ring inline-flex h-9 w-full items-center justify-center gap-2 rounded-sm border border-white/[0.08] bg-white/[0.045] text-[12px] font-medium text-ivory-100/82 transition-colors hover:bg-white/[0.08]"
