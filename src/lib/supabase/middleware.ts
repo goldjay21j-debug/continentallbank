@@ -1,6 +1,6 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { supabaseConfigured } from "@/lib/auth-mode";
+import { supabasePublicConfigured } from "@/lib/auth-mode";
 
 type CookiePair = { name: string; value: string; options?: CookieOptions };
 
@@ -41,9 +41,17 @@ export async function updateSession(request: NextRequest) {
   const response = NextResponse.next({ request });
   const { pathname } = request.nextUrl;
 
+  const isPublic =
+    PUBLIC_PATHS.includes(pathname) ||
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/favicon") ||
+    pathname.startsWith("/api/health");
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!supabaseConfigured() || !url || !key) {
+  if (!supabasePublicConfigured() || !url || !key) {
+    if (isPublic) return response;
+
     if (pathname.startsWith("/admin") || pathname.startsWith("/dashboard")) {
       const u = request.nextUrl.clone();
       u.pathname = pathname.startsWith("/admin") ? "/admin/login" : "/login";
@@ -75,12 +83,6 @@ export async function updateSession(request: NextRequest) {
   } catch {
     return responseRef;
   }
-
-  const isPublic =
-    PUBLIC_PATHS.includes(pathname) ||
-    pathname.startsWith("/_next") ||
-    pathname.startsWith("/favicon") ||
-    pathname.startsWith("/api/health");
 
   if (!user && !isPublic) {
     const u = request.nextUrl.clone();
