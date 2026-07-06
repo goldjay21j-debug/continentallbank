@@ -15,7 +15,7 @@ import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { NotificationBell } from "@/components/dashboard/notification-bell";
 import { signOutAction } from "@/app/actions/auth";
 import { cn, initials } from "@/lib/utils";
-import type { Locale } from "@/lib/i18n/dictionaries";
+import { getT, type Locale } from "@/lib/i18n/dictionaries";
 import type { Notification } from "@/lib/portal/notifications";
 
 type Props = {
@@ -40,6 +40,8 @@ export function TopPill({
   variant = "client",
   notifications = [],
 }: Props) {
+  const t = getT(locale);
+
   return (
     <div className="sticky top-0 z-30 px-3 pt-3 lg:px-10 lg:pt-6">
       <div className="mx-auto max-w-7xl flex items-center gap-2 sm:gap-3">
@@ -72,7 +74,7 @@ export function TopPill({
                 <div className="hidden text-left sm:block">
                   <div className="text-[12.5px] font-medium leading-tight">{fullName}</div>
                 <div className="mt-0.5 text-[10px] uppercase leading-tight tracking-[0.16em] text-muted-foreground tabular-figures">
-                    {variant === "admin" ? "Officer" : accountNumber ?? "—"}
+                    {variant === "admin" ? t("admin.officer_desk") : accountNumber ?? "—"}
                   </div>
                 </div>
               </button>
@@ -87,12 +89,12 @@ export function TopPill({
                 <>
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard/profile">
-                      <UserRound className="h-4 w-4" /> Profile
+                      <UserRound className="h-4 w-4" /> {t("dash.profile")}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard/security">
-                      <Settings className="h-4 w-4" /> Security
+                      <Settings className="h-4 w-4" /> {t("dash.security")}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -104,7 +106,7 @@ export function TopPill({
                   className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-foreground hover:bg-muted"
                 >
                   <LogOut className="h-4 w-4" />
-                  Sign out
+                  {t("common.logout")}
                 </button>
               </form>
             </DropdownMenuContent>

@@ -24,16 +24,18 @@ function parseAcceptLanguage(value: string | null): Locale | null {
 /**
  * Server-side locale resolution.
  *   1. explicit cookie (set by the language switcher / saved preference)
- *   2. Accept-Language header
- *   3. CF / Vercel country header → language mapping (fallback only)
+ *   2. saved profile preference for signed-in users
+ *   3. Accept-Language header
+ *   4. CF / Vercel country header → language mapping (fallback only)
  *   4. DEFAULT_LOCALE
- *
- * We deliberately avoid IP-only detection per spec.
  */
-export async function detectLocale(): Promise<Locale> {
+export async function detectLocale(options: { preferredLocale?: string | null } = {}): Promise<Locale> {
   const cookieStore = await cookies();
   const cookieLocale = cookieStore.get(COOKIE_NAME)?.value as Locale | undefined;
   if (cookieLocale && SUPPORTED_LOCALES.includes(cookieLocale)) return cookieLocale;
+
+  const preferredLocale = options.preferredLocale as Locale | undefined;
+  if (preferredLocale && SUPPORTED_LOCALES.includes(preferredLocale)) return preferredLocale;
 
   const h = await headers();
   const fromHeader = parseAcceptLanguage(h.get("accept-language"));

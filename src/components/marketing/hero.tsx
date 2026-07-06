@@ -46,8 +46,7 @@ export async function Hero() {
               as="h1"
               className="font-display text-display-2xl text-foreground text-balance"
             >
-              A private bank for a few <br className="hidden md:block" />
-              who require <span className="gold-underline">precision</span>.
+              {t("hero.title")}
             </StaggerItem>
 
             <StaggerItem
@@ -97,9 +96,9 @@ export async function Hero() {
         {/* ---- Stats strip (full-width, below everything) ---- */}
         <div className="mx-auto mt-14 lg:mt-20 max-w-3xl">
           <div className="glass-light grid grid-cols-3">
-            <Stat label="Established" value={String(SITE.estd)} />
-            <Stat label="Jurisdictions" value="38" hasDivider />
-            <Stat label="Currencies" value="USD · EUR · GBP" small hasDivider />
+            <Stat label={t("hero.stat_established")} value={String(SITE.estd)} />
+            <Stat label={t("hero.stat_jurisdictions")} value="38" hasDivider />
+            <Stat label={t("hero.stat_currencies")} value="USD · EUR · GBP" small hasDivider />
           </div>
         </div>
       </div>

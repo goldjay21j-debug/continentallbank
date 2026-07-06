@@ -22,36 +22,37 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { BrandMark } from "@/components/shared/brand-mark";
 import { signOutAction } from "@/app/actions/auth";
+import { getT, type Locale } from "@/lib/i18n/dictionaries";
 import { cn, formatAccountNumber, initials } from "@/lib/utils";
 
 type NavItem = {
   href: string;
-  label: string;
+  labelKey: string;
   icon: LucideIcon;
 };
 
 const accountItems: NavItem[] = [
-  { href: "/dashboard", label: "Recovery", icon: LayoutDashboard },
-  { href: "/dashboard/escrow", label: "Escrow", icon: LockKeyhole },
-  { href: "/dashboard/withdraw", label: "Release", icon: ArrowDownLeft },
-  { href: "/dashboard/wallets", label: "Accounts", icon: Wallet },
-  { href: "/dashboard/transactions", label: "Ledger", icon: ArrowLeftRight },
-  { href: "/dashboard/beneficiaries", label: "Beneficiaries", icon: Banknote },
+  { href: "/dashboard", labelKey: "dash.recovery", icon: LayoutDashboard },
+  { href: "/dashboard/escrow", labelKey: "dash.escrow", icon: LockKeyhole },
+  { href: "/dashboard/withdraw", labelKey: "dash.release", icon: ArrowDownLeft },
+  { href: "/dashboard/wallets", labelKey: "dash.accounts", icon: Wallet },
+  { href: "/dashboard/transactions", labelKey: "dash.ledger", icon: ArrowLeftRight },
+  { href: "/dashboard/beneficiaries", labelKey: "dash.beneficiaries", icon: Banknote },
 ];
 
 const serviceItems: NavItem[] = [
-  { href: "/dashboard/withdrawals", label: "Request history", icon: ClipboardCheck },
-  { href: "/dashboard/documents", label: "Documents", icon: FileText },
-  { href: "/dashboard/messages", label: "Messages", icon: MessageSquare },
-  { href: "/dashboard/refunds", label: "Refunds", icon: Undo2 },
-  { href: "/dashboard/support", label: "Support", icon: LifeBuoy },
+  { href: "/dashboard/withdrawals", labelKey: "dash.request_history", icon: ClipboardCheck },
+  { href: "/dashboard/documents", labelKey: "dash.documents", icon: FileText },
+  { href: "/dashboard/messages", labelKey: "dash.messages", icon: MessageSquare },
+  { href: "/dashboard/refunds", labelKey: "dash.refunds", icon: Undo2 },
+  { href: "/dashboard/support", labelKey: "dash.support", icon: LifeBuoy },
 ];
 
 const profileItems: NavItem[] = [
-  { href: "/dashboard/onboarding", label: "Onboarding", icon: ClipboardCheck },
-  { href: "/dashboard/notifications", label: "Notifications", icon: Bell },
-  { href: "/dashboard/profile", label: "Profile", icon: UserRound },
-  { href: "/dashboard/security", label: "Security", icon: ShieldCheck },
+  { href: "/dashboard/onboarding", labelKey: "dash.onboarding", icon: ClipboardCheck },
+  { href: "/dashboard/notifications", labelKey: "dash.notifications", icon: Bell },
+  { href: "/dashboard/profile", labelKey: "dash.profile", icon: UserRound },
+  { href: "/dashboard/security", labelKey: "dash.security", icon: ShieldCheck },
 ];
 
 const allItems = [...accountItems, ...serviceItems, ...profileItems];
@@ -60,12 +61,15 @@ export function DashboardSidebar({
   fullName,
   email,
   accountNumber,
+  locale,
 }: {
   fullName: string;
   email: string;
   accountNumber: string | null;
+  locale: Locale;
 }) {
   const pathname = usePathname();
+  const t = getT(locale);
 
   return (
     <>
@@ -76,7 +80,7 @@ export function DashboardSidebar({
           </Link>
           <div className="mt-5 rounded-md border border-champagne-300/24 bg-white/[0.07] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
             <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-champagne-300">
-              Private Client
+              {t("dash.private_client")}
             </div>
             <div className="mt-1 truncate text-[12px] tabular-figures text-ivory-100/78">
               {formatAccountNumber(accountNumber)}
@@ -85,19 +89,19 @@ export function DashboardSidebar({
         </div>
 
         <nav className="flex-1 overflow-y-auto px-3 py-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <NavGroup label="Recovery desk">
+          <NavGroup label={t("dash.group_recovery")}>
             {accountItems.map((item) => (
-              <DashboardNavItem key={item.href} item={item} pathname={pathname} />
+              <DashboardNavItem key={item.href} item={item} pathname={pathname} t={t} />
             ))}
           </NavGroup>
-          <NavGroup label="Private office" className="mt-6">
+          <NavGroup label={t("dash.group_private")} className="mt-6">
             {serviceItems.map((item) => (
-              <DashboardNavItem key={item.href} item={item} pathname={pathname} />
+              <DashboardNavItem key={item.href} item={item} pathname={pathname} t={t} />
             ))}
           </NavGroup>
-          <NavGroup label="Account" className="mt-6">
+          <NavGroup label={t("dash.group_account")} className="mt-6">
             {profileItems.map((item) => (
-              <DashboardNavItem key={item.href} item={item} pathname={pathname} />
+              <DashboardNavItem key={item.href} item={item} pathname={pathname} t={t} />
             ))}
           </NavGroup>
         </nav>
@@ -119,7 +123,7 @@ export function DashboardSidebar({
                 className="focus-ring inline-flex h-9 items-center justify-center gap-2 rounded-md border border-white/[0.10] bg-white/[0.06] text-[12px] font-medium text-ivory-100/86 transition-colors hover:bg-white/[0.10]"
               >
                 <MessageSquare className="h-3.5 w-3.5" />
-                Message
+                {t("dash.messages")}
               </Link>
               <form action={signOutAction}>
                 <button
@@ -127,7 +131,7 @@ export function DashboardSidebar({
                   className="focus-ring inline-flex h-9 w-full items-center justify-center gap-2 rounded-md border border-white/[0.10] bg-white/[0.06] text-[12px] font-medium text-ivory-100/86 transition-colors hover:bg-white/[0.10]"
                 >
                   <LogOut className="h-3.5 w-3.5" />
-                  Sign out
+                  {t("common.logout")}
                 </button>
               </form>
             </div>
@@ -157,7 +161,7 @@ export function DashboardSidebar({
                   )}
                 >
                   <Icon className="h-3.5 w-3.5" strokeWidth={1.6} />
-                  {item.label}
+                  {t(item.labelKey)}
                 </Link>
               );
             })}
@@ -187,7 +191,15 @@ function NavGroup({
   );
 }
 
-function DashboardNavItem({ item, pathname }: { item: NavItem; pathname: string }) {
+function DashboardNavItem({
+  item,
+  pathname,
+  t,
+}: {
+  item: NavItem;
+  pathname: string;
+  t: (key: string) => string;
+}) {
   const active = isActive(item.href, pathname);
   const Icon = item.icon;
 
@@ -212,7 +224,7 @@ function DashboardNavItem({ item, pathname }: { item: NavItem; pathname: string 
         )}
         strokeWidth={1.6}
       />
-      <span className="truncate">{item.label}</span>
+      <span className="truncate">{t(item.labelKey)}</span>
     </Link>
   );
 }

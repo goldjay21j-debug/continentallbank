@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const user = await requireApprovedClient();
-  const locale = await detectLocale();
+  const locale = await detectLocale({ preferredLocale: user.profile.preferred_language });
   const isFrozen = user.profile.account_status === "suspended";
   const notifications = await clientNotifications(user.id, 8);
 
@@ -54,6 +54,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           fullName={user.profile.full_name}
           email={user.email ?? ""}
           accountNumber={user.profile.account_number}
+          locale={locale}
         />
         <div className="flex min-w-0 flex-1 flex-col">
           <DashboardTopbar

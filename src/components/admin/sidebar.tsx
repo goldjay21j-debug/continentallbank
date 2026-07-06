@@ -21,35 +21,39 @@ import { BrandMark } from "@/components/shared/brand-mark";
 import { NavItem } from "@/components/motion/nav-item";
 import { signOutAction } from "@/app/actions/auth";
 import { ROLE_LABELS, type Role } from "@/lib/constants";
+import { getT, type Locale } from "@/lib/i18n/dictionaries";
 import { cn, initials } from "@/lib/utils";
 
 const primaryItems = [
-  { href: "/admin", label: "Operations", icon: LayoutDashboard },
-  { href: "/admin/users", label: "Clients", icon: Users },
-  { href: "/admin/compliance", label: "Compliance", icon: ShieldAlert },
-  { href: "/admin/withdrawals", label: "Withdrawals", icon: ArrowDownLeft },
-  { href: "/admin/beneficiaries", label: "Beneficiaries", icon: Banknote },
-  { href: "/admin/refunds", label: "Refunds", icon: Undo2 },
-  { href: "/admin/transactions", label: "Ledger", icon: ArrowLeftRight },
+  { href: "/admin", labelKey: "admin.operations", icon: LayoutDashboard },
+  { href: "/admin/users", labelKey: "admin.clients", icon: Users },
+  { href: "/admin/compliance", labelKey: "admin.compliance", icon: ShieldAlert },
+  { href: "/admin/withdrawals", labelKey: "admin.withdrawals", icon: ArrowDownLeft },
+  { href: "/admin/beneficiaries", labelKey: "admin.beneficiaries", icon: Banknote },
+  { href: "/admin/refunds", labelKey: "admin.refunds", icon: Undo2 },
+  { href: "/admin/transactions", labelKey: "admin.ledger", icon: ArrowLeftRight },
 ];
 
 const secondaryItems = [
-  { href: "/admin/messages", label: "Messages", icon: MessageSquare },
-  { href: "/admin/support", label: "Support", icon: LifeBuoy },
-  { href: "/admin/audit-logs", label: "Audit logs", icon: ScrollText },
-  { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
+  { href: "/admin/messages", labelKey: "admin.messages", icon: MessageSquare },
+  { href: "/admin/support", labelKey: "admin.support", icon: LifeBuoy },
+  { href: "/admin/audit-logs", labelKey: "admin.audit_logs", icon: ScrollText },
+  { href: "/admin/analytics", labelKey: "admin.analytics", icon: BarChart3 },
 ];
 
 export function AdminSidebar({
   fullName,
   email,
   role,
+  locale,
 }: {
   fullName: string;
   email: string;
   role: Role;
+  locale: Locale;
 }) {
   const pathname = usePathname();
+  const t = getT(locale);
 
   return (
     <>
@@ -64,24 +68,24 @@ export function AdminSidebar({
             </div>
             <div className="min-w-0">
               <div className="text-[10px] font-medium uppercase tracking-[0.18em] text-champagne-300">
-                Admin Console
+                {t("admin.console")}
               </div>
               <div className="mt-1 truncate text-[12px] text-ivory-100/68">
-                Private banking ops
+                {t("admin.ops")}
               </div>
             </div>
           </div>
         </div>
 
         <nav className="flex-1 overflow-y-auto px-3 py-5">
-          <NavGroup label="Control">
+          <NavGroup label={t("admin.control")}>
             {primaryItems.map((item) => (
-              <AdminNavItem key={item.href} item={item} pathname={pathname} />
+              <AdminNavItem key={item.href} item={item} pathname={pathname} t={t} />
             ))}
           </NavGroup>
-          <NavGroup label="Assurance" className="mt-6">
+          <NavGroup label={t("admin.assurance")} className="mt-6">
             {secondaryItems.map((item) => (
-              <AdminNavItem key={item.href} item={item} pathname={pathname} />
+              <AdminNavItem key={item.href} item={item} pathname={pathname} t={t} />
             ))}
           </NavGroup>
         </nav>
@@ -108,7 +112,7 @@ export function AdminSidebar({
                 className="focus-ring inline-flex h-9 w-full items-center justify-center gap-2 rounded-sm border border-white/[0.08] bg-white/[0.045] text-[12px] font-medium text-ivory-100/82 transition-colors hover:bg-white/[0.08]"
               >
                 <LogOut className="h-3.5 w-3.5" />
-                Sign out
+                {t("common.logout")}
               </button>
             </form>
           </div>
@@ -137,7 +141,7 @@ export function AdminSidebar({
                   )}
                 >
                   <Icon className="h-3.5 w-3.5" strokeWidth={1.6} />
-                  {item.label}
+                  {t(item.labelKey)}
                 </Link>
               );
             })}
@@ -170,15 +174,17 @@ function NavGroup({
 function AdminNavItem({
   item,
   pathname,
+  t,
 }: {
   item: (typeof primaryItems)[number] | (typeof secondaryItems)[number];
   pathname: string;
+  t: (key: string) => string;
 }) {
   return (
     <NavItem
       groupId="admin-nav"
       href={item.href}
-      label={item.label}
+      label={t(item.labelKey)}
       icon={item.icon}
       active={isActive(item.href, pathname)}
     />

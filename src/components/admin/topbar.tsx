@@ -13,27 +13,33 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { signOutAction } from "@/app/actions/auth";
 import { ROLE_LABELS, SITE, type Role } from "@/lib/constants";
+import { LanguageSwitcher } from "@/components/shared/language-switcher";
+import { getT, type Locale } from "@/lib/i18n/dictionaries";
 import { initials } from "@/lib/utils";
 
 export function AdminTopbar({
   fullName,
   email,
   role,
+  locale,
 }: {
   fullName: string;
   email: string;
   role: Role;
+  locale: Locale;
 }) {
+  const t = getT(locale);
+
   return (
     <header className="sticky top-[65px] z-30 border-b border-white/[0.08] bg-navy-950/72 backdrop-blur-xl lg:top-0">
       <div className="flex min-h-16 items-center justify-between gap-4 px-4 py-3 lg:px-8">
         <div className="hidden min-w-[220px] md:block">
           <div className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.2em] text-champagne-300">
             <ShieldCheck className="h-3.5 w-3.5" strokeWidth={1.7} />
-            Officer desk
+            {t("admin.officer_desk")}
           </div>
           <div className="mt-1 text-[12px] text-ivory-100/52">
-            {SITE.publicDomain.replace(/^https?:\/\//, "")} command
+            {SITE.publicDomain.replace(/^https?:\/\//, "")} {t("admin.command")}
           </div>
         </div>
 
@@ -41,7 +47,7 @@ export function AdminTopbar({
           <Search className="mr-2 h-4 w-4 text-ivory-100/42" strokeWidth={1.6} />
           <input
             type="search"
-            placeholder="Search clients, accounts, KYC, documents"
+            placeholder={t("admin.search_placeholder")}
             className="h-full min-w-0 flex-1 bg-transparent text-[13px] outline-none placeholder:text-ivory-100/34"
           />
         </label>
@@ -55,7 +61,7 @@ export function AdminTopbar({
           >
             <Link href={SITE.publicDomain} target="_blank" rel="noreferrer">
               <Globe2 className="h-3.5 w-3.5" />
-              Live site
+              {t("admin.live_site")}
               <ExternalLink className="h-3.5 w-3.5" />
             </Link>
           </Button>
@@ -63,9 +69,13 @@ export function AdminTopbar({
           <Button variant="gold" size="sm" asChild className="hidden sm:inline-flex">
             <Link href="/admin/users">
               <Plus className="h-3.5 w-3.5" />
-              New client
+              {t("admin.new_client")}
             </Link>
           </Button>
+
+          <div className="hidden sm:block">
+            <LanguageSwitcher currentLocale={locale} />
+          </div>
 
           <Button
             variant="outline"
@@ -107,7 +117,7 @@ export function AdminTopbar({
                   className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-foreground hover:bg-muted"
                 >
                   <LogOut className="h-4 w-4" />
-                  Sign out
+                  {t("common.logout")}
                 </button>
               </form>
             </DropdownMenuContent>

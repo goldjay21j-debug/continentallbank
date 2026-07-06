@@ -1,6 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { Globe } from "lucide-react";
 import {
   DropdownMenu,
@@ -13,10 +14,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { setLocale } from "@/app/actions/locale";
 import { LANGUAGES } from "@/lib/constants";
-import type { Locale } from "@/lib/i18n/dictionaries";
+import { getT, type Locale } from "@/lib/i18n/dictionaries";
 
 export function LanguageSwitcher({ currentLocale }: { currentLocale: Locale }) {
+  const router = useRouter();
   const [pending, startTransition] = useTransition();
+  const t = getT(currentLocale);
 
   return (
     <DropdownMenu>
@@ -24,7 +27,7 @@ export function LanguageSwitcher({ currentLocale }: { currentLocale: Locale }) {
         <Button
           variant="ghost"
           size="sm"
-          aria-label="Change language"
+          aria-label={t("language.change")}
           className="gap-1.5 text-[12px] uppercase tracking-[0.14em] text-muted-foreground hover:text-foreground"
           disabled={pending}
         >
@@ -33,13 +36,19 @@ export function LanguageSwitcher({ currentLocale }: { currentLocale: Locale }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-44">
-        <DropdownMenuLabel>Language</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("language.label")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {LANGUAGES.map((l) => (
           <DropdownMenuItem
             key={l.code}
             className="justify-between"
-            onSelect={() => startTransition(() => setLocale(l.code as Locale).then(() => {}))}
+            onSelect={() =>
+              startTransition(() =>
+                setLocale(l.code as Locale).then((result) => {
+                  if (result.ok) router.refresh();
+                }),
+              )
+            }
           >
             <span>{l.name}</span>
             <span className="text-[10px] uppercase tracking-wider text-muted-foreground">

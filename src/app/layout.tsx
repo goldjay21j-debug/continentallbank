@@ -4,6 +4,8 @@ import { GeistMono } from "geist/font/mono";
 
 import { Providers } from "@/components/shared/providers";
 import { Toaster } from "@/components/ui/sonner";
+import { detectLocale } from "@/lib/i18n/detect";
+import { RTL_LOCALES } from "@/lib/i18n/dictionaries";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
@@ -48,9 +50,12 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await detectLocale();
+  const dir = RTL_LOCALES.includes(locale) ? "rtl" : "ltr";
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} dir={dir} suppressHydrationWarning>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",

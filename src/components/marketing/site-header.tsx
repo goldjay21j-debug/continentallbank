@@ -12,9 +12,9 @@ export async function SiteHeader() {
 
   const nav = [
     { href: "/services", label: t("nav.services") },
-    { href: "/leadership", label: "Leadership" },
+    { href: "/leadership", label: t("nav.leadership") },
     { href: "/offices", label: t("nav.global_reach") },
-    { href: "/insights", label: "Insights" },
+    { href: "/insights", label: t("nav.insights") },
   ];
 
   return (

@@ -2,31 +2,35 @@ import { ScrollText, Landmark, Compass, Crown } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/primitives";
 import { TrustBadgeRail } from "@/components/shared/trust-badges";
 import { MarketingBackdrop } from "./marketing-backdrop";
+import { detectLocale } from "@/lib/i18n/detect";
+import { getT } from "@/lib/i18n/dictionaries";
 
 const pillars = [
   {
     icon: Landmark,
-    title: "Institutional Reliability",
-    body: "Custody and oversight modelled on the protocols established by Continental's founding partners in 1972.",
+    title: "trust.pillar_reliability_title",
+    body: "trust.pillar_reliability_body",
   },
   {
     icon: Crown,
-    title: "Discreet Private Service",
-    body: "A single named relationship manager. No call queues, no scripts. Direct line. Always.",
+    title: "trust.pillar_service_title",
+    body: "trust.pillar_service_body",
   },
   {
     icon: ScrollText,
-    title: "Immutable Oversight",
-    body: "Every movement is recorded against an immutable ledger and reconciled by an independent audit committee.",
+    title: "trust.pillar_oversight_title",
+    body: "trust.pillar_oversight_body",
   },
   {
     icon: Compass,
-    title: "Executive Service",
-    body: "Cross-jurisdiction coordination for clients with residences, holdings, and obligations on three continents.",
+    title: "trust.pillar_executive_title",
+    body: "trust.pillar_executive_body",
   },
 ];
 
-export function TrustSection() {
+export async function TrustSection() {
+  const t = getT(await detectLocale());
+
   return (
     <section className="relative border-y border-border bg-background overflow-hidden">
       <MarketingBackdrop />
@@ -35,16 +39,13 @@ export function TrustSection() {
           <Reveal>
             <div className="eyebrow flex items-center gap-3 mb-6">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
-              <span>Trusted by principals worldwide</span>
+              <span>{t("trust.eyebrow")}</span>
             </div>
             <h2 className="font-display text-display-lg text-foreground text-balance">
-              Quiet stewardship, <br />
-              measured in decades.
+              {t("trust.title")}
             </h2>
             <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted-foreground text-pretty">
-              Continental Bank serves principals, family offices, and institutional clients with a
-              tradition of restraint, accuracy, and personal continuity. We do not publish names.
-              We do not advertise. We are introduced.
+              {t("trust.description_long")}
             </p>
 
             <TrustBadgeRail
@@ -54,9 +55,9 @@ export function TrustSection() {
             />
 
             <dl className="mt-12 space-y-6 border-l border-border pl-6">
-              <Number title="ø 11 years" body="Average client tenure" />
-              <Number title="38 jurisdictions" body="Serviced today" />
-              <Number title="< 0.02%" body="Annual operational variance" />
+              <Number title="ø 11 years" body={t("trust.metric_tenure")} />
+              <Number title="38 jurisdictions" body={t("trust.metric_jurisdictions")} />
+              <Number title="< 0.02%" body={t("trust.metric_variance")} />
             </dl>
           </Reveal>
 
@@ -65,10 +66,10 @@ export function TrustSection() {
               <StaggerItem as="li" key={p.title} className="glass-light p-7 lg:p-9">
                 <p.icon className="h-5 w-5 text-champagne-600" strokeWidth={1.5} />
                 <h3 className="mt-5 font-display text-lg font-semibold text-foreground">
-                  {p.title}
+                  {t(p.title)}
                 </h3>
                 <p className="mt-2.5 text-[14px] leading-relaxed text-muted-foreground text-pretty">
-                  {p.body}
+                  {t(p.body)}
                 </p>
               </StaggerItem>
             ))}
