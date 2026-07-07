@@ -1,5 +1,10 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import {
+  isAdminHost,
+  toAdminExternalPath,
+  toAdminInternalPath,
+} from "@/lib/admin-routing";
 import { supabasePublicConfigured } from "@/lib/auth-mode";
 
 type CookiePair = { name: string; value: string; options?: CookieOptions };
@@ -31,15 +36,40 @@ function isAdminRole(role: string | null | undefined) {
   return Boolean(role && ADMIN_ROLES.includes(role as (typeof ADMIN_ROLES)[number]));
 }
 
-function redirectTo(request: NextRequest, pathname: string) {
+function redirectTo(request: NextRequest, pathname: string, adminHost = false) {
+  if (adminHost && !pathname.startsWith("/admin")) {
+    const publicOrigin = (process.env.NEXT_PUBLIC_SITE_URL ?? request.nextUrl.origin).replace(
+      /\/$/,
+      "",
+    );
+    return NextResponse.redirect(new URL(pathname, publicOrigin));
+  }
+
+  const url = request.nextUrl.clone();
+  url.pathname = adminHost ? toAdminExternalPath(pathname) : pathname;
+  return NextResponse.redirect(url);
+}
+
+function rewriteToInternal(request: NextRequest, pathname: string, response: NextResponse) {
   const url = request.nextUrl.clone();
   url.pathname = pathname;
-  return NextResponse.redirect(url);
+  const rewritten = NextResponse.rewrite(url, { request });
+  response.cookies.getAll().forEach((cookie) => rewritten.cookies.set(cookie));
+  return rewritten;
 }
 
 export async function updateSession(request: NextRequest) {
   const response = NextResponse.next({ request });
-  const { pathname } = request.nextUrl;
+  const originalPathname = request.nextUrl.pathname;
+  const adminHostRequest = isAdminHost(request.headers.get("host"));
+
+  if (adminHostRequest && originalPathname.startsWith("/admin")) {
+    const url = request.nextUrl.clone();
+    url.pathname = toAdminExternalPath(originalPathname);
+    return NextResponse.redirect(url);
+  }
+
+  const pathname = adminHostRequest ? toAdminInternalPath(originalPathname) : originalPathname;
 
   const isPublic =
     PUBLIC_PATHS.includes(pathname) ||
@@ -54,8 +84,11 @@ export async function updateSession(request: NextRequest) {
 
     if (pathname.startsWith("/admin") || pathname.startsWith("/dashboard")) {
       const u = request.nextUrl.clone();
-      u.pathname = pathname.startsWith("/admin") ? "/admin/login" : "/login";
-      u.searchParams.set("redirect", pathname);
+      u.pathname = pathname.startsWith("/admin") && adminHostRequest ? "/login" : pathname.startsWith("/admin") ? "/admin/login" : "/login";
+      u.searchParams.set(
+        "redirect",
+        pathname.startsWith("/admin") && adminHostRequest ? toAdminExternalPath(pathname) : pathname,
+      );
       return NextResponse.redirect(u);
     }
     return response;
@@ -86,8 +119,11 @@ export async function updateSession(request: NextRequest) {
 
   if (!user && !isPublic) {
     const u = request.nextUrl.clone();
-    u.pathname = pathname.startsWith("/admin") ? "/admin/login" : "/login";
-    u.searchParams.set("redirect", pathname);
+    u.pathname = pathname.startsWith("/admin") && adminHostRequest ? "/login" : pathname.startsWith("/admin") ? "/admin/login" : "/login";
+    u.searchParams.set(
+      "redirect",
+      pathname.startsWith("/admin") && adminHostRequest ? toAdminExternalPath(pathname) : pathname,
+    );
     return NextResponse.redirect(u);
   }
 
@@ -100,7 +136,7 @@ export async function updateSession(request: NextRequest) {
 
     if (!profile) {
       const u = request.nextUrl.clone();
-      u.pathname = pathname.startsWith("/admin") ? "/admin/login" : "/login";
+      u.pathname = pathname.startsWith("/admin") && adminHostRequest ? "/login" : pathname.startsWith("/admin") ? "/admin/login" : "/login";
       return NextResponse.redirect(u);
     }
     const role = (profile as { role: string }).role;
@@ -108,18 +144,22 @@ export async function updateSession(request: NextRequest) {
 
     if (pathname.startsWith("/admin")) {
       if (pathname === "/admin/login") {
-        return redirectTo(request, isAdminRole(role) ? "/admin" : status === "approved" ? "/dashboard" : "/pending");
+        return redirectTo(
+          request,
+          isAdminRole(role) ? "/admin" : status === "approved" ? "/dashboard" : "/pending",
+          adminHostRequest,
+        );
       }
       if (!isAdminRole(role)) {
-        return redirectTo(request, status === "approved" ? "/dashboard" : "/pending");
+        return redirectTo(request, status === "approved" ? "/dashboard" : "/pending", adminHostRequest);
       }
     } else if (pathname.startsWith("/dashboard")) {
       if (isAdminRole(role)) {
-        return redirectTo(request, "/admin");
+        return redirectTo(request, "/admin", adminHostRequest);
       }
       // Suspended users stay — frozen overlay is rendered by the layout.
       if (status !== "approved" && status !== "suspended") {
-        return redirectTo(request, "/pending");
+        return redirectTo(request, "/pending", adminHostRequest);
       }
     }
   }
@@ -135,13 +175,19 @@ export async function updateSession(request: NextRequest) {
     const role = (profile as { role?: string } | null)?.role;
     const status = (profile as { account_status?: string } | null)?.account_status;
     if (isAdminRole(role)) {
-      u.pathname = "/admin";
+      u.pathname = adminHostRequest ? "/" : "/admin";
     } else if (status === "approved") {
+      if (adminHostRequest) return redirectTo(request, "/dashboard", true);
       u.pathname = "/dashboard";
     } else {
+      if (adminHostRequest) return redirectTo(request, "/pending", true);
       u.pathname = "/pending";
     }
     return NextResponse.redirect(u);
+  }
+
+  if (adminHostRequest && pathname !== originalPathname) {
+    return rewriteToInternal(request, pathname, responseRef);
   }
 
   return responseRef;

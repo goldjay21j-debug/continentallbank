@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { headers } from "next/headers";
 import { Suspense } from "react";
 import { Activity, Database, FileLock2, ShieldCheck } from "lucide-react";
 import { AdminLoginForm } from "@/components/auth/admin-login-form";
 import { BrandMark } from "@/components/shared/brand-mark";
 import { Skeleton } from "@/components/ui/skeleton";
+import { adminBasePathForHost, adminHref } from "@/lib/admin-routing";
 
 export const metadata: Metadata = {
   title: "Administration Portal",
@@ -15,7 +17,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AdminLoginPage() {
+export default async function AdminLoginPage() {
+  const h = await headers();
+  const adminBasePath = adminBasePathForHost(h.get("host"));
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#050B13] text-ivory-100">
       <div
@@ -29,7 +34,10 @@ export default function AdminLoginPage() {
 
       <div className="relative mx-auto grid min-h-screen w-full max-w-7xl gap-8 px-5 py-8 lg:grid-cols-[1fr_480px] lg:px-10">
         <section className="flex flex-col justify-between">
-          <Link href="/" className="focus-ring w-fit rounded-sm">
+          <Link
+            href={adminHref(adminBasePath, "/admin/login")}
+            className="focus-ring w-fit rounded-sm"
+          >
             <BrandMark variant="light" />
           </Link>
 
@@ -71,7 +79,7 @@ export default function AdminLoginPage() {
             </header>
 
             <Suspense fallback={<AdminLoginSkeleton />}>
-              <AdminLoginForm />
+              <AdminLoginForm basePath={adminBasePath} />
             </Suspense>
           </div>
         </section>

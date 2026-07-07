@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { requireAdmin } from "@/lib/auth";
 import { AmbientBackdrop } from "@/components/shared/ambient-backdrop";
 import { PageTransition } from "@/components/motion/page-transition";
 import { AdminSidebar } from "@/components/admin/sidebar";
 import { AdminTopbar } from "@/components/admin/topbar";
+import { adminBasePathForHost } from "@/lib/admin-routing";
 import { detectLocale } from "@/lib/i18n/detect";
 
 export const dynamic = "force-dynamic";
@@ -21,6 +23,8 @@ export const metadata: Metadata = {
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const user = await requireAdmin();
+  const h = await headers();
+  const adminBasePath = adminBasePathForHost(h.get("host"));
   const locale = await detectLocale({ preferredLocale: user.profile.preferred_language });
 
   return (
@@ -32,6 +36,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           email={user.email ?? ""}
           role={user.profile.role}
           locale={locale}
+          basePath={adminBasePath}
         />
         <div className="flex min-w-0 flex-1 flex-col">
           <AdminTopbar
@@ -39,6 +44,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             email={user.email ?? ""}
             role={user.profile.role}
             locale={locale}
+            basePath={adminBasePath}
           />
           <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8 xl:px-10">
             <div className="mx-auto w-full max-w-[1480px]">

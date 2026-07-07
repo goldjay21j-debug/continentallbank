@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signInAdminAction } from "@/app/actions/auth";
+import { adminHref, toAdminInternalPath } from "@/lib/admin-routing";
 
-export function AdminLoginForm() {
+export function AdminLoginForm({ basePath = "/admin" }: { basePath?: string }) {
   const router = useRouter();
   const search = useSearchParams();
   const [pending, startTransition] = useTransition();
@@ -27,11 +28,10 @@ export function AdminLoginForm() {
         toast.error(res.error);
         return;
       }
-      const redirectTo = search.get("redirect")?.startsWith("/admin")
-        ? search.get("redirect")
-        : res.redirectTo;
+      const requestedRedirect = search.get("redirect");
+      const redirectTo = resolveAdminRedirect(basePath, requestedRedirect ?? res.redirectTo);
       toast.success("Officer session verified.");
-      router.replace(redirectTo ?? "/admin");
+      router.replace(redirectTo);
       router.refresh();
     });
   }
@@ -93,4 +93,16 @@ export function AdminLoginForm() {
       </Button>
     </form>
   );
+}
+
+function resolveAdminRedirect(basePath: string, target?: string | null) {
+  if (basePath) {
+    return target?.startsWith("/admin") ? target : "/admin";
+  }
+
+  if (!target?.startsWith("/")) {
+    return "/";
+  }
+
+  return adminHref("", toAdminInternalPath(target));
 }

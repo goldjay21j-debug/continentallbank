@@ -20,6 +20,7 @@ import {
 import { BrandMark } from "@/components/shared/brand-mark";
 import { NavItem } from "@/components/motion/nav-item";
 import { signOutAction } from "@/app/actions/auth";
+import { adminHref } from "@/lib/admin-routing";
 import { ROLE_LABELS, type Role } from "@/lib/constants";
 import { getT, type Locale } from "@/lib/i18n/dictionaries";
 import { cn, initials } from "@/lib/utils";
@@ -46,11 +47,13 @@ export function AdminSidebar({
   email,
   role,
   locale,
+  basePath = "/admin",
 }: {
   fullName: string;
   email: string;
   role: Role;
   locale: Locale;
+  basePath?: string;
 }) {
   const pathname = usePathname();
   const t = getT(locale);
@@ -59,7 +62,7 @@ export function AdminSidebar({
     <>
       <aside className="hidden h-screen w-[276px] shrink-0 flex-col border-r border-white/[0.08] bg-navy-950/78 shadow-[18px_0_44px_-36px_rgba(0,0,0,0.95)] backdrop-blur-xl lg:sticky lg:top-0 lg:flex">
         <div className="border-b border-white/[0.08] px-6 py-7">
-          <Link href="/" className="focus-ring inline-block rounded-sm">
+          <Link href={adminHref(basePath, "/admin")} className="focus-ring inline-block rounded-sm">
             <BrandMark variant="light" />
           </Link>
           <div className="mt-5 grid grid-cols-[auto_1fr] gap-3 rounded-md border border-champagne-500/20 bg-champagne-500/[0.07] p-3">
@@ -80,12 +83,24 @@ export function AdminSidebar({
         <nav className="flex-1 overflow-y-auto px-3 py-5">
           <NavGroup label={t("admin.control")}>
             {primaryItems.map((item) => (
-              <AdminNavItem key={item.href} item={item} pathname={pathname} t={t} />
+              <AdminNavItem
+                key={item.href}
+                item={item}
+                pathname={pathname}
+                t={t}
+                basePath={basePath}
+              />
             ))}
           </NavGroup>
           <NavGroup label={t("admin.assurance")} className="mt-6">
             {secondaryItems.map((item) => (
-              <AdminNavItem key={item.href} item={item} pathname={pathname} t={t} />
+              <AdminNavItem
+                key={item.href}
+                item={item}
+                pathname={pathname}
+                t={t}
+                basePath={basePath}
+              />
             ))}
           </NavGroup>
         </nav>
@@ -107,7 +122,7 @@ export function AdminSidebar({
               {email}
             </div>
             <form action={signOutAction} className="mt-3">
-              <input type="hidden" name="redirectTo" value="/admin/login" />
+              <input type="hidden" name="redirectTo" value={adminHref(basePath, "/admin/login")} />
               <button
                 type="submit"
                 className="focus-ring inline-flex h-9 w-full items-center justify-center gap-2 rounded-sm border border-white/[0.08] bg-white/[0.045] text-[12px] font-medium text-ivory-100/82 transition-colors hover:bg-white/[0.08]"
@@ -122,7 +137,7 @@ export function AdminSidebar({
 
       <nav className="sticky top-0 z-40 border-b border-white/[0.08] bg-navy-950/90 px-3 py-3 backdrop-blur-xl lg:hidden">
         <div className="flex items-center justify-between gap-3">
-          <Link href="/" className="focus-ring shrink-0 rounded-sm">
+          <Link href={adminHref(basePath, "/admin")} className="focus-ring shrink-0 rounded-sm">
             <BrandMark variant="light" withWordmark={false} />
           </Link>
           <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto">
@@ -132,7 +147,7 @@ export function AdminSidebar({
               return (
                 <Link
                   key={item.href}
-                  href={item.href}
+                  href={adminHref(basePath, item.href)}
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "focus-ring inline-flex h-10 shrink-0 items-center gap-2 rounded-sm border px-3 text-[12px] font-medium",
@@ -176,15 +191,17 @@ function AdminNavItem({
   item,
   pathname,
   t,
+  basePath,
 }: {
   item: (typeof primaryItems)[number] | (typeof secondaryItems)[number];
   pathname: string;
   t: (key: string) => string;
+  basePath: string;
 }) {
   return (
     <NavItem
       groupId="admin-nav"
-      href={item.href}
+      href={adminHref(basePath, item.href)}
       label={t(item.labelKey)}
       icon={item.icon}
       active={isActive(item.href, pathname)}
@@ -193,5 +210,9 @@ function AdminNavItem({
 }
 
 function isActive(href: string, pathname: string) {
-  return href === "/admin" ? pathname === "/admin" : pathname.startsWith(href);
+  const normalizedPathname =
+    pathname === "/" ? "/admin" : pathname.startsWith("/admin") ? pathname : `/admin${pathname}`;
+  return href === "/admin"
+    ? normalizedPathname === "/admin"
+    : normalizedPathname.startsWith(href);
 }

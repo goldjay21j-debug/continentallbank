@@ -12,6 +12,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { signOutAction } from "@/app/actions/auth";
+import { ADMIN_ORIGIN, adminHref } from "@/lib/admin-routing";
 import { ROLE_LABELS, SITE, type Role } from "@/lib/constants";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { getT, type Locale } from "@/lib/i18n/dictionaries";
@@ -22,11 +23,13 @@ export function AdminTopbar({
   email,
   role,
   locale,
+  basePath = "/admin",
 }: {
   fullName: string;
   email: string;
   role: Role;
   locale: Locale;
+  basePath?: string;
 }) {
   const t = getT(locale);
 
@@ -39,7 +42,7 @@ export function AdminTopbar({
             {t("admin.officer_desk")}
           </div>
           <div className="mt-1 text-[12px] text-ivory-100/52">
-            {SITE.publicDomain.replace(/^https?:\/\//, "")} {t("admin.command")}
+            {ADMIN_ORIGIN.replace(/^https?:\/\//, "")} {t("admin.command")}
           </div>
         </div>
 
@@ -67,7 +70,7 @@ export function AdminTopbar({
           </Button>
 
           <Button variant="gold" size="sm" asChild className="hidden sm:inline-flex">
-            <Link href="/admin/users">
+            <Link href={adminHref(basePath, "/admin/users")}>
               <Plus className="h-3.5 w-3.5" />
               {t("admin.new_client")}
             </Link>
@@ -84,7 +87,7 @@ export function AdminTopbar({
             aria-label="Messages"
             className="border-white/[0.08] bg-white/[0.045] text-ivory-100/82 hover:bg-white/[0.08]"
           >
-            <Link href="/admin/messages">
+            <Link href={adminHref(basePath, "/admin/messages")}>
               <BellRing className="h-4 w-4" />
             </Link>
           </Button>
@@ -112,7 +115,7 @@ export function AdminTopbar({
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <form action={signOutAction}>
-                <input type="hidden" name="redirectTo" value="/admin/login" />
+                <input type="hidden" name="redirectTo" value={adminHref(basePath, "/admin/login")} />
                 <button
                   type="submit"
                   className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-foreground hover:bg-muted"
