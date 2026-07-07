@@ -4,7 +4,7 @@ import { LegalPage } from "@/components/marketing/legal-page";
 export const metadata: Metadata = {
   title: "Help Center",
   description:
-    "Common questions about onboarding, withdrawals, beneficiaries, statements, and the secure message center.",
+    "Common questions about recovery case onboarding, evidence review, KYC, escrow, releases, and the secure message center.",
 };
 
 export default function HelpPage() {
@@ -12,22 +12,21 @@ export default function HelpPage() {
     <LegalPage
       eyebrow="Help"
       title="Help Center"
-      lead="Answers to the questions clients most often ask. For anything not covered here, the Private Client Office responds personally."
+      lead="Answers to the questions clients most often ask. For anything not covered here, the recovery desk responds through the secure portal."
       sections={[
         {
           title: "Onboarding",
           body: (
             <>
               <p>
-                <strong>How do I open an account?</strong> Continental relationships begin with a
-                sponsored introduction or a request through the Private Client Office. After your
-                application is submitted, a relationship manager will contact you to coordinate
-                identification and source-of-wealth documentation.
+                <strong>How do I start?</strong> Create a secure recovery profile, wait for
+                account approval, then file the scam or stolen-funds case from your dashboard. The
+                recovery desk will request identity documents and evidence as needed.
               </p>
               <p>
                 <strong>How long does approval take?</strong> Typically one business day for
-                qualifying applications. Complex relationships involving multiple jurisdictions
-                or beneficial owners may require additional review.
+                qualifying applications. Complex cases involving multiple payment providers,
+                jurisdictions, wallets, or counterparties may require additional review.
               </p>
             </>
           ),
@@ -96,7 +95,7 @@ export default function HelpPage() {
               </p>
               <p>
                 <strong>Can I request a custom report?</strong> Yes. Open a thread in the Secure
-                Message Center and your banker will prepare it within the business day.
+                Message Center and the recovery desk will prepare it within the business day.
               </p>
             </>
           ),
@@ -106,18 +105,18 @@ export default function HelpPage() {
           body: (
             <>
               <p>
-                The Secure Message Center is the fastest way to reach your private banker for any
-                non-urgent matter. For urgent operational issues — a suspected unauthorised
-                instruction or a freeze request — call the Private Client Office directly on the
-                number you have on file.
+                The Secure Message Center is the fastest way to reach the recovery desk for any
+                non-urgent matter. For urgent operational issues, suspected unauthorised
+                instructions, or freeze requests, contact case support directly through the
+                details in your portal.
               </p>
               <p>
                 General inquiries:{" "}
                 <a
-                  href="mailto:concierge@continental.example"
+                  href="mailto:support@continentallbank.com"
                   className="text-foreground underline underline-offset-4"
                 >
-                  concierge@continental.example
+                  support@continentallbank.com
                 </a>
                 .
               </p>

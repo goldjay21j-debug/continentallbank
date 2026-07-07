@@ -51,7 +51,7 @@ export default function FraudProtectionPage() {
               <ul className="list-disc pl-5 space-y-2">
                 <li>A message in the Secure Message Center inside the portal.</li>
                 <li>
-                  An email from a <code>@continental.example</code> address — informational only.
+                  An email from a <code>@continentallbank.com</code> address - informational only.
                   Genuine emails never carry attachments asking for credentials.
                 </li>
                 <li>A telephone call from a named officer at a number we have shared with you.</li>
@@ -88,13 +88,13 @@ export default function FraudProtectionPage() {
                 If you suspect you have responded to a fraudulent communication or that an
                 unauthorised person has reached your account, write to{" "}
                 <a
-                  href="mailto:incident@continental.example"
+                  href="mailto:incident@continentallbank.com"
                   className="text-foreground underline underline-offset-4"
                 >
-                  incident@continental.example
+                  incident@continentallbank.com
                 </a>{" "}
-                or call the Private Client Office. We will freeze open instructions, lock the
-                account, and brief you within the hour.
+                or contact the recovery desk through your portal. We will freeze open
+                instructions, lock the account, and brief you within the hour.
               </p>
             </>
           ),

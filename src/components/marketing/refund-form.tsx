@@ -60,11 +60,11 @@ export function PublicRefundForm() {
           Claim received
         </div>
         <h3 className="font-display text-2xl font-semibold text-foreground">
-          Thank you. A relationship officer will respond.
+          Thank you. A recovery officer will respond.
         </h3>
         <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground">
           Your claim has been logged at <span className="font-mono">{state.claimantEmail}</span>.
-          A member of our Private Client Office will contact you, by email and on a recorded
+          A member of our recovery desk will contact you, by email and on a recorded
           telephone line where appropriate, within one business day. Continental Bank does not
           discuss claim details over unsolicited messages.
         </p>

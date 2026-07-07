@@ -22,7 +22,13 @@ import { TrustBadgeRail } from "@/components/shared/trust-badges";
 import { MotionCard } from "@/components/motion/motion-card";
 import { MotionList, MotionRow } from "@/components/motion/motion-list";
 import { requireApprovedClient } from "@/lib/auth";
-import { ACCOUNT_STATUS, KYC_STATUS, type Currency } from "@/lib/constants";
+import {
+  ACCOUNT_STATUS,
+  KYC_STATUS,
+  RECOVERY_CASE_TYPE_LABELS,
+  type Currency,
+  type RecoveryCaseType,
+} from "@/lib/constants";
 import { calculateReleaseFee, isRecoveryVerified } from "@/lib/portal/recovery";
 import {
   clientEscrowOverview,
@@ -53,9 +59,9 @@ export default async function DashboardOverviewPage() {
   return (
     <div className="space-y-7">
       <PageHeader
-        eyebrow={`Recovery office - ${user.profile.full_name.split(" ")[0]}`}
-        title="Recovery command center."
-        description="A controlled path from complaint intake to evidence review, KYC approval, private escrow activation, and eligible release requests."
+        eyebrow={`Fraud recovery office - ${user.profile.full_name.split(" ")[0]}`}
+        title="Stolen-funds recovery center."
+        description="A controlled path for scam investigation, evidence review, KYC approval, private escrow activation, and eligible release requests."
         actions={
           <>
             <Button variant="outline" asChild>
@@ -124,7 +130,7 @@ export default async function DashboardOverviewPage() {
                 {overview.accessState.key === "case_required" && (
                   <Button asChild>
                     <Link href="#recovery-intake">
-                      Start recovery case
+                      File investigation
                       <ArrowRight className="h-4 w-4" />
                     </Link>
                   </Button>
@@ -159,7 +165,7 @@ export default async function DashboardOverviewPage() {
               <div className="mt-4 space-y-3">
                 <ReadinessRow
                   icon={FolderOpen}
-                  label="Recovery case"
+                  label="Investigation case"
                   value={primaryCase ? formatStatus(primaryCase.status) : "Not started"}
                   complete={Boolean(primaryCase)}
                 />
@@ -223,10 +229,10 @@ export default async function DashboardOverviewPage() {
               Recovery-first access model
             </h3>
             <div className="mt-6 space-y-4">
-              <ProcessStep label="1" title="Complaint recorded" body="A recovery case is created and assigned for officer review." />
-              <ProcessStep label="2" title="Evidence requested" body="The recovery desk asks for supporting records and provider references." />
-              <ProcessStep label="3" title="KYC approved" body="Identity, address, and source-of-funds records are checked before escrow access." />
-              <ProcessStep label="4" title="Escrow opened" body="Recovered funds are controlled through private escrow and release eligibility rules." />
+              <ProcessStep label="1" title="Case recorded" body="A scam or stolen-funds report is created and assigned for officer review." />
+              <ProcessStep label="2" title="Evidence requested" body="The recovery desk requests receipts, wallet records, communications, provider references, and timelines." />
+              <ProcessStep label="3" title="KYC approved" body="Identity, address, and ownership records are checked before private escrow access." />
+              <ProcessStep label="4" title="Escrow opened" body="Any recovered funds are controlled through private escrow and release eligibility rules." />
             </div>
           </MotionCard>
         </section>
@@ -244,7 +250,7 @@ export default async function DashboardOverviewPage() {
                 <Badge variant={primaryCase.status === "recovered" ? "success" : "warning"}>
                   {formatStatus(primaryCase.status)}
                 </Badge>
-                <Badge variant="gold">{formatStatus(primaryCase.complaint_type)}</Badge>
+                <Badge variant="gold">{recoveryCaseTypeLabel(primaryCase.complaint_type)}</Badge>
                 <span className="text-[12px] text-muted-foreground">
                   Opened {formatDate(primaryCase.created_at)}
                 </span>
@@ -347,7 +353,7 @@ export default async function DashboardOverviewPage() {
             <Control label="Funds movement" value="Admin/provider controlled" />
             <Control label="Release fee" value="20% calculated server-side" />
             <Control label="KYC gate" value={verified ? "Verified" : "Required"} />
-            <Control label="Audit model" value="Status changes recorded" />
+            <Control label="Investigation trail" value="Status changes recorded" />
           </div>
         </MotionCard>
       </section>
@@ -427,6 +433,10 @@ function EmptyState({ message }: { message: string }) {
       {message}
     </div>
   );
+}
+
+function recoveryCaseTypeLabel(value: string) {
+  return RECOVERY_CASE_TYPE_LABELS[value as RecoveryCaseType] ?? formatStatus(value);
 }
 
 function formatStatus(value: string) {

@@ -92,10 +92,10 @@ export default function CompliancePage() {
                 For correspondence concerning compliance — including any concern raised by a
                 supervisor, court, or counsel — please write to{" "}
                 <a
-                  href="mailto:compliance@continental.example"
+                  href="mailto:compliance@continentallbank.com"
                   className="text-foreground underline underline-offset-4"
                 >
-                  compliance@continental.example
+                  compliance@continentallbank.com
                 </a>
                 . We respond to all bona fide inquiries within five business days.
               </p>

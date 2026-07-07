@@ -1,6 +1,7 @@
 import { SiteHeader } from "@/components/marketing/site-header";
 import { Hero } from "@/components/marketing/hero";
 import { TrustSection } from "@/components/marketing/trust-section";
+import { RecoveryServicesSection } from "@/components/marketing/recovery-services-section";
 import { FeaturesSection } from "@/components/marketing/features-section";
 import { GlobalSection } from "@/components/marketing/global-section";
 import { CtaSection } from "@/components/marketing/cta-section";
@@ -18,6 +19,7 @@ export default function HomePage() {
             <ActivityTicker preset="public" label="Client activity" />
           </div>
         </section>
+        <RecoveryServicesSection />
         <TrustSection />
         <FeaturesSection />
         <GlobalSection />

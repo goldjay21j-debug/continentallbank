@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { CURRENCIES as CURRENCY_CONST, KYC_METHODS } from "@/lib/constants";
+import {
+  CURRENCIES as CURRENCY_CONST,
+  KYC_METHODS,
+  RECOVERY_CASE_TYPE_VALUES,
+} from "@/lib/constants";
 import { DOCUMENT_TYPE_LABELS } from "@/lib/portal/documents";
 import { SUPPORTED_LOCALES } from "@/lib/i18n/dictionaries";
 
@@ -31,8 +35,8 @@ export const WithdrawalRequestSchema = z.object({
 
 export const RecoveryCaseSchema = z.object({
   title: z.string().min(4, "Enter a short case title").max(160),
-  complaintType: z.string().min(3, "Select or enter a complaint type").max(80),
-  summary: z.string().min(30, "Describe the recovery matter in at least 30 characters").max(5000),
+  complaintType: z.enum(RECOVERY_CASE_TYPE_VALUES),
+  summary: z.string().min(30, "Describe the scam or stolen-funds matter in at least 30 characters").max(5000),
   evidenceSummary: z.string().max(3000).optional().or(z.literal("")),
   counterpartyName: z.string().max(160).optional().or(z.literal("")),
   counterpartyContact: z.string().max(180).optional().or(z.literal("")),

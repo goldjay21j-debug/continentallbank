@@ -1,31 +1,37 @@
-import { Globe2, ArrowDownLeft, KeyRound, Layers } from "lucide-react";
+import { ArrowDownLeft, FileCheck2, Layers, LockKeyhole, ShieldCheck } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/primitives";
 import { MarketingBackdrop } from "./marketing-backdrop";
 
 const features = [
   {
-    icon: Globe2,
-    eyebrow: "Multi-Currency",
-    title: "Three sovereign portfolios",
-    body: "Hold USD, EUR, and GBP positions independently — each with its own statement, ledger, and reconciliation log. Optional consolidated reporting for the principal's view.",
+    icon: FileCheck2,
+    eyebrow: "Case Intake",
+    title: "A real file for every recovery matter",
+    body: "Clients can file romance scam, crypto theft, investment fraud, wire fraud, impersonation, phishing, marketplace, or inheritance recovery cases with structured evidence details.",
   },
   {
-    icon: ArrowDownLeft,
-    eyebrow: "Secure Withdrawals",
-    title: "Reviewed by a banker, not a script",
-    body: "Withdrawal instructions are received, validated, and authorised by your private banker before settlement — across SEPA, IBAN, Wise, Revolut, UK Faster Payments, PayPal, and domestic rails.",
+    icon: ShieldCheck,
+    eyebrow: "Investigation Review",
+    title: "Evidence checked before escalation",
+    body: "Officers review timelines, receipts, wallet records, counterparty details, and KYC before a recovery case can progress to private escrow access.",
   },
   {
-    icon: KeyRound,
-    eyebrow: "Approved Access",
-    title: "Vetted, never anonymous",
-    body: "Every relationship begins with a sponsored introduction and a formal review. Access is granted by a partner — never automated, never silent.",
+    icon: LockKeyhole,
+    eyebrow: "Escrow Gate",
+    title: "No open release without control",
+    body: "Private escrow remains locked until identity, case status, and officer approval gates are complete. Release eligibility is never automatic.",
   },
   {
     icon: Layers,
-    eyebrow: "Audited Ledger",
-    title: "Every figure has a witness",
-    body: "Each balance change writes an immutable ledger entry — with the responsible officer, the prior state, the new state, and the note that justified it. Reconcilable on demand.",
+    eyebrow: "Audit Trail",
+    title: "Every status change is traceable",
+    body: "Case updates, recovered-fund entries, withdrawal requests, refunds, documents, and officer notes remain visible inside a controlled client and admin workflow.",
+  },
+  {
+    icon: ArrowDownLeft,
+    eyebrow: "Release Desk",
+    title: "Recovered funds move by review",
+    body: "When funds become eligible, the release request is routed through provider review, fee verification, destination checks, and documented completion.",
   },
 ];
 
@@ -37,10 +43,10 @@ export function FeaturesSection() {
         <Reveal className="mb-16 max-w-2xl">
           <div className="eyebrow flex items-center gap-3 mb-6">
             <span className="inline-block h-px w-8 bg-champagne-500/70" />
-            <span>The Portfolio</span>
+            <span>Recovery Operations</span>
           </div>
           <h2 className="font-display text-display-lg text-foreground text-balance">
-            Tools your bankers use, made available to you.
+            Investigation tools for serious stolen-funds cases.
           </h2>
         </Reveal>
 

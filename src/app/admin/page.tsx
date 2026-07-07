@@ -28,7 +28,11 @@ import { ActivityTicker } from "@/components/shared/activity-ticker";
 import { MotionCard } from "@/components/motion/motion-card";
 import { MotionList, MotionRow } from "@/components/motion/motion-list";
 import { requireAdmin } from "@/lib/auth";
-import { SITE } from "@/lib/constants";
+import {
+  RECOVERY_CASE_TYPE_LABELS,
+  SITE,
+  type RecoveryCaseType,
+} from "@/lib/constants";
 import {
   DOCUMENT_TYPE_LABELS,
   type DocumentRecord,
@@ -221,9 +225,9 @@ export default async function AdminOverviewPage() {
     },
     {
       icon: FolderOpen,
-      label: "Recovery cases",
+      label: "Fraud recovery cases",
       value: String(recoveryMetrics.openCases),
-      detail: "Complaint, evidence, and escrow readiness",
+      detail: "Scam reports, evidence, and escrow readiness",
       href: "/admin#recovery-command",
       active: recoveryMetrics.openCases > 0,
     },
@@ -255,8 +259,8 @@ export default async function AdminOverviewPage() {
   const actionTiles = [
     {
       icon: FolderOpen,
-      label: "Manage recovery",
-      detail: "Review case intake, escrow contracts, recovered funds, and release eligibility.",
+      label: "Manage investigations",
+      detail: "Review scam intake, escrow contracts, recovered funds, and release eligibility.",
       href: "/admin#recovery-command",
       metric: recoveryMetrics.openCases,
     },
@@ -454,13 +458,13 @@ export default async function AdminOverviewPage() {
           className="overflow-hidden rounded-md border border-white/[0.09] bg-white/[0.045] shadow-[0_24px_70px_-46px_rgba(0,0,0,0.95)] backdrop-blur-xl"
         >
           <SectionHeader
-            eyebrow="Recovery and escrow"
-            title="Case intake inside the main dashboard"
+            eyebrow="Fraud recovery and escrow"
+            title="Investigation intake queue"
             href="/admin#recovery-command"
             label="Current"
           />
           {(recoveryCases as RecoveryCaseRow[]).length === 0 ? (
-            <EmptyState message="No recovery cases are currently open." />
+          <EmptyState message="No fraud recovery cases are currently open." />
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full min-w-[780px] text-left">
@@ -489,7 +493,7 @@ export default async function AdminOverviewPage() {
                           {item.title}
                         </div>
                         <div className="mt-1 text-[12px] capitalize text-ivory-100/46">
-                          {formatMethod(item.complaint_type)}
+                          {recoveryCaseTypeLabel(item.complaint_type)}
                         </div>
                       </td>
                       <td className="px-5 py-4 text-right text-[13.5px] font-semibold tabular-figures text-ivory-100">
@@ -1024,4 +1028,8 @@ function EmptyState({ message }: { message: string }) {
 
 function formatMethod(value: string) {
   return value.replace(/_/g, " ");
+}
+
+function recoveryCaseTypeLabel(value: string) {
+  return RECOVERY_CASE_TYPE_LABELS[value as RecoveryCaseType] ?? formatMethod(value);
 }

@@ -104,7 +104,7 @@ export default async function PendingPage() {
           </Button>
         </form>
         <Button variant="outline" asChild>
-          <Link href="mailto:private-clients@continental.example">Contact the private office</Link>
+          <Link href="mailto:recovery@continentallbank.com">Contact the recovery desk</Link>
         </Button>
       </div>
     </div>

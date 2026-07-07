@@ -60,8 +60,8 @@ export default async function EscrowDashboardPage() {
                 <div className="mt-7 grid gap-3 sm:grid-cols-3">
                   <GateStep
                     icon={FolderOpen}
-                    label="Recovery case"
-                    description="Complaint and evidence logged"
+                    label="Investigation case"
+                    description="Scam report and evidence logged"
                     complete={Boolean(primaryCase)}
                   />
                   <GateStep
@@ -110,7 +110,7 @@ export default async function EscrowDashboardPage() {
                     {overview.accessState.key === "case_required" && (
                       <Button asChild className="w-full">
                         <Link href="#recovery-intake">
-                          Start recovery case
+                          File investigation
                           <ArrowRight className="h-4 w-4" />
                         </Link>
                       </Button>
@@ -151,7 +151,7 @@ export default async function EscrowDashboardPage() {
               Required before escrow opens.
             </h2>
             <div className="mt-6 space-y-3">
-              <GateRow icon={FolderOpen} label="Recovery case" complete={Boolean(primaryCase)} />
+              <GateRow icon={FolderOpen} label="Investigation case" complete={Boolean(primaryCase)} />
               <GateRow icon={ShieldCheck} label="KYC verification" complete={verified} />
               <GateRow icon={LockKeyhole} label="Private escrow account" complete={Boolean(contract)} />
             </div>

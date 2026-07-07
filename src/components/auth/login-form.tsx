@@ -45,7 +45,7 @@ export function LoginForm() {
           type="email"
           autoComplete="email"
           required
-          placeholder="name@continental.example"
+          placeholder="you@example.com"
         />
       </div>
 

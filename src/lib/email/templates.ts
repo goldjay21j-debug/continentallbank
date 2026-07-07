@@ -48,7 +48,7 @@ function shell({
               <table role="presentation" width="100%"><tr>
                 <td style="font-family:Georgia,serif;color:${palette.champagne};font-size:22px;letter-spacing:2px;">CB</td>
                 <td align="right" style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:${palette.muted};">
-                  Private Client Office · Geneva
+                  Fraud Recovery Desk · Secure Portal
                 </td>
               </tr></table>
             </td>
@@ -82,7 +82,7 @@ function shell({
               Continental Bank · Place de la Concorde 12 · CH-1204 Geneva
               <br /><br />
               This message is confidential. If received in error, please delete and inform
-              <a href="mailto:concierge@continental.example" style="color:${palette.champagne};text-decoration:none;">concierge@continental.example</a>.
+              <a href="mailto:support@continentallbank.com" style="color:${palette.champagne};text-decoration:none;">support@continentallbank.com</a>.
             </td>
           </tr>
         </table>
@@ -95,23 +95,23 @@ function shell({
 export const emails = {
   registrationReceived: (fullName: string) =>
     shell({
-      preheader: "We have received your application.",
-      title: "Application received.",
+      preheader: "We have received your recovery profile.",
+      title: "Recovery profile received.",
       body: `<p>Dear ${escapeHtml(fullName)},</p>
-        <p>Continental Bank acknowledges receipt of your application for a private client account. A relationship manager has been assigned to review your file.</p>
-        <p>You will be notified when your account is activated. We thank you for your patience and discretion in the interim.</p>
-        <p>— The Private Client Office</p>`,
+        <p>Continental Bank acknowledges receipt of your secure recovery profile. A recovery officer has been assigned to review your file.</p>
+        <p>You will be notified when your portal access is activated. You can then file the scam or stolen-funds case from your dashboard.</p>
+        <p>- The Recovery Desk</p>`,
     }),
 
   accountApproved: (fullName: string, accountNumber: string, portalUrl: string) =>
     shell({
-      preheader: "Your account has been activated.",
-      title: "Your account is now active.",
+      preheader: "Your recovery portal is active.",
+      title: "Your recovery portal is now active.",
       body: `<p>Dear ${escapeHtml(fullName)},</p>
-        <p>Your private client account has been activated. You may now access the portal to review your accounts, submit instructions, and reach your relationship manager.</p>
+        <p>Your recovery portal has been activated. You may now access the dashboard to file a case, submit KYC, review escrow readiness, and reach the recovery desk.</p>
         <p><strong>Account reference:</strong> <span style="font-family:monospace;letter-spacing:1px;">${escapeHtml(accountNumber)}</span></p>
-        <p>For any matter requiring discretion, please correspond through the secure portal or contact the Private Client Office directly.</p>
-        <p>— The Private Client Office</p>`,
+        <p>For any matter requiring discretion, please correspond through the secure portal or contact the recovery desk directly.</p>
+        <p>- The Recovery Desk</p>`,
       cta: { href: portalUrl, label: "Enter portal" },
     }),
 
@@ -120,9 +120,9 @@ export const emails = {
       preheader: "Your withdrawal instruction has been received.",
       title: "Withdrawal instruction received.",
       body: `<p>Dear ${escapeHtml(fullName)},</p>
-        <p>We confirm receipt of your withdrawal instruction for <strong>${escapeHtml(amount)}</strong> via <strong>${escapeHtml(method)}</strong>. The funds are now held in your pending balance while a banker reviews the instruction.</p>
+        <p>We confirm receipt of your withdrawal instruction for <strong>${escapeHtml(amount)}</strong> via <strong>${escapeHtml(method)}</strong>. The funds are now held in your pending balance while an officer reviews the instruction.</p>
         <p>You will be notified upon settlement or if further information is required.</p>
-        <p>— The Private Client Office</p>`,
+        <p>- The Recovery Desk</p>`,
     }),
 
   withdrawalApproved: (fullName: string, amount: string, method: string, note?: string | null) =>
@@ -133,7 +133,7 @@ export const emails = {
         <p>Your withdrawal instruction for <strong>${escapeHtml(amount)}</strong> via <strong>${escapeHtml(method)}</strong> has been approved and is scheduled for settlement.</p>
         ${note ? `<p style="border-left:2px solid ${palette.champagne};padding-left:12px;color:rgba(246,241,232,0.7);font-style:italic;">"${escapeHtml(note)}"</p>` : ""}
         <p>You will receive a separate confirmation once settlement is complete.</p>
-        <p>— The Private Client Office</p>`,
+        <p>- The Recovery Desk</p>`,
     }),
 
   withdrawalRejected: (fullName: string, amount: string, reason: string) =>
@@ -143,19 +143,19 @@ export const emails = {
       body: `<p>Dear ${escapeHtml(fullName)},</p>
         <p>We regret that your withdrawal instruction for <strong>${escapeHtml(amount)}</strong> could not be processed at this time. The funds have been returned to your available balance.</p>
         <p style="border-left:2px solid ${palette.champagne};padding-left:12px;color:rgba(246,241,232,0.7);font-style:italic;">"${escapeHtml(reason)}"</p>
-        <p>Please contact your relationship manager for further detail.</p>
-        <p>— The Private Client Office</p>`,
+        <p>Please contact the recovery desk for further detail.</p>
+        <p>- The Recovery Desk</p>`,
     }),
 
   supportResponse: (fullName: string, subject: string, message: string) =>
     shell({
       preheader: `Re: ${subject}`,
-      title: "A reply from the Private Client Office.",
+      title: "A reply from the Recovery Desk.",
       body: `<p>Dear ${escapeHtml(fullName)},</p>
-        <p>A member of the Private Client Office has responded to your ticket — <em>${escapeHtml(subject)}</em>:</p>
+        <p>A member of the Recovery Desk has responded to your ticket - <em>${escapeHtml(subject)}</em>:</p>
         <p style="border-left:2px solid ${palette.champagne};padding-left:12px;color:rgba(246,241,232,0.85);">${escapeHtml(message).replace(/\n/g, "<br/>")}</p>
         <p>You may continue the conversation from your portal.</p>
-        <p>— The Private Client Office</p>`,
+        <p>- The Recovery Desk</p>`,
     }),
 };
 

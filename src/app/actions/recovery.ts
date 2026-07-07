@@ -59,7 +59,7 @@ export async function createRecoveryCase(input: unknown): Promise<ActionResult> 
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/escrow");
   revalidatePath("/admin");
-  return { ok: true, message: "Recovery case submitted for officer review." };
+  return { ok: true, message: "Investigation case filed for officer review." };
 }
 
 export async function createSecureEscrowAccount(): Promise<ActionResult> {

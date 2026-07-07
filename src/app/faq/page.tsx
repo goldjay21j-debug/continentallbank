@@ -94,10 +94,9 @@ export default function FAQPage() {
           title: "Who do I speak to?",
           body: (
             <p>
-              In the first instance, an introduction is made to the Private Client Office in
-              Geneva. The office can be reached by formal letter or through the address published
-              in the footer of this site. Following the introduction, the Client is given the
-              direct line of the responsible relationship manager.
+              Start by creating a secure recovery profile and filing the case from your portal.
+              The recovery desk can then request evidence, verify identity, and continue the
+              investigation through secure messages.
             </p>
           ),
         },

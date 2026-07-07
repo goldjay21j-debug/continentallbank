@@ -26,11 +26,11 @@ export function recoveryAccessState(
   if (recoveryCases.length === 0) {
     return {
       key: "case_required",
-      title: "Recovery Case Required",
+      title: "Investigation Case Required",
       description:
-        "Create a recovery complaint first. The escrow desk opens only after a case has been recorded and reviewed.",
+        "File a stolen-funds investigation first. The escrow desk opens only after a scam, fraud, or recovery case has been recorded and reviewed.",
       actionHref: "/dashboard",
-      actionLabel: "Start recovery case",
+      actionLabel: "File investigation",
     };
   }
 

@@ -230,20 +230,20 @@ export default function ServicesPage() {
           <Reveal className="relative max-w-2xl">
             <div className="eyebrow flex items-center gap-3 mb-5 text-champagne-300">
               <span className="inline-block h-px w-8 bg-champagne-400/70" />
-              <span>Private Client Office</span>
+              <span>Recovery Desk</span>
             </div>
             <h2 className="font-display text-display-lg text-balance">
-              An introduction precedes a mandate.
+              A case file starts the recovery mandate.
             </h2>
             <p className="mt-6 text-[15px] leading-relaxed text-ivory-100/80 max-w-xl text-pretty">
-              Continental relationships begin with a conversation, not a brochure. If you have
-              been introduced, please open your private file. Otherwise, request a meeting with
-              the Private Client Office.
+              Submit the stolen-funds matter, evidence summary, payment references, and suspect
+              details. The recovery desk reviews the file before requesting documents, activating
+              escrow, or moving any release workflow forward.
             </p>
             <div className="mt-9 flex flex-col sm:flex-row gap-3">
               <Button size="lg" variant="gold" asChild>
                 <Link href="/register">
-                  Open a private file
+                  File a recovery case
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
@@ -253,8 +253,8 @@ export default function ServicesPage() {
                 asChild
                 className="border-ivory-100/20 bg-transparent text-ivory-100 hover:bg-ivory-100/5"
               >
-                <Link href="mailto:private-clients@continental.example">
-                  Request introduction
+                <Link href="mailto:recovery@continentallbank.com">
+                  Contact recovery desk
                 </Link>
               </Button>
             </div>

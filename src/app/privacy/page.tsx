@@ -125,7 +125,7 @@ export default function PrivacyPage() {
           body: (
             <p>
               Continental Bank · Data Protection Office · Place de la Concorde 12 · CH-1204 Geneva
-              · Switzerland · <span className="tabular-figures">privacy@continental.example</span>
+              · Switzerland · <span className="tabular-figures">privacy@continentallbank.com</span>
             </p>
           ),
         },

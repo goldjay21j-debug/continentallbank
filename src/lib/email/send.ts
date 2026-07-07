@@ -9,7 +9,7 @@
  *   import { Resend } from "resend";
  *   const resend = new Resend(process.env.RESEND_API_KEY);
  *   await resend.emails.send({
- *     from: "Continental Bank <office@continental.example>",
+ *     from: "Continental Bank <office@continentallbank.com>",
  *     to, subject, html,
  *   });
  */

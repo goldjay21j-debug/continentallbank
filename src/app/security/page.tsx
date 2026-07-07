@@ -101,10 +101,10 @@ export default function SecurityPage() {
               <p>
                 For responsible disclosure of platform vulnerabilities, write to{" "}
                 <a
-                  href="mailto:security@continental.example"
+                  href="mailto:security@continentallbank.com"
                   className="text-foreground underline underline-offset-4"
                 >
-                  security@continental.example
+                  security@continentallbank.com
                 </a>
                 .
               </p>

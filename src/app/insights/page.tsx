@@ -240,10 +240,10 @@ export default function InsightsPage() {
                   Client Office.
                 </p>
                 <a
-                  href="mailto:research@continental.example"
+                  href="mailto:research@continentallbank.com"
                   className="mt-3 inline-flex items-center gap-1.5 text-[12.5px] text-foreground hover:text-champagne-700 dark:hover:text-champagne-400 transition-colors duration-200 underline underline-offset-4"
                 >
-                  research@continental.example
+                  research@continentallbank.com
                   <ArrowUpRight className="h-3.5 w-3.5" />
                 </a>
               </div>

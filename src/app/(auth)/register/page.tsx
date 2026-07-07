@@ -4,8 +4,8 @@ import { ActivityTicker } from "@/components/shared/activity-ticker";
 import { TrustBadgeRail } from "@/components/shared/trust-badges";
 
 export const metadata: Metadata = {
-  title: "Open a private account",
-  description: "Submit a private client application to Continental Bank.",
+  title: "File a recovery case",
+  description: "Create a secure Continental Bank recovery portal profile.",
   robots: {
     index: false,
     follow: false,
@@ -17,14 +17,14 @@ export default function RegisterPage() {
     <div className="space-y-8">
       <header>
         <div className="eyebrow text-champagne-700 dark:text-champagne-400 mb-4">
-          Private Client Office
+          Fraud Recovery Desk
         </div>
         <h1 className="font-display text-display-md text-foreground text-balance">
-          Open a private account.
+          Create your recovery case profile.
         </h1>
         <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
-          Submit your details. A relationship manager will review your application and contact you
-          discreetly.
+          Submit your secure profile first. Once approved, you can file the scam or stolen-funds
+          case, upload KYC, and continue through officer review.
         </p>
       </header>
 
@@ -37,7 +37,7 @@ export default function RegisterPage() {
         className="sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1"
       />
 
-      <ActivityTicker preset="auth" tone="dark" label="Private office" compact />
+      <ActivityTicker preset="auth" tone="dark" label="Recovery desk" compact />
     </div>
   );
 }

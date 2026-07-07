@@ -1,14 +1,14 @@
 export const SITE = {
   name: "Continental Bank",
   shortName: "Continental",
-  tagline: "Discreet private banking, established standards.",
+  tagline: "Stolen-funds recovery, investigation, and escrow oversight.",
   description:
-    "A premium institutional client portal for multi-currency wealth management, withdrawal oversight, and discreet executive service.",
+    "A secure recovery platform for scam investigations, stolen-funds case intake, evidence review, private escrow, and officer-controlled release workflows.",
   publicDomain: "https://continentallbank.com",
   domain: process.env.NEXT_PUBLIC_SITE_URL ?? "https://continentallbank.com",
   contact: {
-    privateClient: "private-clients@continental.example",
-    support: "concierge@continental.example",
+    privateClient: "recovery@continentallbank.com",
+    support: "support@continentallbank.com",
   },
   estd: 1972,
 } as const;
@@ -153,6 +153,70 @@ export const REFUND_REASONS = [
   { id: "service_not_rendered", label: "Service not rendered" },
   { id: "other", label: "Other (describe below)" },
 ] as const;
+
+export const RECOVERY_CASE_TYPES = [
+  {
+    id: "romance_scam",
+    label: "Romance scam",
+    description: "Relationship-based coercion, fake engagement, or emotional manipulation.",
+  },
+  {
+    id: "crypto_wallet_scam",
+    label: "Crypto / wallet scam",
+    description: "Wallet drain, fake exchange, mining pool, seed phrase, or blockchain transfer.",
+  },
+  {
+    id: "investment_scam",
+    label: "Investment scam",
+    description: "Fake broker, trading platform, IPO, fund, or managed-account recovery.",
+  },
+  {
+    id: "wire_bank_fraud",
+    label: "Wire or bank fraud",
+    description: "Bank wire, ACH, SEPA, IBAN, PayPal, Wise, or card-linked payment loss.",
+  },
+  {
+    id: "impersonation_scam",
+    label: "Impersonation scam",
+    description: "Fake government, bank, law firm, courier, celebrity, or company contact.",
+  },
+  {
+    id: "phishing_account_takeover",
+    label: "Phishing / account takeover",
+    description: "Compromised email, account login, SIM swap, or unauthorised account access.",
+  },
+  {
+    id: "marketplace_vendor_scam",
+    label: "Marketplace / vendor scam",
+    description: "Fake seller, fake invoice, goods not delivered, or business email compromise.",
+  },
+  {
+    id: "inheritance_recovery",
+    label: "Inheritance or beneficiary fraud",
+    description: "Estate, beneficiary, probate, or inheritance-related recovery matter.",
+  },
+  {
+    id: "other_recovery_matter",
+    label: "Other stolen-funds case",
+    description: "Any fraud, scam, or recovery investigation not listed above.",
+  },
+] as const;
+
+export type RecoveryCaseType = (typeof RECOVERY_CASE_TYPES)[number]["id"];
+
+export const RECOVERY_CASE_TYPE_VALUES = RECOVERY_CASE_TYPES.map((item) => item.id) as [
+  RecoveryCaseType,
+  ...RecoveryCaseType[],
+];
+
+export const RECOVERY_CASE_TYPE_LABELS: Record<RecoveryCaseType, string> =
+  RECOVERY_CASE_TYPES.reduce(
+    (labels, item) => {
+      labels[item.id] = item.label;
+      return labels;
+    },
+    {} as Record<RecoveryCaseType, string>,
+  );
 
 export const ADMIN_ROLES = ["super_admin", "finance_admin", "support_admin", "client"] as const;
 export type Role = (typeof ADMIN_ROLES)[number];
