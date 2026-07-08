@@ -60,7 +60,7 @@ export default async function WithdrawPage() {
                 {overview.accessState.title}
               </h2>
               <p className="mt-2 max-w-2xl text-[13px] leading-6 text-muted-foreground">
-                Release requests unlock only after an investigation case exists, KYC is approved,
+                Release requests unlock only after an escrow request exists, KYC is approved,
                 escrow is active, and provider release conditions are marked eligible.
               </p>
             </div>
@@ -73,7 +73,7 @@ export default async function WithdrawPage() {
               )}
               {overview.accessState.key === "case_required" && (
                 <Button asChild>
-                  <Link href="/dashboard">File investigation case</Link>
+                  <Link href="/dashboard">Open escrow account</Link>
                 </Button>
               )}
               <Button variant="outline" asChild>

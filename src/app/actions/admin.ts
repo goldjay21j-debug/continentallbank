@@ -26,7 +26,7 @@ import {
 import type { ActionResult } from "./withdrawals";
 
 const LIVE_BACKEND_ERROR = "Live Supabase is not configured. Add Supabase environment variables before saving changes.";
-const FINANCE_ROLE_ERROR = "Support admins cannot modify recovery funds, escrow controls, or release status.";
+const FINANCE_ROLE_ERROR = "Support admins cannot modify approved funds, escrow controls, or release status.";
 
 async function getClientMeta() {
   const h = await headers();
@@ -165,13 +165,13 @@ export async function decideKycVerification(input: unknown): Promise<ActionResul
 }
 
 /* ---------------------------------------------------------- *
- *  Recovery case, escrow, recovered funds, and release controls
+ *  Escrow request, approved funds, and release controls
  * ---------------------------------------------------------- */
 export async function updateRecoveryCase(input: unknown): Promise<ActionResult> {
   const admin = await requireAdmin();
   const parsed = AdminRecoveryCaseUpdateSchema.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid recovery case update" };
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid escrow request update" };
   }
 
   if (!supabaseConfigured()) {
@@ -184,7 +184,7 @@ export async function updateRecoveryCase(input: unknown): Promise<ActionResult> 
     .select("*")
     .eq("id", parsed.data.caseId)
     .maybeSingle();
-  if (!recoveryCase) return { ok: false, error: "Recovery case not found" };
+  if (!recoveryCase) return { ok: false, error: "Escrow request not found" };
 
   const { error } = await service
     .from("cases")
@@ -220,8 +220,8 @@ export async function updateRecoveryCase(input: unknown): Promise<ActionResult> 
     user_id: recoveryCase.user_id,
     kind: "account",
     severity: parsed.data.status === "rejected" ? "danger" : "info",
-    title: "Recovery file updated",
-    body: `Your recovery file is now ${parsed.data.status.replace(/_/g, " ")}.`,
+    title: "Escrow request updated",
+    body: `Your escrow request is now ${parsed.data.status.replace(/_/g, " ")}.`,
     href: "/dashboard",
     currency: recoveryCase.currency,
     amount_label: null,
@@ -233,7 +233,7 @@ export async function updateRecoveryCase(input: unknown): Promise<ActionResult> 
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/escrow");
   revalidatePath("/dashboard/notifications");
-  return { ok: true, message: "Recovery case updated." };
+  return { ok: true, message: "Escrow request updated." };
 }
 
 export async function updateEscrowContract(input: unknown): Promise<ActionResult> {
@@ -328,7 +328,7 @@ export async function recordRecoveredFunds(input: unknown): Promise<ActionResult
 
   const parsed = AdminRecoveredFundsEntrySchema.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid recovered funds entry" };
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid approved funds entry" };
   }
 
   if (!supabaseConfigured()) {
@@ -393,8 +393,8 @@ export async function recordRecoveredFunds(input: unknown): Promise<ActionResult
     user_id: contract.user_id,
     kind: "account",
     severity: "success",
-    title: "Recovered funds record posted",
-    body: "A recovered funds record has been added to your secure escrow file.",
+    title: "Approved funds record posted",
+    body: "An approved funds record has been added to your secure escrow file.",
     href: "/dashboard/escrow",
     currency: contract.currency,
     amount_label: `${contract.currency} ${amount.toLocaleString()}`,
@@ -406,7 +406,7 @@ export async function recordRecoveredFunds(input: unknown): Promise<ActionResult
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/escrow");
   revalidatePath("/dashboard/notifications");
-  return { ok: true, message: "Recovered funds posted." };
+  return { ok: true, message: "Approved funds posted." };
 }
 
 export async function updateEscrowWithdrawal(input: unknown): Promise<ActionResult> {

@@ -39,7 +39,7 @@ export function RefundDisputeForm({
       return;
     }
     if (state.description.trim().length < 20) {
-      toast.error("Please describe the dispute (20+ characters).");
+      toast.error("Please describe the request (20+ characters).");
       return;
     }
     startTransition(async () => {
@@ -54,7 +54,7 @@ export function RefundDisputeForm({
         toast.error(res.error);
         return;
       }
-      toast.success(res.message ?? "Filed.");
+      toast.success(res.message ?? "Refund request submitted.");
       setState({ ...state, amount: "", transactionReference: "", description: "" });
     });
   }
@@ -63,13 +63,13 @@ export function RefundDisputeForm({
     <form onSubmit={submit} className="space-y-6">
       <div>
         <div className="eyebrow text-champagne-700 dark:text-champagne-400 mb-2">
-          New dispute
+          New refund request
         </div>
         <h3 className="font-display text-xl font-semibold text-foreground">
-          File a refund dispute
+          Submit a refund request
         </h3>
         <p className="mt-1.5 text-[13px] text-muted-foreground">
-          Your banker will review the dispute and reply directly.
+          Your banker will review the request and reply directly.
         </p>
       </div>
 
@@ -133,7 +133,7 @@ export function RefundDisputeForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="description">Describe the dispute</Label>
+        <Label htmlFor="description">Describe the request</Label>
         <Textarea
           id="description"
           rows={5}
@@ -141,12 +141,12 @@ export function RefundDisputeForm({
           onChange={(e) => setState({ ...state, description: e.target.value })}
           required
           minLength={20}
-          placeholder="What was wrong with this transaction, and what restitution would you like?"
+          placeholder="What happened with this transaction, and what restitution would you like?"
         />
       </div>
 
       <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={pending}>
-        {pending ? "Submitting…" : "Submit dispute"}
+        {pending ? "Submitting…" : "Submit request"}
         {!pending && <Send className="h-4 w-4" />}
       </Button>
     </form>

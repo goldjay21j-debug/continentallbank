@@ -18,8 +18,8 @@ const easeInOut = [0.65, 0, 0.35, 1] as [number, number, number, number];
 
 const decisionLabel: Record<Decision, string> = {
   under_review: "Mark under review",
-  approved: "Approve claim",
-  rejected: "Reject claim",
+  approved: "Approve request",
+  rejected: "Reject request",
   completed: "Mark settled",
 };
 
@@ -27,11 +27,11 @@ const decisionDescription: Record<Decision, string> = {
   under_review:
     "Acknowledges receipt and signals to the client that a banker is investigating.",
   approved:
-    "Approves the claim. No money moves until you settle it manually and mark it completed.",
+    "Approves the request. No money moves until you settle it manually and mark it completed.",
   rejected:
-    "Closes the claim with a written reason. The reason will be visible to the client.",
+    "Closes the request with a written reason. The reason will be visible to the client.",
   completed:
-    "Marks the approved claim as fully settled. Use after the restitution has been sent.",
+    "Marks the approved request as fully settled. Use after the restitution has been sent.",
 };
 
 export function RefundDecisionActions({

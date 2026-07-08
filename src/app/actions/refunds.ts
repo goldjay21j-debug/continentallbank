@@ -21,20 +21,20 @@ async function clientIp() {
 }
 
 /* ---------------------------------------------------------- *
- *  Public claim — anyone can submit (no auth required)
+ *  Public refund request — anyone can submit (no auth required)
  * ---------------------------------------------------------- */
 export async function submitPublicRefundClaim(input: unknown): Promise<ActionResult> {
   const parsed = PublicRefundClaimSchema.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid claim" };
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid refund request" };
   }
 
   if (!supabaseConfigured()) {
     return { ok: false, error: LIVE_BACKEND_ERROR };
   }
 
-  // If the visitor happens to be signed-in, link the claim to their profile.
-  // Otherwise it's an anonymous public claim (user_id = null).
+  // If the visitor happens to be signed-in, link the request to their profile.
+  // Otherwise it's an anonymous public request (user_id = null).
   const me = await getAuthedUser();
   const service = createServiceClient();
 
@@ -69,7 +69,7 @@ export async function submitPublicRefundClaim(input: unknown): Promise<ActionRes
   return {
     ok: true,
     message:
-      "Claim received. A relationship officer will contact you within one business day.",
+      "Refund request received. A relationship officer will contact you within one business day.",
   };
 }
 
@@ -80,7 +80,7 @@ export async function submitClientRefundDispute(input: unknown): Promise<ActionR
   const user = await requireApprovedClient();
   const parsed = ClientRefundDisputeSchema.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid claim" };
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid refund request" };
   }
 
   if (!supabaseConfigured()) {
@@ -114,7 +114,7 @@ export async function submitClientRefundDispute(input: unknown): Promise<ActionR
   revalidatePath("/dashboard/refunds");
   revalidatePath("/dashboard/documents");
   revalidatePath("/dashboard/notifications");
-  return { ok: true, message: "Dispute filed. Your banker will respond shortly." };
+  return { ok: true, message: "Refund request submitted. Your banker will respond shortly." };
 }
 
 /* ---------------------------------------------------------- *
@@ -133,11 +133,11 @@ export async function decideRefundClaim(input: unknown): Promise<ActionResult> {
   const service = createServiceClient();
 
   const { data: claim } = await service.from("refund_claims").select("*").eq("id", id).maybeSingle();
-  if (!claim) return { ok: false, error: "Claim not found" };
+  if (!claim) return { ok: false, error: "Refund request not found" };
 
   // Reject without a note isn't allowed — must justify.
   if (decision === "rejected" && !adminNote?.trim()) {
-    return { ok: false, error: "A note is required when rejecting a claim." };
+    return { ok: false, error: "A note is required when rejecting a refund request." };
   }
 
   await service
@@ -180,5 +180,5 @@ export async function decideRefundClaim(input: unknown): Promise<ActionResult> {
   revalidatePath("/dashboard/refunds");
   revalidatePath("/dashboard/documents");
   revalidatePath("/dashboard/notifications");
-  return { ok: true, message: `Claim ${decision.replace("_", " ")}.` };
+  return { ok: true, message: `Refund request ${decision.replace("_", " ")}.` };
 }

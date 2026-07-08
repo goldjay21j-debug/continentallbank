@@ -59,9 +59,9 @@ export default async function DashboardOverviewPage() {
   return (
     <div className="space-y-5">
       <PageHeader
-        eyebrow={`Investment recovery office - ${user.profile.full_name.split(" ")[0]}`}
-        title="Investment recovery center."
-        description="A controlled path for asset investigation, evidence review, KYC approval, private escrow activation, and eligible release requests."
+        eyebrow={`Private escrow office - ${user.profile.full_name.split(" ")[0]}`}
+        title="Secure escrow and investment center."
+        description="A controlled path for investment review, KYC approval, private escrow activation, and eligible release requests."
         actions={
           <>
             <Button variant="outline" asChild>
@@ -78,14 +78,14 @@ export default async function DashboardOverviewPage() {
       />
 
       <TrustBadgeRail preset="dashboard" tone="light" compact />
-      <ActivityTicker preset="client" tone="light" label="Recovery activity" compact />
+      <ActivityTicker preset="client" tone="light" label="Escrow activity" compact />
 
       <section className="grid gap-5 xl:grid-cols-[1.3fr_0.85fr]">
         <MotionCard index={0} intensity="strong" className="overflow-hidden border border-[#E3D8C5]">
           <div className="border-b border-[#E3D8C5] px-5 py-4 sm:px-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
               <div>
-                <div className="eyebrow text-champagne-700">Recovery relationship</div>
+                <div className="eyebrow text-champagne-700">Private banking relationship</div>
                 <div className="mt-3 flex flex-wrap items-center gap-3">
                   <h2 className="font-display text-2xl font-semibold text-foreground">
                     {user.profile.full_name}
@@ -130,7 +130,7 @@ export default async function DashboardOverviewPage() {
                 {overview.accessState.key === "case_required" && (
                   <Button asChild>
                     <Link href="#recovery-intake">
-                      File investigation
+                      Open escrow account
                       <ArrowRight className="h-4 w-4" />
                     </Link>
                   </Button>
@@ -165,7 +165,7 @@ export default async function DashboardOverviewPage() {
               <div className="mt-4 space-y-3">
                 <ReadinessRow
                   icon={FolderOpen}
-                  label="Investigation case"
+                  label="Escrow request"
                   value={primaryCase ? formatStatus(primaryCase.status) : "Not started"}
                   complete={Boolean(primaryCase)}
                 />
@@ -204,14 +204,14 @@ export default async function DashboardOverviewPage() {
           </div>
 
           <div className="mt-5 space-y-3">
-            <PositionRow label="Recovered funds" value={formatCurrency(recoveredTotal, currency)} />
+            <PositionRow label="Approved funds" value={formatCurrency(recoveredTotal, currency)} />
             <PositionRow label="Eligible balance" value={formatCurrency(availableForRelease, currency)} />
             <PositionRow label="Processing fee - 20%" value={formatCurrency(releaseQuote.releaseProcessingFee, currency)} />
             <PositionRow label="Estimated net release" value={formatCurrency(releaseQuote.netAmount, currency)} strong />
           </div>
           <div className="mt-5 rounded-md border border-foreground/[0.06] bg-foreground/[0.025] px-4 py-3 text-[12.5px] leading-5 text-muted-foreground">
             Users request releases only. Fee verification, status changes, provider reference,
-            recovered funds, and payout completion remain officer/provider controlled.
+            approved funds, and payout completion remain officer/provider controlled.
           </div>
         </MotionCard>
       </section>
@@ -226,13 +226,13 @@ export default async function DashboardOverviewPage() {
               What happens next
             </div>
             <h3 className="mt-2 font-display text-xl font-semibold text-foreground">
-              Recovery-first access model
+              Secure account access model
             </h3>
             <div className="mt-5 space-y-3">
-              <ProcessStep label="1" title="Case recorded" body="An investment recovery file is created and assigned for officer review." />
-              <ProcessStep label="2" title="Evidence requested" body="The recovery desk requests receipts, wallet records, communications, provider references, and timelines." />
+              <ProcessStep label="1" title="Request recorded" body="An escrow or investment service request is created and assigned for officer review." />
+              <ProcessStep label="2" title="Documents requested" body="The escrow desk requests receipts, wallet records, communications, provider references, and timelines." />
               <ProcessStep label="3" title="KYC approved" body="Identity, address, and ownership records are checked before private escrow access." />
-              <ProcessStep label="4" title="Escrow opened" body="Any recovered funds are controlled through private escrow and release eligibility rules." />
+              <ProcessStep label="4" title="Escrow opened" body="Approved funds are controlled through private escrow and release eligibility rules." />
             </div>
           </MotionCard>
         </section>
@@ -240,7 +240,7 @@ export default async function DashboardOverviewPage() {
         <section className="grid gap-5 lg:grid-cols-[1fr_1fr]">
           <MotionCard index={2} className="overflow-hidden">
             <div className="border-b border-foreground/[0.06] px-6 py-4">
-              <div className="eyebrow text-champagne-700 dark:text-champagne-400">Active recovery case</div>
+              <div className="eyebrow text-champagne-700 dark:text-champagne-400">Active escrow request</div>
               <h3 className="mt-1 font-display text-lg font-semibold text-foreground">
                 {primaryCase.title}
               </h3>
@@ -257,7 +257,7 @@ export default async function DashboardOverviewPage() {
               </div>
               <p className="text-[13px] leading-6 text-muted-foreground">{primaryCase.summary}</p>
               <div className="grid gap-3 sm:grid-cols-2">
-                <Control label="Amount claimed" value={formatCurrency(primaryCase.amount_claimed, primaryCase.currency)} />
+                <Control label="Amount under review" value={formatCurrency(primaryCase.amount_claimed, primaryCase.currency)} />
                 <Control label="Provider ref" value={primaryCase.provider_reference ?? "Pending assignment"} />
                 <Control label="Counterparty" value={primaryCase.counterparty_name ?? "Not listed"} />
                 <Control label="Evidence" value={primaryCase.evidence_summary ? "Package summarized" : "Requested"} />
@@ -268,7 +268,7 @@ export default async function DashboardOverviewPage() {
           <MotionCard index={3} className="overflow-hidden">
             <div className="flex items-center justify-between border-b border-foreground/[0.06] px-6 py-4">
               <div>
-                <div className="eyebrow text-champagne-700 dark:text-champagne-400">Recovered funds</div>
+                <div className="eyebrow text-champagne-700 dark:text-champagne-400">Approved funds</div>
                 <h3 className="mt-1 font-display text-lg font-semibold text-foreground">
                   Escrow ledger entries
                 </h3>
@@ -281,7 +281,7 @@ export default async function DashboardOverviewPage() {
               </Button>
             </div>
             {overview.recoveredFunds.length === 0 ? (
-              <EmptyState message="No recovered funds have been posted to escrow yet." />
+              <EmptyState message="No approved funds have been posted to escrow yet." />
             ) : (
               <MotionList className="divide-y divide-foreground/[0.05]">
                 {overview.recoveredFunds.map((entry) => (
@@ -289,7 +289,7 @@ export default async function DashboardOverviewPage() {
                     <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                       <div className="min-w-0">
                         <div className="break-words text-[14px] font-medium text-foreground">
-                          {entry.source ?? "Recovered funds"}
+                          {entry.source ?? "Approved funds"}
                         </div>
                         <div className="mt-1 break-words text-[12px] text-muted-foreground">
                           {entry.provider_reference ?? "Provider reference pending"} -{" "}

@@ -217,7 +217,7 @@ export default async function AdminOverviewPage() {
     },
     {
       icon: Undo2,
-      label: "Refund claims",
+      label: "Refund requests",
       value: String(refundCount),
       detail: "Disputes and reversals desk",
       href: "/admin/refunds?status=pending",
@@ -225,9 +225,9 @@ export default async function AdminOverviewPage() {
     },
     {
       icon: FolderOpen,
-      label: "Asset recovery cases",
+      label: "Escrow requests",
       value: String(recoveryMetrics.openCases),
-      detail: "Investment files, evidence, and escrow readiness",
+      detail: "Escrow files, documents, and readiness",
       href: "/admin/recovery",
       active: recoveryMetrics.openCases > 0,
     },
@@ -259,8 +259,8 @@ export default async function AdminOverviewPage() {
   const actionTiles = [
     {
       icon: FolderOpen,
-      label: "Manage investigations",
-      detail: "Review investment recovery intake, escrow contracts, recovered funds, and release eligibility.",
+      label: "Manage escrow requests",
+      detail: "Review escrow intake, contracts, approved funds, and release eligibility.",
       href: "/admin/recovery",
       metric: recoveryMetrics.openCases,
     },
@@ -458,21 +458,21 @@ export default async function AdminOverviewPage() {
           className="overflow-hidden rounded-md border border-white/[0.09] bg-white/[0.045] shadow-[0_24px_70px_-46px_rgba(0,0,0,0.95)] backdrop-blur-xl"
         >
           <SectionHeader
-            eyebrow="Investment recovery and escrow"
-            title="Investigation intake queue"
+            eyebrow="Escrow and investment"
+            title="Escrow request queue"
             href="/admin/recovery"
             label="Current"
           />
           {(recoveryCases as RecoveryCaseRow[]).length === 0 ? (
-          <EmptyState message="No investment recovery cases are currently open." />
+          <EmptyState message="No escrow requests are currently open." />
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full min-w-[780px] text-left">
                 <thead className="border-b border-white/[0.07] bg-navy-950/42 text-[10px] uppercase tracking-[0.18em] text-ivory-100/40">
                   <tr>
                     <th className="px-5 py-3 font-medium">Client</th>
-                    <th className="px-5 py-3 font-medium">Case</th>
-                    <th className="px-5 py-3 text-right font-medium">Claimed</th>
+                    <th className="px-5 py-3 font-medium">Request</th>
+                    <th className="px-5 py-3 text-right font-medium">Amount</th>
                     <th className="px-5 py-3 font-medium">Status</th>
                     <th className="px-5 py-3 font-medium">Opened</th>
                   </tr>
@@ -539,7 +539,7 @@ export default async function AdminOverviewPage() {
                       </div>
                       <div className="mt-1 truncate text-[12px] text-ivory-100/46">
                         {contract.profiles?.full_name ?? "Client"} -{" "}
-                        {contract.cases?.title ?? "Recovery case"}
+                        {contract.cases?.title ?? "Escrow request"}
                       </div>
                       <div className="mt-2 flex flex-wrap gap-2">
                         <Badge variant="gold">{formatMethod(contract.status)}</Badge>
@@ -565,23 +565,23 @@ export default async function AdminOverviewPage() {
         className="overflow-hidden rounded-md border border-white/[0.09] bg-white/[0.045] shadow-[0_24px_70px_-46px_rgba(0,0,0,0.95)] backdrop-blur-xl"
       >
         <SectionHeader
-          eyebrow="Recovered funds"
-          title="Provider-posted recovery entries"
+          eyebrow="Approved funds"
+          title="Provider-posted approved entries"
           href="/admin/audit-logs"
           label="Audit"
         />
         {(recoveredFunds as RecoveredFundRow[]).length === 0 ? (
-          <EmptyState message="No recovered funds have been posted." />
+          <EmptyState message="No approved funds have been posted." />
         ) : (
           <MotionList className="divide-y divide-white/[0.06]">
             {(recoveredFunds as RecoveredFundRow[]).map((entry) => (
               <MotionRow key={entry.id} className="grid gap-4 px-5 py-4 lg:grid-cols-[1fr_auto_auto] lg:items-center">
                 <div className="min-w-0">
                   <div className="truncate text-[13.5px] font-medium text-ivory-100">
-                    {entry.source ?? "Recovered funds"}
+                    {entry.source ?? "Approved funds"}
                   </div>
                   <div className="mt-1 text-[12px] text-ivory-100/46">
-                    {entry.profiles?.full_name ?? "Client"} - {entry.cases?.title ?? "Case"} -{" "}
+                    {entry.profiles?.full_name ?? "Client"} - {entry.cases?.title ?? "Request"} -{" "}
                     {entry.provider_reference ?? "Provider reference pending"}
                   </div>
                 </div>

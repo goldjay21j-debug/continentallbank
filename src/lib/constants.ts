@@ -1,9 +1,9 @@
 export const SITE = {
   name: "Continental Bank",
   shortName: "Continental",
-  tagline: "Investment recovery, asset investigation, and escrow oversight.",
+  tagline: "Secure escrow, investment review, and private banking oversight.",
   description:
-    "A secure private banking platform for investment recovery intake, evidence review, private escrow, and officer-controlled release workflows.",
+    "A secure private banking platform for escrow onboarding, investment review, private client documents, and officer-controlled release workflows.",
   publicDomain: "https://continentallbank.com",
   domain: process.env.NEXT_PUBLIC_SITE_URL ?? "https://continentallbank.com",
   contact: {
@@ -157,27 +157,27 @@ export const REFUND_REASONS = [
 export const RECOVERY_CASE_TYPES = [
   {
     id: "romance_scam",
-    label: "Relationship-based investment claim",
+    label: "Relationship-led investment mandate",
     description: "Relationship-led financial pressure, private advances, or disputed transfers.",
   },
   {
     id: "crypto_wallet_scam",
-    label: "Digital asset wallet claim",
+    label: "Digital asset wallet review",
     description: "Wallet access issue, exchange dispute, mining-pool matter, or blockchain transfer.",
   },
   {
     id: "investment_scam",
-    label: "Investment platform claim",
-    description: "Broker, trading platform, IPO, fund, or managed-account recovery.",
+    label: "Investment platform review",
+    description: "Broker, trading platform, IPO, fund, or managed-account matter.",
   },
   {
     id: "wire_bank_fraud",
-    label: "Wire or bank transfer claim",
-    description: "Bank wire, ACH, SEPA, IBAN, PayPal, Wise, or card-linked payment loss.",
+    label: "Wire or bank transfer support",
+    description: "Bank wire, ACH, SEPA, IBAN, PayPal, Wise, or card-linked payment review.",
   },
   {
     id: "impersonation_scam",
-    label: "Identity impersonation claim",
+    label: "Identity verification concern",
     description: "Fake government, bank, law firm, courier, celebrity, or company contact.",
   },
   {
@@ -187,18 +187,18 @@ export const RECOVERY_CASE_TYPES = [
   },
   {
     id: "marketplace_vendor_scam",
-    label: "Marketplace / vendor dispute",
+    label: "Marketplace / vendor payment review",
     description: "Fake seller, fake invoice, goods not delivered, or business email compromise.",
   },
   {
     id: "inheritance_recovery",
-    label: "Inheritance or beneficiary claim",
-    description: "Estate, beneficiary, probate, or inheritance-related recovery matter.",
+    label: "Inheritance or beneficiary service",
+    description: "Estate, beneficiary, probate, or inheritance-related account matter.",
   },
   {
     id: "other_recovery_matter",
-    label: "Other investment recovery matter",
-    description: "Any asset, investment, payment, or recovery investigation not listed above.",
+    label: "Other escrow or investment matter",
+    description: "Any asset, investment, payment, or private banking matter not listed above.",
   },
 ] as const;
 

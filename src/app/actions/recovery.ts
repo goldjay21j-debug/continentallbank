@@ -14,7 +14,7 @@ export async function createRecoveryCase(input: unknown): Promise<ActionResult> 
   const user = await requireApprovedClient();
   const parsed = RecoveryCaseSchema.safeParse(input);
   if (!parsed.success) {
-    return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid recovery case" };
+    return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid escrow request" };
   }
 
   if (!supabaseConfigured()) {
@@ -41,7 +41,7 @@ export async function createRecoveryCase(input: unknown): Promise<ActionResult> 
     .maybeSingle();
 
   if (error || !recoveryCase) {
-    return { ok: false, error: error?.message ?? "Could not submit recovery case" };
+    return { ok: false, error: error?.message ?? "Could not submit escrow request" };
   }
 
   if (data.counterpartyName) {
@@ -59,7 +59,7 @@ export async function createRecoveryCase(input: unknown): Promise<ActionResult> 
   revalidatePath("/dashboard");
   revalidatePath("/dashboard/escrow");
   revalidatePath("/admin");
-  return { ok: true, message: "Investigation case filed for officer review." };
+  return { ok: true, message: "Escrow request submitted for officer review." };
 }
 
 export async function createSecureEscrowAccount(): Promise<ActionResult> {
@@ -92,7 +92,7 @@ export async function createSecureEscrowAccount(): Promise<ActionResult> {
   ]);
 
   if (!recoveryCase) {
-    return { ok: false, error: "Submit a recovery case before creating escrow access." };
+    return { ok: false, error: "Submit an escrow or investment request before creating escrow access." };
   }
 
   if (existing) {

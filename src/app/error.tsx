@@ -23,7 +23,7 @@ export default function GlobalError({
           A momentary issue occurred.
         </h1>
         <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground">
-          The recovery desk has been notified. You may retry, or return to the home page.
+          The escrow desk has been notified. You may retry, or return to the home page.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Button onClick={reset}>Try again</Button>

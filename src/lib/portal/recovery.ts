@@ -26,11 +26,11 @@ export function recoveryAccessState(
   if (recoveryCases.length === 0) {
     return {
       key: "case_required",
-      title: "Investigation Case Required",
+      title: "Secure Escrow Account Required",
       description:
-        "File an investment recovery case first. The escrow desk opens only after the matter has been recorded and reviewed by an officer.",
+        "Open a secure escrow account or start an investment first. The escrow desk opens after your request has been recorded and reviewed by an officer.",
       actionHref: "/dashboard",
-      actionLabel: "File investigation",
+      actionLabel: "Open escrow account",
     };
   }
 
@@ -50,7 +50,7 @@ export function recoveryAccessState(
       key: "escrow_required",
       title: "Create Secure Escrow Account",
       description:
-        "Your case and identity are ready. Create the private escrow account that will hold recovered funds under officer control.",
+        "Your request and identity are ready. Create the private escrow account that will hold approved funds under officer control.",
       actionHref: "/dashboard/escrow",
       actionLabel: "Create escrow",
     };
@@ -60,7 +60,7 @@ export function recoveryAccessState(
     key: "ready",
     title: "Escrow Dashboard Active",
     description:
-      "Recovered funds, release conditions, provider references, and withdrawal eligibility are now available in your private escrow view.",
+      "Approved funds, release conditions, provider references, and withdrawal eligibility are now available in your private escrow view.",
     actionHref: "/dashboard/escrow",
     actionLabel: "Open escrow",
   };

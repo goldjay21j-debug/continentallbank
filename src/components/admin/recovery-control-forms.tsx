@@ -85,7 +85,7 @@ export function RecoveryCaseControl({ recoveryCase }: { recoveryCase: any }) {
       });
       if (!res.ok) toast.error(res.error);
       else {
-        toast.success(res.message ?? "Recovery case updated.");
+        toast.success(res.message ?? "Escrow request updated.");
         setState((current) => ({ ...current, note: "" }));
       }
     });
@@ -98,7 +98,7 @@ export function RecoveryCaseControl({ recoveryCase }: { recoveryCase: any }) {
       <ControlHeading
         icon={FileCheck2}
         title={recoveryCase.title}
-        eyebrow={profile?.full_name ?? "Recovery case"}
+        eyebrow={profile?.full_name ?? "Escrow request"}
         badge={formatStatus(recoveryCase.status)}
       />
       <div className="mt-3 text-[12px] text-ivory-100/46">
@@ -106,7 +106,7 @@ export function RecoveryCaseControl({ recoveryCase }: { recoveryCase: any }) {
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
-        <Field label="Case status">
+        <Field label="Request status">
           <Select value={state.status} onValueChange={(status) => setState({ ...state, status })}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
@@ -135,7 +135,7 @@ export function RecoveryCaseControl({ recoveryCase }: { recoveryCase: any }) {
       </Field>
 
       <Button type="submit" size="sm" disabled={pending} className="mt-4">
-        {pending ? "Saving..." : "Update case"}
+        {pending ? "Saving..." : "Update request"}
       </Button>
     </form>
   );
@@ -153,7 +153,7 @@ export function EscrowContractControl({ contract }: { contract: any }) {
   });
   const [funds, setFunds] = useState({
     amount: "",
-    source: "Provider recovery record",
+    source: "Provider approved-funds record",
     providerReference: "",
     note: "",
   });
@@ -181,7 +181,7 @@ export function EscrowContractControl({ contract }: { contract: any }) {
     e.preventDefault();
     const amount = Number(funds.amount);
     if (!Number.isFinite(amount) || amount <= 0) {
-      toast.error("Enter recovered funds greater than zero.");
+      toast.error("Enter approved funds greater than zero.");
       return;
     }
     startFundTransition(async () => {
@@ -194,8 +194,8 @@ export function EscrowContractControl({ contract }: { contract: any }) {
       });
       if (!res.ok) toast.error(res.error);
       else {
-        toast.success(res.message ?? "Recovered funds posted.");
-        setFunds({ amount: "", source: "Provider recovery record", providerReference: "", note: "" });
+        toast.success(res.message ?? "Approved funds posted.");
+        setFunds({ amount: "", source: "Provider approved-funds record", providerReference: "", note: "" });
       }
     });
   }
@@ -211,7 +211,7 @@ export function EscrowContractControl({ contract }: { contract: any }) {
         badge={formatStatus(contract.release_status)}
       />
       <div className="mt-3 grid gap-3 text-[12px] text-ivory-100/54 sm:grid-cols-2">
-        <Metric label="Total recovered" value={formatCurrency(contract.total_recovered, contract.currency)} />
+        <Metric label="Total approved" value={formatCurrency(contract.total_recovered, contract.currency)} />
         <Metric label="Available release" value={formatCurrency(contract.available_for_withdrawal, contract.currency)} />
       </div>
 
@@ -275,7 +275,7 @@ export function EscrowContractControl({ contract }: { contract: any }) {
       <form onSubmit={postFunds} className="mt-5 border-t border-white/[0.08] pt-4">
         <div className="mb-3 flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.16em] text-champagne-300">
           <Banknote className="h-3.5 w-3.5" />
-          Post recovered funds
+          Post approved funds
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label={`Amount (${contract.currency})`}>
@@ -291,14 +291,14 @@ export function EscrowContractControl({ contract }: { contract: any }) {
             <Input
               value={funds.source}
               onChange={(e) => setFunds({ ...funds, source: e.target.value })}
-              placeholder="Provider recovery record"
+              placeholder="Provider approved-funds record"
             />
           </Field>
           <Field label="Provider reference">
             <Input
               value={funds.providerReference}
               onChange={(e) => setFunds({ ...funds, providerReference: e.target.value })}
-              placeholder="Recovery ref"
+              placeholder="Provider ref"
             />
           </Field>
           <Field label="Posting note">
@@ -310,7 +310,7 @@ export function EscrowContractControl({ contract }: { contract: any }) {
           </Field>
         </div>
         <Button type="submit" size="sm" variant="gold" disabled={fundPending} className="mt-3">
-          {fundPending ? "Posting..." : "Post recovered funds"}
+          {fundPending ? "Posting..." : "Post approved funds"}
         </Button>
       </form>
     </div>

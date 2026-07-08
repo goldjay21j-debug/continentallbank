@@ -48,7 +48,7 @@ export function PublicRefundForm() {
         toast.error(res.error);
         return;
       }
-      toast.success(res.message ?? "Claim received.");
+      toast.success(res.message ?? "Refund request received.");
       setSubmitted(true);
     });
   }
@@ -57,16 +57,16 @@ export function PublicRefundForm() {
     return (
       <div className="glass-light p-5 text-center max-w-2xl mx-auto sm:p-6 lg:p-7">
         <div className="eyebrow text-champagne-700 dark:text-champagne-400 mb-3">
-          Claim received
+          Request received
         </div>
         <h3 className="font-display text-2xl font-semibold text-foreground">
-          Thank you. A recovery officer will respond.
+          Thank you. A relationship officer will respond.
         </h3>
         <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground">
-          Your claim has been logged at <span className="font-mono">{state.claimantEmail}</span>.
-          A member of our recovery desk will contact you, by email and on a recorded
+          Your request has been logged at <span className="font-mono">{state.claimantEmail}</span>.
+          A member of our refund desk will contact you, by email and on a recorded
           telephone line where appropriate, within one business day. Continental Bank does not
-          discuss claim details over unsolicited messages.
+          discuss request details over unsolicited messages.
         </p>
         <Button
           variant="outline"
@@ -76,7 +76,7 @@ export function PublicRefundForm() {
             setState({ ...state, amount: "", description: "" });
           }}
         >
-          File another claim
+          Submit another request
         </Button>
       </div>
     );
@@ -86,19 +86,19 @@ export function PublicRefundForm() {
     <form onSubmit={submit} className="glass-light p-5 space-y-5 sm:p-6 lg:p-7">
       <div>
         <div className="eyebrow text-champagne-700 dark:text-champagne-400 mb-2">
-          Refund &amp; recovery
+          Refund request
         </div>
         <h3 className="font-display text-2xl font-semibold text-foreground">
-          File a claim
+          Submit a refund request
         </h3>
         <p className="mt-2 text-[13.5px] text-muted-foreground leading-relaxed">
-          For disputed charges, failed settlements, recovery of dormant deposits, or any other
-          matter requiring restitution. All claims are reviewed manually by a relationship
+          For disputed charges, failed settlements, dormant deposits, or any other
+          matter requiring restitution. All requests are reviewed manually by a relationship
           officer.
         </p>
       </div>
 
-      {/* Claimant identity */}
+      {/* Client identity */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="claimantName">Full legal name</Label>
@@ -146,7 +146,7 @@ export function PublicRefundForm() {
         </div>
       </div>
 
-      {/* Claim details */}
+      {/* Request details */}
       <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_1fr] gap-4">
         <div className="space-y-2">
           <Label>Reason</Label>
@@ -207,7 +207,7 @@ export function PublicRefundForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="description">Describe the claim</Label>
+        <Label htmlFor="description">Describe the request</Label>
         <Textarea
           id="description"
           rows={6}
@@ -229,7 +229,7 @@ export function PublicRefundForm() {
           knowledge.
         </p>
         <Button type="submit" size="lg" disabled={pending}>
-          {pending ? "Submitting…" : "Submit claim"}
+          {pending ? "Submitting…" : "Submit request"}
           {!pending && <Send className="h-4 w-4" />}
         </Button>
       </div>

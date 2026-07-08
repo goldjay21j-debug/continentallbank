@@ -94,9 +94,9 @@ export default function FAQPage() {
           title: "Who do I speak to?",
           body: (
             <p>
-              Start by creating a secure recovery profile and filing the case from your portal.
-              The recovery desk can then request evidence, verify identity, and continue the
-              investigation through secure messages.
+              Start by creating a secure client profile and opening an escrow or investment
+              request from your portal. The escrow desk can then request supporting documents,
+              verify identity, and continue the review through secure messages.
             </p>
           ),
         },

@@ -58,7 +58,7 @@ export const DOCUMENT_SCENARIOS = [
   "Withdrawal approval notice",
   "Withdrawal completion receipt",
   "Withdrawal rejection notice",
-  "Refund claim submission receipt",
+  "Refund request submission receipt",
   "Refund approval or completion receipt",
   "Refund rejection notice",
   "Beneficiary submission receipt",

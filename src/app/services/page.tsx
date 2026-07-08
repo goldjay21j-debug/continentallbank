@@ -230,20 +230,20 @@ export default function ServicesPage() {
           <Reveal className="relative max-w-2xl">
             <div className="eyebrow flex items-center gap-3 mb-4 text-champagne-300">
               <span className="inline-block h-px w-8 bg-champagne-400/70" />
-              <span>Recovery Desk</span>
+              <span>Escrow & Investment Desk</span>
             </div>
             <h2 className="font-display text-display-lg text-balance">
-              A case file starts the recovery mandate.
+              A secure account request starts the mandate.
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-ivory-100/80 max-w-xl text-pretty">
-              Submit the investment recovery matter, evidence summary, payment references, and
-              counterparty details. The recovery desk reviews the file before requesting documents, activating
-              escrow, or moving any release workflow forward.
+              Submit the escrow or investment request, supporting document summary, payment
+              references, and counterparty details. The escrow desk reviews the file before
+              requesting documents, activating escrow, or moving any release workflow forward.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <Button size="lg" variant="gold" asChild>
                 <Link href="/register">
-                  File a recovery case
+                  Open escrow account
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
@@ -254,7 +254,7 @@ export default function ServicesPage() {
                 className="border-ivory-100/20 bg-transparent text-ivory-100 hover:bg-ivory-100/5"
               >
                 <Link href="mailto:recovery@continentallbank.com">
-                  Contact recovery desk
+                  Contact escrow desk
                 </Link>
               </Button>
             </div>

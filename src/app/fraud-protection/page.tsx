@@ -93,7 +93,7 @@ export default function FraudProtectionPage() {
                 >
                   incident@continentallbank.com
                 </a>{" "}
-                or contact the recovery desk through your portal. We will freeze open
+                or contact the escrow desk through your portal. We will freeze open
                 instructions, lock the account, and brief you within the hour.
               </p>
             </>

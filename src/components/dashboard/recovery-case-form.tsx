@@ -46,7 +46,7 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
     event.preventDefault();
     const amount = Number(amountClaimed || 0);
     if (!Number.isFinite(amount) || amount < 0) {
-      toast.error("Enter a valid recovery amount.");
+      toast.error("Enter a valid amount.");
       return;
     }
 
@@ -67,7 +67,7 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
         return;
       }
 
-      toast.success(result.message ?? "Investigation case filed.");
+      toast.success(result.message ?? "Escrow request submitted.");
       reset();
     });
   }
@@ -76,32 +76,31 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
     <form onSubmit={submit} className="space-y-5">
       <div>
         <div className="eyebrow text-champagne-700 dark:text-champagne-400">
-          Investment recovery intake
+          Secure escrow intake
         </div>
         <h3 className="mt-2 font-display text-xl font-semibold text-foreground">
-          File an investment recovery case
+          Open a secure escrow account or start an investment
         </h3>
         <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
-          Report relationship-led investment claims, digital asset matters, investment platform
-          disputes, bank transfer claims, identity concerns, marketplace payment disputes, or any
-          other recovery matter. Officers review the case and request evidence before escrow access
-          can open.
+          Tell us whether you need private escrow, an investment mandate, digital asset review,
+          bank transfer support, marketplace payment review, or another private banking service.
+          Officers review the request and required documents before escrow access can open.
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="case-title">Case title</Label>
+          <Label htmlFor="case-title">Request title</Label>
           <Input
             id="case-title"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            placeholder="e.g. Investment recovery involving wire transfers"
+            placeholder="e.g. Secure escrow account for investment funds"
           />
         </div>
 
         <div className="space-y-2">
-          <Label>Investigation type</Label>
+          <Label>Service type</Label>
           <Select
             value={complaintType}
             onValueChange={(value) => setComplaintType(value as RecoveryCaseType)}
@@ -121,7 +120,7 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
 
         <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_96px] gap-2 sm:grid-cols-[minmax(0,1fr)_110px]">
           <div className="space-y-2">
-            <Label htmlFor="amount-claimed">Estimated loss</Label>
+            <Label htmlFor="amount-claimed">Estimated amount</Label>
             <Input
               id="amount-claimed"
               inputMode="decimal"
@@ -149,34 +148,34 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
         </div>
 
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="case-summary">What happened?</Label>
+          <Label htmlFor="case-summary">Tell us about the request</Label>
           <Textarea
             id="case-summary"
             rows={5}
             value={summary}
             onChange={(event) => setSummary(event.target.value)}
-            placeholder="Explain the investment timeline, dates, payment methods, wallet or bank details, counterparties, representations made, and what recovery help you need."
+            placeholder="Explain the investment objective, escrow purpose, dates, payment methods, wallet or bank details, counterparties, and what banking support you need."
           />
         </div>
 
         <div className="space-y-2 sm:col-span-2">
-          <Label htmlFor="evidence-summary">Evidence available</Label>
+          <Label htmlFor="evidence-summary">Supporting documents available</Label>
           <Textarea
             id="evidence-summary"
             rows={3}
             value={evidenceSummary}
             onChange={(event) => setEvidenceSummary(event.target.value)}
-            placeholder="List bank receipts, transaction hashes, wallet addresses, emails, phone numbers, social profiles, screenshots, contracts, police reports, or exchange tickets."
+            placeholder="List bank receipts, transaction hashes, wallet addresses, emails, contracts, payment references, account statements, or exchange tickets."
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="counterparty-name">Suspect, platform, or company</Label>
+          <Label htmlFor="counterparty-name">Counterparty, platform, or company</Label>
           <Input
             id="counterparty-name"
             value={counterpartyName}
             onChange={(event) => setCounterpartyName(event.target.value)}
-            placeholder="Name, alias, broker, exchange, company, or profile"
+            placeholder="Name, broker, exchange, company, or account profile"
           />
         </div>
         <div className="space-y-2">
@@ -193,14 +192,14 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
       <div className="flex items-start gap-3 rounded-md border border-champagne-500/20 bg-champagne-500/5 px-4 py-3 text-[12.5px] text-foreground">
         <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-champagne-700" />
         <p>
-          Submitting a case starts evidence-led officer review. Recovery is never automatic or
-          guaranteed; the desk validates identity, documents, counterparties, and provider records
-          before any private escrow or release step is enabled.
+          Submitting this request starts officer-led review. Approval is never automatic; the desk
+          validates identity, documents, counterparties, and provider records before any private
+          escrow, investment, or release step is enabled.
         </p>
       </div>
 
       <Button type="submit" disabled={pending} className="w-full sm:w-auto">
-        {pending ? "Submitting..." : "File investigation case"}
+        {pending ? "Submitting..." : "Submit escrow request"}
         <FileCheck2 className="h-4 w-4" />
       </Button>
     </form>

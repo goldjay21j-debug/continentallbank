@@ -255,18 +255,18 @@ export async function issueRefundReceipt(
     type: "refund_evidence",
     title: `Refund ${label.toLowerCase()} · ${amount}`,
     description: claim.transaction_reference
-      ? `Claim reference ${claim.transaction_reference}.`
-      : "Refund claim evidence and officer note.",
+      ? `Request reference ${claim.transaction_reference}.`
+      : "Refund request record and officer note.",
     currency: claim.currency,
     reference: referenceFor("refund_evidence"),
     sourceType: "refund",
     sourceId: claim.id,
     adminId,
     body: {
-      heading: `Refund claim ${label.toLowerCase()}`,
-      subheading: "Refund and dispute evidence",
+      heading: `Refund request ${label.toLowerCase()}`,
+      subheading: "Refund and dispute record",
       rows: [
-        { label: "Claimant", value: claim.claimant_name },
+        { label: "Client", value: claim.claimant_name },
         { label: "Account reference", value: claim.account_reference ?? "—" },
         { label: "Amount", value: amount },
         { label: "Transaction reference", value: claim.transaction_reference ?? "—" },
@@ -275,10 +275,10 @@ export async function issueRefundReceipt(
       ],
       paragraph:
         status === "completed"
-          ? "The refund claim has been marked completed. Retain this receipt with your account records."
+          ? "The refund request has been marked completed. Retain this receipt with your account records."
           : status === "rejected"
-            ? "The refund claim has been rejected. The officer note above explains the decision."
-            : "The refund claim has been recorded and remains subject to bank review.",
+            ? "The refund request has been rejected. The officer note above explains the decision."
+            : "The refund request has been recorded and remains subject to bank review.",
       closing: "Continental Bank · Refunds Desk",
     },
   });
@@ -288,7 +288,7 @@ export async function issueRefundReceipt(
     kind: "refund",
     severity: status === "rejected" ? "danger" : status === "pending" ? "info" : "success",
     title: `Refund ${label.toLowerCase()}`,
-    body: `${amount} claim is ${label.toLowerCase()}.`,
+    body: `${amount} refund request is ${label.toLowerCase()}.`,
     href: status === "completed" || status === "approved" ? "/dashboard/documents?type=refund_evidence" : "/dashboard/refunds",
     currency: claim.currency,
     amountLabel: amount,

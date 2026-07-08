@@ -25,7 +25,7 @@ import {
 } from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime } from "@/lib/utils";
 
-export const metadata = { title: "Recovery Command" };
+export const metadata = { title: "Escrow Command" };
 
 export default async function AdminRecoveryPage() {
   const admin = await requireAdmin();
@@ -45,9 +45,9 @@ export default async function AdminRecoveryPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Recovery command"
-        title="Escrow recovery operations."
-        description="Admin-controlled workflow for investigation cases, private escrow accounts, recovered funds, release readiness, fee verification, and payout status."
+        eyebrow="Escrow command"
+        title="Escrow operations."
+        description="Admin-controlled workflow for escrow requests, private escrow accounts, approved funds, release readiness, fee verification, and payout status."
         actions={
           <>
             <Button variant="outline" asChild>
@@ -65,19 +65,19 @@ export default async function AdminRecoveryPage() {
 
       {!canOperateFunds && (
         <div className="rounded-md border border-warning/25 bg-warning/10 p-4 text-[13px] leading-6 text-warning">
-          Your admin role can review recovery activity, but finance controls are reserved for
+          Your admin role can review escrow activity, but finance controls are reserved for
           finance administrators and super administrators.
         </div>
       )}
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-        <MetricCard icon={FolderOpen} label="Open cases" value={metrics.openCases} />
-        <MetricCard icon={ShieldCheck} label="Recovered cases" value={metrics.recoveredCases} />
+        <MetricCard icon={FolderOpen} label="Open requests" value={metrics.openCases} />
+        <MetricCard icon={ShieldCheck} label="Approved requests" value={metrics.recoveredCases} />
         <MetricCard icon={LockKeyhole} label="Active escrows" value={metrics.activeEscrows} />
         <MetricCard icon={Banknote} label="Release eligible" value={metrics.releaseEligible} />
         <MetricCard
           icon={Banknote}
-          label="Recovered total"
+          label="Approved total"
           value={formatCurrency(metrics.totalRecovered, "USD", {
             notation: "compact",
             maximumFractionDigits: 1,
@@ -88,12 +88,12 @@ export default async function AdminRecoveryPage() {
 
       <section className="grid gap-6 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
         <Panel
-          eyebrow="Investigation intake"
-          title="Case control"
-          detail="Admins can accept, review, assign, recover, reject, or close recovery files."
+          eyebrow="Escrow intake"
+          title="Request control"
+          detail="Admins can accept, review, assign, approve, reject, or close escrow files."
         >
           {(recoveryCases as any[]).length === 0 ? (
-            <EmptyState message="No recovery cases have been filed yet." />
+            <EmptyState message="No escrow requests have been submitted yet." />
           ) : (
             <div className="space-y-4">
               {(recoveryCases as any[]).slice(0, 10).map((item) => (
@@ -105,8 +105,8 @@ export default async function AdminRecoveryPage() {
 
         <Panel
           eyebrow="Private escrow"
-          title="Escrow and recovered funds"
-          detail="Admins can post recovered funds, mark release readiness, and update provider references."
+          title="Escrow and approved funds"
+          detail="Admins can post approved funds, mark release readiness, and update provider references."
         >
           {(escrowContracts as any[]).length === 0 ? (
             <EmptyState message="No private escrow accounts have been opened yet." />
@@ -138,12 +138,12 @@ export default async function AdminRecoveryPage() {
         </Panel>
 
         <Panel
-          eyebrow="Recovered funds ledger"
+          eyebrow="Approved funds ledger"
           title="Latest provider records"
-          detail="Client balances come from recovered funds entries and escrow contract records only."
+          detail="Client balances come from approved funds entries and escrow contract records only."
         >
           {(recoveredFunds as any[]).length === 0 ? (
-            <EmptyState message="No recovered funds have been posted." />
+            <EmptyState message="No approved funds have been posted." />
           ) : (
             <ul className="divide-y divide-white/[0.06] overflow-hidden rounded-md border border-white/[0.08]">
               {(recoveredFunds as any[]).map((entry) => (
@@ -151,7 +151,7 @@ export default async function AdminRecoveryPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0">
                       <div className="truncate text-[13.5px] font-medium text-ivory-100">
-                        {entry.source ?? "Recovered funds"}
+                        {entry.source ?? "Approved funds"}
                       </div>
                       <div className="mt-1 text-[12px] text-ivory-100/48">
                         {entry.profiles?.full_name ?? "Client"} -{" "}
@@ -179,12 +179,12 @@ export default async function AdminRecoveryPage() {
               Control guarantee
             </div>
             <h2 className="mt-1 text-[18px] font-semibold text-ivory-100">
-              Users can open escrow only after case and KYC approval.
+              Users can open escrow only after request and KYC approval.
             </h2>
             <p className="mt-2 max-w-3xl text-[13px] leading-6 text-ivory-100/56">
-              Users may file cases, upload KYC, create the private escrow account when eligible,
+              Users may submit requests, upload KYC, create the private escrow account when eligible,
               and submit release requests. Admins and provider-side backend records control
-              recovered funds, release eligibility, fee verification, payout status, disputes,
+              approved funds, release eligibility, fee verification, payout status, disputes,
               and audit history.
             </p>
           </div>

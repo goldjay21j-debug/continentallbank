@@ -5,32 +5,32 @@ import { MarketingBackdrop } from "./marketing-backdrop";
 const features = [
   {
     icon: FileCheck2,
-    eyebrow: "Case Intake",
-    title: "A real file for every recovery matter",
-    body: "Clients can file relationship-led investment claims, digital asset matters, investment platform disputes, bank transfer claims, marketplace cases, or inheritance recovery matters with structured evidence details.",
+    eyebrow: "Escrow Intake",
+    title: "A verified file for every client request",
+    body: "Clients can open secure escrow requests, relationship-led investment mandates, digital asset reviews, bank transfer support, marketplace payment reviews, or inheritance service files with structured supporting details.",
   },
   {
     icon: ShieldCheck,
-    eyebrow: "Investigation Review",
-    title: "Evidence checked before escalation",
-    body: "Officers review timelines, receipts, wallet records, counterparty details, and KYC before a recovery case can progress to private escrow access.",
+    eyebrow: "Officer Review",
+    title: "Documents checked before activation",
+    body: "Officers review timelines, receipts, wallet records, counterparty details, and KYC before a service request can progress to private escrow access.",
   },
   {
     icon: LockKeyhole,
     eyebrow: "Escrow Gate",
     title: "No open release without control",
-    body: "Private escrow remains locked until identity, case status, and officer approval gates are complete. Release eligibility is never automatic.",
+    body: "Private escrow remains locked until identity, request status, and officer approval gates are complete. Release eligibility is never automatic.",
   },
   {
     icon: Layers,
     eyebrow: "Audit Trail",
     title: "Every status change is traceable",
-    body: "Case updates, recovered-fund entries, withdrawal requests, refunds, documents, and officer notes remain visible inside a controlled client and admin workflow.",
+    body: "Request updates, approved-fund entries, withdrawal requests, refunds, documents, and officer notes remain visible inside a controlled client and admin workflow.",
   },
   {
     icon: ArrowDownLeft,
     eyebrow: "Release Desk",
-    title: "Recovered funds move by review",
+    title: "Approved funds move by review",
     body: "When funds become eligible, the release request is routed through provider review, fee verification, destination checks, and documented completion.",
   },
 ];
@@ -43,10 +43,10 @@ export function FeaturesSection() {
         <Reveal className="mb-10 max-w-2xl">
           <div className="eyebrow flex items-center gap-3 mb-4">
             <span className="inline-block h-px w-8 bg-champagne-500/70" />
-            <span>Recovery Operations</span>
+            <span>Escrow Operations</span>
           </div>
           <h2 className="font-display text-display-lg text-foreground text-balance">
-            Investigation tools for serious investment recovery cases.
+            Private banking tools for escrow and investment review.
           </h2>
         </Reveal>
 

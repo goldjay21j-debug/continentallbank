@@ -5,36 +5,36 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/primitives";
 import { MarketingBackdrop } from "./marketing-backdrop";
 
 const caseTypes = [
-  "Relationship-led investment claims",
+  "Relationship-led investment mandates",
   "Digital asset wallet matters",
-  "Investment platform disputes",
-  "Wire and bank transfer claims",
+  "Investment platform reviews",
+  "Wire and bank transfer support",
   "Identity impersonation concerns",
   "Phishing and account takeover",
-  "Marketplace payment disputes",
-  "Inheritance recovery claims",
+  "Marketplace payment reviews",
+  "Inheritance and beneficiary services",
 ];
 
 const steps = [
   {
     icon: FileCheck2,
-    title: "File the case",
-    body: "Clients submit the investment timeline, claimed amount, counterparty details, payment references, and evidence summary.",
+    title: "Open the request",
+    body: "Clients submit the investment objective, escrow amount, counterparty details, payment references, and supporting document summary.",
   },
   {
     icon: ShieldCheck,
     title: "Officer review",
-    body: "The recovery desk reviews documents, requests KYC, checks provider references, and records every status change.",
+    body: "The escrow desk reviews documents, requests KYC, checks provider references, and records every status change.",
   },
   {
     icon: LockKeyhole,
     title: "Escrow control",
-    body: "Private escrow opens only after the case and identity gate are cleared by an officer.",
+    body: "Private escrow opens only after the request and identity gate are cleared by an officer.",
   },
   {
     icon: Landmark,
     title: "Eligible release",
-    body: "Recovered funds and withdrawal release requests remain controlled, documented, and provider reviewed.",
+    body: "Approved funds and withdrawal release requests remain controlled, documented, and provider reviewed.",
   },
 ];
 
@@ -47,31 +47,31 @@ export function RecoveryServicesSection() {
           <Reveal>
             <div className="eyebrow flex items-center gap-3 mb-4 text-champagne-700">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
-              <span>Investment Recovery Desk</span>
+              <span>Escrow & Investment Desk</span>
             </div>
             <h2 className="font-display text-display-lg text-foreground text-balance">
-              Investment recovery, asset investigation, and controlled escrow cases.
+              Secure escrow accounts, investment review, and controlled release workflows.
             </h2>
             <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground text-pretty">
-              Continental Bank gives clients a structured way to file a case for relationship-led
-              investment claims, digital asset matters, platform disputes, bank transfers,
-              identity concerns, and related recovery mandates.
+              Continental Bank gives clients a structured way to open escrow, start investment
+              review, organize supporting documents, verify identity, and manage approved release
+              instructions through a private banking workflow.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Button size="lg" asChild>
                 <Link href="/register">
-                  File a recovery case
+                  Open escrow account
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/login">Continue an existing case</Link>
+                <Link href="/login">Continue account setup</Link>
               </Button>
             </div>
             <p className="mt-4 max-w-lg text-[12.5px] leading-5 text-muted-foreground">
-              Recovery is evidence-led and not guaranteed. Officers must validate identity,
-              documents, payment records, and provider references before escrow access or release
-              steps become available.
+              Escrow access is officer-reviewed and never automatic. Officers must validate
+              identity, documents, payment records, and provider references before escrow access
+              or release steps become available.
             </p>
           </Reveal>
 

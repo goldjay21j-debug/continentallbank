@@ -4,7 +4,7 @@ import { LegalPage } from "@/components/marketing/legal-page";
 export const metadata: Metadata = {
   title: "Help Center",
   description:
-    "Common questions about recovery case onboarding, evidence review, KYC, escrow, releases, and the secure message center.",
+    "Common questions about client onboarding, KYC, escrow, investment review, releases, and the secure message center.",
 };
 
 export default function HelpPage() {
@@ -12,20 +12,21 @@ export default function HelpPage() {
     <LegalPage
       eyebrow="Help"
       title="Help Center"
-      lead="Answers to the questions clients most often ask. For anything not covered here, the recovery desk responds through the secure portal."
+      lead="Answers to the questions clients most often ask. For anything not covered here, the escrow desk responds through the secure portal."
       sections={[
         {
           title: "Onboarding",
           body: (
             <>
               <p>
-                <strong>How do I start?</strong> Create a secure recovery profile, wait for
-                account approval, then file the investment recovery case from your dashboard. The
-                recovery desk will request identity documents and evidence as needed.
+                <strong>How do I start?</strong> Create a secure client profile, wait for account
+                approval, then open a secure escrow account or start an investment request from
+                your dashboard. The escrow desk will request identity documents and supporting
+                records as needed.
               </p>
               <p>
                 <strong>How long does approval take?</strong> Typically one business day for
-                qualifying applications. Complex cases involving multiple payment providers,
+                qualifying applications. Complex requests involving multiple payment providers,
                 jurisdictions, wallets, or counterparties may require additional review.
               </p>
             </>
@@ -95,7 +96,7 @@ export default function HelpPage() {
               </p>
               <p>
                 <strong>Can I request a custom report?</strong> Yes. Open a thread in the Secure
-                Message Center and the recovery desk will prepare it within the business day.
+                Message Center and the escrow desk will prepare it within the business day.
               </p>
             </>
           ),
@@ -105,9 +106,9 @@ export default function HelpPage() {
           body: (
             <>
               <p>
-                The Secure Message Center is the fastest way to reach the recovery desk for any
+                The Secure Message Center is the fastest way to reach the escrow desk for any
                 non-urgent matter. For urgent operational issues, suspected unauthorised
-                instructions, or freeze requests, contact case support directly through the
+                instructions, or freeze requests, contact client support directly through the
                 details in your portal.
               </p>
               <p>

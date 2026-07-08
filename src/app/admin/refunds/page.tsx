@@ -26,9 +26,9 @@ export default async function AdminRefundsPage({
   return (
     <div className="space-y-10">
       <PageHeader
-        eyebrow="Refunds &amp; recovery"
-        title="Claims queue."
-        description="Review and process refund claims — disputes filed by signed-in clients and public claims submitted via the marketing site."
+        eyebrow="Refund desk"
+        title="Refund request queue."
+        description="Review and process refund requests filed by signed-in clients and public requests submitted via the marketing site."
       />
 
       <div className="flex flex-wrap items-center gap-2">
@@ -53,7 +53,7 @@ export default async function AdminRefundsPage({
       <div className="glass-card overflow-hidden">
         {rows.length === 0 ? (
           <div className="px-6 py-16 text-center text-[13px] text-muted-foreground">
-            No claims match this filter.
+            No requests match this filter.
           </div>
         ) : (
           <ul className="divide-y divide-foreground/[0.05]">
@@ -77,7 +77,7 @@ export default async function AdminRefundsPage({
                         {String(r.status).replace("_", " ")}
                       </Badge>
                       <Badge variant="muted" className="capitalize">
-                        {r.claim_type === "public_claim" ? "Public claim" : "Client dispute"}
+                        {r.claim_type === "public_claim" ? "Public request" : "Client dispute"}
                       </Badge>
                       <span className="text-[12px] text-muted-foreground">
                         {formatDateTime(r.created_at)}

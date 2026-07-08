@@ -11,7 +11,7 @@ type Props = {
   reason?: string | null;
   /** Contact email shown in the banner CTA. */
   contactEmail?: string;
-  /** Contact name (for example, "Recovery desk officer"). */
+  /** Contact name (for example, "Escrow desk officer"). */
   contactName?: string;
 };
 
@@ -37,7 +37,7 @@ export function FrozenOverlay({
   frozenAt,
   reason,
   contactEmail = "recovery@continentallbank.com",
-  contactName = "the recovery desk",
+  contactName = "the escrow desk",
 }: Props) {
   const reduce = useReducedMotion();
   const date = frozenAt ? formatDate(frozenAt) : "recently";

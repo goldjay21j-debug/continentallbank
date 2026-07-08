@@ -53,15 +53,15 @@ export default async function EscrowDashboardPage() {
                 </h1>
                 <p className="mt-4 max-w-3xl text-[15px] leading-7 text-slate-600">
                   {overview.accessState.description} Your release desk remains locked until the
-                  recovery case, identity review, and escrow account setup are all cleared by an
+                  escrow request, identity review, and escrow account setup are all cleared by an
                   officer.
                 </p>
 
                 <div className="mt-5 grid gap-3 sm:grid-cols-3">
                   <GateStep
                     icon={FolderOpen}
-                    label="Investigation case"
-                    description="Recovery file and evidence logged"
+                    label="Escrow request"
+                    description="Service request and documents logged"
                     complete={Boolean(primaryCase)}
                   />
                   <GateStep
@@ -93,7 +93,7 @@ export default async function EscrowDashboardPage() {
                     </div>
                     <p className="mt-3 text-[13px] leading-6 text-ivory-100/70">
                       Funds movement, document requests, provider references, and approval notes
-                      remain audit-logged throughout the recovery process.
+                      remain audit-logged throughout the escrow process.
                     </p>
                   </div>
 
@@ -110,7 +110,7 @@ export default async function EscrowDashboardPage() {
                     {overview.accessState.key === "case_required" && (
                       <Button asChild className="w-full">
                         <Link href="#recovery-intake">
-                          File investigation
+                          Open escrow account
                           <ArrowRight className="h-4 w-4" />
                         </Link>
                       </Button>
@@ -151,7 +151,7 @@ export default async function EscrowDashboardPage() {
                   Required before escrow opens.
                 </h2>
             <div className="mt-5 space-y-3">
-              <GateRow icon={FolderOpen} label="Investigation case" complete={Boolean(primaryCase)} />
+              <GateRow icon={FolderOpen} label="Escrow request" complete={Boolean(primaryCase)} />
               <GateRow icon={ShieldCheck} label="KYC verification" complete={verified} />
               <GateRow icon={LockKeyhole} label="Private escrow account" complete={Boolean(contract)} />
             </div>
@@ -177,7 +177,7 @@ export default async function EscrowDashboardPage() {
               </div>
               <p className="mt-4 text-[13px] leading-6 text-slate-600">
                 Escrow remains locked until officers verify identity and account ownership. This
-                prevents recovered funds from being released to an unverified destination.
+                prevents approved funds from being released to an unverified destination.
               </p>
             </MotionCard>
           )}
@@ -191,7 +191,7 @@ export default async function EscrowDashboardPage() {
       <PageHeader
         eyebrow="Private escrow"
         title="Escrow dashboard."
-        description="Recovered funds, provider references, release controls, disputes, and fee verification status for your active recovery case."
+        description="Approved funds, provider references, release controls, disputes, and fee verification status for your active escrow account."
         actions={
           <Button asChild>
             <Link href="/dashboard/withdraw">
@@ -227,7 +227,7 @@ export default async function EscrowDashboardPage() {
           </div>
 
           <div className="grid gap-4 px-5 py-5 sm:grid-cols-2 lg:grid-cols-4 sm:px-6">
-            <EscrowMetric label="Total recovered" value={formatCurrency(contract.total_recovered, currency)} />
+            <EscrowMetric label="Total approved" value={formatCurrency(contract.total_recovered, currency)} />
             <EscrowMetric label="Available release" value={formatCurrency(available, currency)} />
             <EscrowMetric label="Release fee" value={formatCurrency(releaseQuote.releaseProcessingFee, currency)} />
             <EscrowMetric label="Estimated net" value={formatCurrency(releaseQuote.netAmount, currency)} strong />
@@ -257,14 +257,14 @@ export default async function EscrowDashboardPage() {
 
       <section className="grid gap-5 lg:grid-cols-[1fr_1fr]">
         <MotionCard index={2} className="overflow-hidden">
-          <SectionHeader title="Recovered funds ledger" eyebrow="Escrow entries" />
+          <SectionHeader title="Approved funds ledger" eyebrow="Escrow entries" />
           <MotionList className="divide-y divide-foreground/[0.05]">
             {overview.recoveredFunds.map((entry) => (
               <MotionRow key={entry.id} className="px-6 py-4">
                 <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                   <div className="min-w-0">
                     <div className="break-words text-[14px] font-medium text-foreground">
-                      {entry.source ?? "Recovered funds"}
+                      {entry.source ?? "Approved funds"}
                     </div>
                     <div className="mt-1 break-words text-[12px] text-muted-foreground">
                       {entry.provider_reference ?? "Provider reference pending"} -{" "}

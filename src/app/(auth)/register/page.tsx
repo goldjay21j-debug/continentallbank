@@ -4,8 +4,8 @@ import { ActivityTicker } from "@/components/shared/activity-ticker";
 import { TrustBadgeRail } from "@/components/shared/trust-badges";
 
 export const metadata: Metadata = {
-  title: "File a recovery case",
-  description: "Create a secure Continental Bank recovery portal profile.",
+  title: "Open a secure escrow account",
+  description: "Create a secure Continental Bank client profile for escrow and investment services.",
   robots: {
     index: false,
     follow: false,
@@ -17,14 +17,14 @@ export default function RegisterPage() {
     <div className="space-y-8">
       <header>
         <div className="eyebrow text-champagne-700 dark:text-champagne-400 mb-4">
-          Investment Recovery Desk
+          Secure Escrow & Investment Desk
         </div>
         <h1 className="font-display text-display-md text-foreground text-balance">
-          Create your recovery case profile.
+          Open a secure escrow account.
         </h1>
         <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
-          Submit your secure profile first. Once approved, you can file the investment recovery
-          case, upload KYC, and continue through officer review.
+          Create your verified client profile first. Once approved, you can open escrow services,
+          start an investment, upload KYC, and continue through officer review.
         </p>
       </header>
 
@@ -37,7 +37,7 @@ export default function RegisterPage() {
         className="sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1"
       />
 
-      <ActivityTicker preset="auth" tone="dark" label="Recovery desk" compact />
+      <ActivityTicker preset="auth" tone="dark" label="Escrow desk" compact />
     </div>
   );
 }

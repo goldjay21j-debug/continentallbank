@@ -9,9 +9,9 @@ import { ActivityTicker } from "@/components/shared/activity-ticker";
 import { TrustBadgeRail } from "@/components/shared/trust-badges";
 
 export const metadata: Metadata = {
-  title: "File a Refund Claim",
+  title: "Submit a Refund Request",
   description:
-    "File a refund claim with Continental Bank — for disputed charges, failed settlements, or recovery of dormant deposits. All claims are reviewed manually by a relationship officer.",
+    "Submit a refund request with Continental Bank for disputed charges, failed settlements, or dormant deposits. All requests are reviewed manually by a relationship officer.",
 };
 
 export default function RefundPage() {
@@ -35,18 +35,18 @@ export default function RefundPage() {
           <div className="mt-5 max-w-3xl">
             <div className="eyebrow flex items-center gap-3 mb-4">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
-              <span>Refund &amp; Recovery</span>
+              <span>Refund Desk</span>
             </div>
             <h1 className="font-display text-display-xl text-foreground text-balance">
-              File a claim. We will respond.
+              Submit a refund request. We will respond.
             </h1>
             <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground text-pretty">
-              The form below is for disputed charges, failed settlements, recovery of dormant
-              deposits, and any other matter requiring restitution. Each claim is reviewed by
+              The form below is for disputed charges, failed settlements, dormant deposits, and
+              any other matter requiring restitution. Each request is reviewed by
               hand by a relationship officer of the Bank — there is no automated outcome.
             </p>
             <TrustBadgeRail preset="refund" compact className="mt-6 lg:grid-cols-3 xl:grid-cols-3" />
-            <ActivityTicker preset="refund" label="Recovery activity" compact className="mt-4" />
+            <ActivityTicker preset="refund" label="Refund activity" compact className="mt-4" />
           </div>
         </div>
       </section>
@@ -59,19 +59,19 @@ export default function RefundPage() {
               icon={Clock}
               eyebrow="01"
               title="One business day"
-              body="A relationship officer will acknowledge your claim by email within one business day. Substantive review follows."
+              body="A relationship officer will acknowledge your request by email within one business day. Substantive review follows."
             />
             <InfoCard
               icon={ScrollText}
               eyebrow="02"
               title="Recorded and audited"
-              body="Every claim is logged against the audit register. The disposition of your claim is written, signed, and traceable to the responsible officer."
+              body="Every request is logged against the audit register. The disposition is written, signed, and traceable to the responsible officer."
             />
             <InfoCard
               icon={ShieldCheck}
               eyebrow="03"
               title="Discreet by default"
-              body="Claim details are discussed by email and on a recorded telephone line. Continental Bank never solicits passwords, OTPs, or full card credentials."
+              body="Request details are discussed by email and on a recorded telephone line. Continental Bank never solicits passwords, OTPs, or full card credentials."
             />
           </div>
         </div>

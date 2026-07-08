@@ -18,7 +18,7 @@ const columns = [
       { label: "Private banking services", href: "/services" },
       { label: "Frequently asked", href: "/faq" },
       { label: "Help Center", href: "/help" },
-      { label: "File a refund claim", href: "/refund" },
+      { label: "Submit refund request", href: "/refund" },
     ],
   },
   {

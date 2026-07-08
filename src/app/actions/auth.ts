@@ -37,7 +37,7 @@ function friendlyAuthError(message: string) {
     return "Use a stronger password with at least 8 characters.";
   }
   if (lower.includes("redirect")) {
-    return "The account portal is not fully configured for signups yet. Please contact the recovery desk.";
+    return "The account portal is not fully configured for signups yet. Please contact the escrow desk.";
   }
   return message || "We could not create the account right now. Please try again.";
 }
@@ -112,7 +112,7 @@ export async function signUpAction(formData: FormData): Promise<SignUpResult> {
     return {
       ok: false,
       error:
-        "We could not create the account right now. Please try again in a moment or contact the recovery desk.",
+        "We could not create the account right now. Please try again in a moment or contact the escrow desk.",
     };
   }
 }

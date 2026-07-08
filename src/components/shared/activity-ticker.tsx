@@ -31,7 +31,7 @@ const ACTIVITY_ITEMS: Record<ActivityTickerPreset, ActivityItem[]> = {
     {
       desk: "Private Office",
       event: "Refund completed",
-      detail: "Claim closed successfully",
+      detail: "Request completed",
       icon: RefreshCcw,
     },
     {
@@ -133,15 +133,15 @@ const ACTIVITY_ITEMS: Record<ActivityTickerPreset, ActivityItem[]> = {
   ],
   refund: [
     {
-      desk: "Recovery Desk",
+      desk: "Escrow Desk",
       event: "Refund completed",
-      detail: "Claim closed successfully",
+      detail: "Request completed",
       icon: RefreshCcw,
     },
     {
       desk: "Audit",
-      event: "Claim recorded",
-      detail: "Case trail updated",
+      event: "Request recorded",
+      detail: "Account trail updated",
       icon: ScrollText,
     },
     {
@@ -152,8 +152,8 @@ const ACTIVITY_ITEMS: Record<ActivityTickerPreset, ActivityItem[]> = {
     },
     {
       desk: "Compliance",
-      event: "Evidence reviewed",
-      detail: "Recovery file verified",
+      event: "Documents reviewed",
+      detail: "Client file verified",
       icon: ShieldCheck,
     },
   ],
@@ -167,7 +167,7 @@ const ACTIVITY_ITEMS: Record<ActivityTickerPreset, ActivityItem[]> = {
     {
       desk: "Refund Desk",
       event: "Refund completed",
-      detail: "Client case closed",
+      detail: "Client request closed",
       icon: RefreshCcw,
     },
     {

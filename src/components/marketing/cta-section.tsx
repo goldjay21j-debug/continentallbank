@@ -19,21 +19,21 @@ export function CtaSection() {
           <Reveal>
             <div className="eyebrow flex items-center gap-3 mb-4 text-champagne-300">
               <span className="inline-block h-px w-8 bg-champagne-400/70" />
-              <span>Recovery Desk</span>
+              <span>Escrow & Investment Desk</span>
             </div>
             <h2 className="font-display text-display-xl text-balance">
-              Start with a case file. Continue with officer review.
+              Open a secure escrow account or start an investment.
             </h2>
             <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-ivory-100/75 text-pretty">
-              If you need an investment or asset recovery review, submit the case details first. The recovery desk can
-              request evidence, verify identity, review provider references, and open escrow only
-              after the required checks are complete.
+              Submit your client profile and service request first. The escrow desk can verify
+              identity, review provider references, request supporting documents, and open escrow
+              only after the required checks are complete.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Button size="lg" variant="gold" asChild>
                 <Link href="/register">
-                  File a recovery case
+                  Open escrow account
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </Button>
@@ -44,7 +44,7 @@ export function CtaSection() {
                 className="border-ivory-100/20 bg-transparent text-ivory-100 hover:bg-ivory-100/5"
               >
                 <Link href="mailto:recovery@continentallbank.com">
-                  Contact recovery desk
+                  Contact escrow desk
                 </Link>
               </Button>
             </div>
@@ -55,16 +55,16 @@ export function CtaSection() {
             className="space-y-5 border border-ivory-100/15 bg-navy-800/40 p-5 rounded-md backdrop-blur-sm sm:p-6"
           >
             <div>
-              <div className="eyebrow text-champagne-300">Investment Recovery Desk</div>
+              <div className="eyebrow text-champagne-300">Escrow & Investment Desk</div>
               <p className="mt-3 text-[14px] leading-relaxed text-ivory-100/80">
-                Case intake for relationship-led investment claims, digital asset matters,
-                investment platform disputes, bank transfers, identity concerns, and marketplace
-                disputes.
+                Secure onboarding for relationship-led investments, private escrow accounts,
+                digital asset reviews, bank transfers, account verification, and marketplace
+                payment support.
               </p>
             </div>
             <div className="hairline bg-ivory-100/10" />
             <div>
-              <div className="eyebrow text-champagne-300">Case Support</div>
+              <div className="eyebrow text-champagne-300">Client Support</div>
               <p className="mt-3 text-[14px] tabular-figures text-ivory-100/80">
                 recovery@continentallbank.com
                 <br />
@@ -75,8 +75,7 @@ export function CtaSection() {
             <div>
               <div className="eyebrow text-champagne-300">Review Standard</div>
               <p className="mt-3 text-[14px] text-ivory-100/80">
-                Evidence-led review, KYC verification, audit logs, and controlled release
-                workflow.
+                Officer-led review, KYC verification, audit logs, and controlled release workflow.
               </p>
             </div>
           </Reveal>

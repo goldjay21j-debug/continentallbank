@@ -19,7 +19,7 @@ export default async function RefundsPage() {
   const preferredCurrency = user.profile.preferred_currency as Currency;
   const activeClaims = claims.filter((c) => c.status === "pending" || c.status === "under_review");
   const settledClaims = claims.filter((c) => c.status === "approved" || c.status === "completed");
-  const totalClaimed = claims.reduce((sum, c) => sum + Number(c.amount), 0);
+  const totalRequested = claims.reduce((sum, c) => sum + Number(c.amount), 0);
   const latest = claims[0];
 
   return (
@@ -35,7 +35,7 @@ export default async function RefundsPage() {
           icon={Clock3}
           label="Active reviews"
           value={activeClaims.length.toString()}
-          note="Claims with an officer"
+          note="Requests with an officer"
           index={0}
         />
         <RefundMetric
@@ -47,12 +47,12 @@ export default async function RefundsPage() {
         />
         <RefundMetric
           icon={FileText}
-          label="Total claimed"
-          value={formatCurrency(totalClaimed, latest?.currency ?? preferredCurrency, {
+          label="Total requested"
+          value={formatCurrency(totalRequested, latest?.currency ?? preferredCurrency, {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           })}
-          note={claims.length ? "Across submitted disputes" : "No claims filed"}
+          note={claims.length ? "Across submitted disputes" : "No requests filed"}
           index={2}
         />
       </section>
@@ -86,7 +86,7 @@ export default async function RefundsPage() {
         <div className="glass-card">
           <div className="border-b border-foreground/[0.06] px-6 py-4">
             <div className="eyebrow text-champagne-700 dark:text-champagne-400">History</div>
-            <h3 className="mt-1 font-display text-lg font-semibold">Your claims</h3>
+            <h3 className="mt-1 font-display text-lg font-semibold">Your refund requests</h3>
           </div>
           {claims.length === 0 ? (
             <div className="px-6 py-16 text-center text-[13px] text-muted-foreground">
@@ -139,7 +139,7 @@ export default async function RefundsPage() {
                   <RefundTimeline status={r.status} />
                   <div className="mt-4 grid gap-2 rounded-md border border-foreground/[0.06] bg-foreground/[0.025] p-3 text-[12px] text-muted-foreground sm:grid-cols-2">
                     <ChecklistItem active={Boolean(r.transaction_reference)} label="Transaction reference" />
-                    <ChecklistItem active={Boolean(r.amount)} label="Claim amount recorded" />
+                    <ChecklistItem active={Boolean(r.amount)} label="Requested amount recorded" />
                     <ChecklistItem active={r.description.length >= 20} label="Client statement captured" />
                     <ChecklistItem active={Boolean(r.admin_note)} label="Officer note attached" />
                   </div>

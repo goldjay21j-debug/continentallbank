@@ -34,16 +34,16 @@ export const WithdrawalRequestSchema = z.object({
 });
 
 export const RecoveryCaseSchema = z.object({
-  title: z.string().min(4, "Enter a short case title").max(160),
+  title: z.string().min(4, "Enter a short request title").max(160),
   complaintType: z.enum(RECOVERY_CASE_TYPE_VALUES),
-  summary: z.string().min(30, "Describe the investment recovery matter in at least 30 characters").max(5000),
+  summary: z.string().min(30, "Describe the escrow or investment request in at least 30 characters").max(5000),
   evidenceSummary: z.string().max(3000).optional().or(z.literal("")),
   counterpartyName: z.string().max(160).optional().or(z.literal("")),
   counterpartyContact: z.string().max(180).optional().or(z.literal("")),
   amountClaimed: z
     .number()
     .min(0, "Amount cannot be negative")
-    .max(500_000_000, "Amount exceeds recovery desk intake limit"),
+    .max(500_000_000, "Amount exceeds escrow desk intake limit"),
   currency: z.enum(CURRENCIES as unknown as [string, ...string[]]),
 });
 
@@ -92,7 +92,7 @@ export const AdminEscrowContractUpdateSchema = z.object({
 
 export const AdminRecoveredFundsEntrySchema = z.object({
   escrowContractId: z.string().uuid(),
-  amount: z.number().positive("Enter recovered funds greater than zero").max(500_000_000),
+  amount: z.number().positive("Enter approved funds greater than zero").max(500_000_000),
   source: z.string().min(2).max(160),
   providerReference: z.string().max(160).optional().or(z.literal("")),
   note: z.string().max(2000).optional().or(z.literal("")),
