@@ -57,6 +57,67 @@ export const EscrowReleaseRequestSchema = z.object({
   notes: z.string().max(1000).optional(),
 });
 
+export const AdminRecoveryCaseUpdateSchema = z.object({
+  caseId: z.string().uuid(),
+  status: z.enum([
+    "draft",
+    "submitted",
+    "under_review",
+    "accepted",
+    "rejected",
+    "assigned",
+    "recovered",
+    "closed",
+  ]),
+  providerReference: z.string().max(160).optional().or(z.literal("")),
+  note: z.string().max(2000).optional().or(z.literal("")),
+});
+
+export const AdminEscrowContractUpdateSchema = z.object({
+  contractId: z.string().uuid(),
+  status: z.enum([
+    "draft",
+    "pending_setup",
+    "active",
+    "ready_for_release",
+    "release_approved",
+    "frozen",
+    "closed",
+  ]),
+  releaseStatus: z.enum(["not_eligible", "eligible", "blocked", "under_review"]),
+  releaseConditionsOpen: z.boolean(),
+  providerReference: z.string().max(160).optional().or(z.literal("")),
+  note: z.string().max(2000).optional().or(z.literal("")),
+});
+
+export const AdminRecoveredFundsEntrySchema = z.object({
+  escrowContractId: z.string().uuid(),
+  amount: z.number().positive("Enter recovered funds greater than zero").max(500_000_000),
+  source: z.string().min(2).max(160),
+  providerReference: z.string().max(160).optional().or(z.literal("")),
+  note: z.string().max(2000).optional().or(z.literal("")),
+});
+
+export const AdminEscrowWithdrawalUpdateSchema = z.object({
+  id: z.string().uuid(),
+  status: z.enum([
+    "pending_review",
+    "awaiting_fee_completion",
+    "approved",
+    "approved_for_processing",
+    "processing",
+    "completed",
+    "paid",
+    "failed",
+    "rejected",
+    "cancelled",
+  ]),
+  feeStatus: z.enum(["unpaid", "pending_verification", "completed"]),
+  providerStatus: z.string().max(160).optional().or(z.literal("")),
+  providerReference: z.string().max(160).optional().or(z.literal("")),
+  adminNote: z.string().max(2000).optional().or(z.literal("")),
+});
+
 export const AdminBalanceAdjustmentSchema = z.object({
   userId: z.string().uuid(),
   currency: z.enum(CURRENCIES as unknown as [string, ...string[]]),

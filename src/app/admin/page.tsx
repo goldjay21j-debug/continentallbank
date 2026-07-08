@@ -228,7 +228,7 @@ export default async function AdminOverviewPage() {
       label: "Fraud recovery cases",
       value: String(recoveryMetrics.openCases),
       detail: "Scam reports, evidence, and escrow readiness",
-      href: "/admin#recovery-command",
+      href: "/admin/recovery",
       active: recoveryMetrics.openCases > 0,
     },
     {
@@ -261,7 +261,7 @@ export default async function AdminOverviewPage() {
       icon: FolderOpen,
       label: "Manage investigations",
       detail: "Review scam intake, escrow contracts, recovered funds, and release eligibility.",
-      href: "/admin#recovery-command",
+      href: "/admin/recovery",
       metric: recoveryMetrics.openCases,
     },
     {
@@ -460,7 +460,7 @@ export default async function AdminOverviewPage() {
           <SectionHeader
             eyebrow="Fraud recovery and escrow"
             title="Investigation intake queue"
-            href="/admin#recovery-command"
+            href="/admin/recovery"
             label="Current"
           />
           {(recoveryCases as RecoveryCaseRow[]).length === 0 ? (

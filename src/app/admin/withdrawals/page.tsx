@@ -112,7 +112,7 @@ export default async function AdminWithdrawalsPage({
                     </div>
                     {r.escrow_contract_id && (
                       <Button variant="outline" size="sm" asChild>
-                        <Link href="/admin#recovery-command">
+                        <Link href="/admin/recovery">
                           Manage escrow release
                         </Link>
                       </Button>
