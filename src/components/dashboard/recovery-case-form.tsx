@@ -79,11 +79,11 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
           Secure escrow intake
         </div>
         <h3 className="mt-2 font-display text-xl font-semibold text-foreground">
-          Open a secure escrow account or start an investment
+          Open a secure escrow account
         </h3>
         <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
-          Tell us whether you need private escrow, an investment mandate, digital asset review,
-          bank transfer support, marketplace payment review, or another private banking service.
+          Tell us whether you need private escrow, bank transfer support, digital asset review,
+          marketplace payment review, beneficiary coordination, or another private banking service.
           Officers review the request and required documents before escrow access can open.
         </p>
       </div>
@@ -95,7 +95,7 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
             id="case-title"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            placeholder="e.g. Secure escrow account for investment funds"
+            placeholder="e.g. Secure escrow account for bank-held funds"
           />
         </div>
 
@@ -154,7 +154,7 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
             rows={5}
             value={summary}
             onChange={(event) => setSummary(event.target.value)}
-            placeholder="Explain the investment objective, escrow purpose, dates, payment methods, wallet or bank details, counterparties, and what banking support you need."
+            placeholder="Explain the escrow purpose, dates, payment methods, wallet or bank details, counterparties, and what banking support you need."
           />
         </div>
 
@@ -194,7 +194,7 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
         <p>
           Submitting this request starts officer-led review. Approval is never automatic; the desk
           validates identity, documents, counterparties, and provider records before any private
-          escrow, investment, or release step is enabled.
+          escrow, banking, or release step is enabled.
         </p>
       </div>
 

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import {
-  ArrowDownLeft,
   ArrowRight,
   CheckCircle2,
   Clock3,
@@ -15,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/dashboard/page-header";
+import { BalanceCard } from "@/components/dashboard/balance-card";
 import { RecoveryCaseForm } from "@/components/dashboard/recovery-case-form";
 import { EscrowCreateButton } from "@/components/dashboard/escrow-create-button";
 import { ActivityTicker } from "@/components/shared/activity-ticker";
@@ -24,8 +24,10 @@ import { MotionList, MotionRow } from "@/components/motion/motion-list";
 import { requireApprovedClient } from "@/lib/auth";
 import {
   ACCOUNT_STATUS,
+  CURRENCIES,
   KYC_STATUS,
   RECOVERY_CASE_TYPE_LABELS,
+  SITE,
   type Currency,
   type RecoveryCaseType,
 } from "@/lib/constants";
@@ -33,15 +35,17 @@ import { calculateReleaseFee, isRecoveryVerified } from "@/lib/portal/recovery";
 import {
   clientEscrowOverview,
   clientPendingWithdrawals,
+  clientWallets,
 } from "@/lib/portal/queries";
 import { formatAccountNumber, formatCurrency, formatDate, formatDateTime } from "@/lib/utils";
-import type { WithdrawalRequest } from "@/lib/types/database";
+import type { WithdrawalRequest, Wallet } from "@/lib/types/database";
 
 export default async function DashboardOverviewPage() {
   const user = await requireApprovedClient();
-  const [overview, pendingWithdrawals] = await Promise.all([
+  const [overview, pendingWithdrawals, wallets] = await Promise.all([
     clientEscrowOverview(user.id, user.profile),
     clientPendingWithdrawals(user.id),
+    clientWallets(user.id),
   ]);
 
   const primaryCase = overview.primaryCase;
@@ -56,25 +60,37 @@ export default async function DashboardOverviewPage() {
   const currency = (escrowContract?.currency ?? primaryCase?.currency ?? user.profile.preferred_currency) as Currency;
   const pending = pendingWithdrawals as WithdrawalRequest[];
 
+  // Per-currency balance cards: spendable available (wallet) + escrow eligible.
+  const walletList = wallets as Wallet[];
+  const escrowCurrency = escrowContract?.currency as Currency | undefined;
+  const balances = CURRENCIES.map((c) => {
+    const w = walletList.find((x) => x.currency === c);
+    return {
+      currency: c,
+      availableBalance: Number(w?.available_balance ?? 0),
+      escrowEligible: escrowCurrency === c ? availableForRelease : 0,
+    };
+  });
+  const preferredCurrency = (CURRENCIES as readonly string[]).includes(user.profile.preferred_currency)
+    ? (user.profile.preferred_currency as Currency)
+    : "USD";
+  const createdYear = new Date(user.profile.created_at).getFullYear();
+  const memberSince = Number.isFinite(createdYear) ? createdYear : SITE.estd;
+
   return (
     <div className="space-y-5">
+      <BalanceCard
+        holderName={user.profile.full_name}
+        cardNumberFormatted={formatAccountNumber(user.profile.account_number)}
+        memberSince={memberSince}
+        balances={balances}
+        defaultCurrency={preferredCurrency}
+      />
+
       <PageHeader
         eyebrow={`Private escrow office - ${user.profile.full_name.split(" ")[0]}`}
-        title="Secure escrow and investment center."
-        description="A controlled path for investment review, KYC approval, private escrow activation, and eligible release requests."
-        actions={
-          <>
-            <Button variant="outline" asChild>
-              <Link href="/dashboard/escrow">Escrow dashboard</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/dashboard/withdraw">
-                Request release
-                <ArrowDownLeft className="h-4 w-4" />
-              </Link>
-            </Button>
-          </>
-        }
+        title="Secure escrow and banking center."
+        description="A controlled path for bank review, KYC approval, private escrow activation, and eligible release requests."
       />
 
       <TrustBadgeRail preset="dashboard" tone="light" compact />
@@ -108,7 +124,7 @@ export default async function DashboardOverviewPage() {
                 <div className="mt-1 text-[13px] font-medium capitalize text-foreground">
                   {user.profile.escrow_account_status.replace("_", " ")}
                 </div>
-                <div className="mt-1 text-[11px] tabular-figures text-muted-foreground">
+                <div className="mt-1 break-words text-[11px] tabular-figures text-muted-foreground">
                   {user.profile.escrow_account_reference ?? "Pending private reference"}
                 </div>
               </div>
@@ -229,7 +245,7 @@ export default async function DashboardOverviewPage() {
               Secure account access model
             </h3>
             <div className="mt-5 space-y-3">
-              <ProcessStep label="1" title="Request recorded" body="An escrow or investment service request is created and assigned for officer review." />
+              <ProcessStep label="1" title="Request recorded" body="An escrow service request is created and assigned for bank officer review." />
               <ProcessStep label="2" title="Documents requested" body="The escrow desk requests receipts, wallet records, communications, provider references, and timelines." />
               <ProcessStep label="3" title="KYC approved" body="Identity, address, and ownership records are checked before private escrow access." />
               <ProcessStep label="4" title="Escrow opened" body="Approved funds are controlled through private escrow and release eligibility rules." />

@@ -39,9 +39,9 @@ const en: Dict = {
 
   // Hero
   "hero.eyebrow": "Secure Escrow · Private Banking Desk",
-  "hero.title": "Open a secure escrow account or start an investment.",
+  "hero.title": "Open a secure escrow account with bank oversight.",
   "hero.subtitle":
-    "Continental Bank helps clients organize investment records, KYC, provider references, private escrow, and controlled release requests for digital assets, bank transfers, marketplace payments, and related private banking matters.",
+    "Continental Bank helps clients establish secure escrow accounts, complete KYC, record provider references, and submit controlled release requests for digital assets, bank transfers, marketplace payments, and related private banking matters.",
   "hero.cta_primary": "Open escrow account",
   "hero.cta_secondary": "Speak with the escrow desk",
   "hero.stat_established": "Established",
@@ -152,9 +152,9 @@ const fr: Dict = {
   "nav.leadership": "Direction",
   "nav.insights": "Analyses",
   "hero.eyebrow": "Séquestre sécurisé · Bureau de banque privée",
-  "hero.title": "Ouvrez un compte séquestre sécurisé ou démarrez un investissement.",
+  "hero.title": "Ouvrez un compte séquestre sécurisé avec supervision bancaire.",
   "hero.subtitle":
-    "Continental Bank aide les clients à organiser les dossiers d'investissement, le KYC, les références de prestataires, le séquestre privé et les demandes de libération contrôlée pour les actifs numériques, virements bancaires, paiements de marché et services privés associés.",
+    "Continental Bank aide les clients à ouvrir des comptes séquestres sécurisés, compléter le KYC, enregistrer les références de prestataires et soumettre des demandes de libération contrôlée pour actifs numériques, virements bancaires, paiements de marché et services privés associés.",
   "hero.cta_primary": "Ouvrir un compte séquestre",
   "hero.cta_secondary": "Parler au bureau séquestre",
   "hero.stat_established": "Fondée",
@@ -237,9 +237,9 @@ const de: Dict = {
   "nav.leadership": "Führung",
   "nav.insights": "Einblicke",
   "hero.eyebrow": "Sicheres Treuhandkonto · Private-Banking-Desk",
-  "hero.title": "Eröffnen Sie ein sicheres Treuhandkonto oder starten Sie eine Investition.",
+  "hero.title": "Eröffnen Sie ein sicheres Treuhandkonto mit Bankaufsicht.",
   "hero.subtitle":
-    "Continental Bank unterstützt Kunden bei Investmentunterlagen, KYC, Anbieterreferenzen, privater Treuhandkontrolle und kontrollierten Freigabeanträgen für digitale Vermögenswerte, Banküberweisungen, Marktplatzzahlungen und verwandte Private-Banking-Anliegen.",
+    "Continental Bank unterstützt Kunden bei sicheren Treuhandkonten, KYC, Anbieterreferenzen, privater Treuhandkontrolle und kontrollierten Freigabeanträgen für digitale Vermögenswerte, Banküberweisungen, Marktplatzzahlungen und verwandte Private-Banking-Anliegen.",
   "hero.cta_primary": "Treuhandkonto eröffnen",
   "hero.cta_secondary": "Mit dem Escrow Desk sprechen",
   "hero.stat_established": "Gegründet",
@@ -322,9 +322,9 @@ const es: Dict = {
   "nav.leadership": "Liderazgo",
   "nav.insights": "Perspectivas",
   "hero.eyebrow": "Escrow seguro · Mesa de banca privada",
-  "hero.title": "Abra una cuenta escrow segura o inicie una inversión.",
+  "hero.title": "Abra una cuenta escrow segura con supervisión bancaria.",
   "hero.subtitle":
-    "Continental Bank ayuda a organizar registros de inversión, KYC, referencias de proveedores, escrow privado y solicitudes de liberación controlada para activos digitales, transferencias bancarias, pagos de mercado y servicios privados relacionados.",
+    "Continental Bank ayuda a abrir cuentas escrow seguras, completar KYC, registrar referencias de proveedores y presentar solicitudes de liberación controlada para activos digitales, transferencias bancarias, pagos de mercado y servicios privados relacionados.",
   "hero.cta_primary": "Abrir cuenta escrow",
   "hero.cta_secondary": "Hablar con escrow",
   "hero.stat_established": "Fundada",
@@ -407,9 +407,9 @@ const it: Dict = {
   "nav.leadership": "Leadership",
   "nav.insights": "Approfondimenti",
   "hero.eyebrow": "Escrow sicuro · Desk private banking",
-  "hero.title": "Apri un conto escrow sicuro o avvia un investimento.",
+  "hero.title": "Apri un conto escrow sicuro con supervisione bancaria.",
   "hero.subtitle":
-    "Continental Bank aiuta i clienti a organizzare documenti di investimento, KYC, riferimenti dei provider, escrow privato e richieste di rilascio controllato per asset digitali, bonifici, pagamenti marketplace e servizi privati collegati.",
+    "Continental Bank aiuta i clienti ad aprire conti escrow sicuri, completare il KYC, registrare riferimenti dei provider e presentare richieste di rilascio controllato per asset digitali, bonifici, pagamenti marketplace e servizi privati collegati.",
   "hero.cta_primary": "Apri conto escrow",
   "hero.cta_secondary": "Parla con l'escrow desk",
   "hero.stat_established": "Fondata",
@@ -492,7 +492,7 @@ const ar: Dict = {
   "nav.leadership": "القيادة",
   "nav.insights": "رؤى",
   "hero.eyebrow": "حساب ضمان آمن · مكتب الخدمات المصرفية الخاصة",
-  "hero.title": "افتح حساب ضمان آمن أو ابدأ استثمارًا.",
+  "hero.title": "افتح حساب ضمان آمنًا بإشراف مصرفي.",
   "hero.subtitle":
     "يساعد Continental Bank العملاء على تنظيم سجلات الاستثمار وملفات KYC ومراجع المزودين وحساب الضمان الخاص وطلبات الصرف الخاضعة للمراجعة للأصول الرقمية والتحويلات البنكية والمدفوعات التجارية والخدمات المصرفية الخاصة.",
   "hero.cta_primary": "افتح حساب ضمان",
@@ -573,7 +573,7 @@ const zh: Dict = {
   "nav.leadership": "领导团队",
   "nav.insights": "洞察",
   "hero.eyebrow": "安全托管 · 私人银行服务台",
-  "hero.title": "开立安全托管账户或启动投资。",
+  "hero.title": "开立由银行监督的安全托管账户。",
   "hero.subtitle":
     "Continental Bank 帮助客户整理投资记录、KYC、服务商参考、私人托管和受控放款请求，适用于数字资产、银行转账、市场付款及相关私人银行服务。",
   "hero.cta_primary": "开立托管账户",

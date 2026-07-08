@@ -28,7 +28,7 @@ export function recoveryAccessState(
       key: "case_required",
       title: "Secure Escrow Account Required",
       description:
-        "Open a secure escrow account or start an investment first. The escrow desk opens after your request has been recorded and reviewed by an officer.",
+        "Open a secure escrow account first. The escrow desk opens after your request has been recorded and reviewed by a bank officer.",
       actionHref: "/dashboard",
       actionLabel: "Open escrow account",
     };
@@ -50,7 +50,7 @@ export function recoveryAccessState(
       key: "escrow_required",
       title: "Create Secure Escrow Account",
       description:
-        "Your request and identity are ready. Create the private escrow account that will hold approved funds under officer control.",
+        "Your request and identity are ready. Create the private escrow account that will hold approved funds under bank officer control.",
       actionHref: "/dashboard/escrow",
       actionLabel: "Create escrow",
     };

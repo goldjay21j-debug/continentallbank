@@ -33,7 +33,7 @@ export default async function AnalyticsPage() {
             <div className="eyebrow text-champagne-700 dark:text-champagne-400 mb-2">
               {c} Custody
             </div>
-            <div className="font-display text-3xl font-semibold tabular-figures text-foreground">
+            <div className="font-display text-3xl font-semibold tabular-figures text-foreground break-words">
               {formatCurrency(a.custody[c] ?? 0, c)}
             </div>
             <div className="hairline my-5" />

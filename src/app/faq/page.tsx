@@ -69,10 +69,10 @@ export default function FAQPage() {
           ),
         },
         {
-          title: "Does the Bank offer investment advice?",
+          title: "Does the Bank offer advisory mandates?",
           body: (
             <p>
-              Continental Bank offers discretionary and advisory mandates within the framework
+              Continental Bank offers private banking and advisory mandates within the framework
               established at onboarding. The House does not solicit, and will not accept, an
               advisory mandate in respect of asset classes which the responsible partner has
               concluded the Client does not, or should not, hold.
@@ -94,8 +94,8 @@ export default function FAQPage() {
           title: "Who do I speak to?",
           body: (
             <p>
-              Start by creating a secure client profile and opening an escrow or investment
-              request from your portal. The escrow desk can then request supporting documents,
+              Start by creating a secure client profile and opening an escrow request from your
+              portal. The escrow desk can then request supporting documents,
               verify identity, and continue the review through secure messages.
             </p>
           ),

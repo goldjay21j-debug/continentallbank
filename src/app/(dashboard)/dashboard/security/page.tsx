@@ -44,7 +44,7 @@ export default async function SecurityPage() {
             <ul className="divide-y divide-foreground/[0.05] max-h-[520px] overflow-y-auto">
               {history.map((h, i) => (
                 <li key={h.id} className="px-6 py-4 flex items-start justify-between gap-3">
-                  <div>
+                  <div className="min-w-0">
                     <div className="text-[13.5px] font-medium text-foreground">
                       {formatDateTime(h.login_time)}
                     </div>
@@ -59,7 +59,7 @@ export default async function SecurityPage() {
                         </span>
                       )}
                       {h.ip_address && (
-                        <span className="tabular-figures">{h.ip_address}</span>
+                        <span className="tabular-figures break-all">{h.ip_address}</span>
                       )}
                     </div>
                   </div>

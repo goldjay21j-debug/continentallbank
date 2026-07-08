@@ -1,13 +1,13 @@
 export const SITE = {
   name: "Continental Bank",
   shortName: "Continental",
-  tagline: "Secure escrow, investment review, and private banking oversight.",
+  tagline: "Secure escrow, bank review, and private banking oversight.",
   description:
-    "A secure private banking platform for escrow onboarding, investment review, private client documents, and officer-controlled release workflows.",
+    "A secure private banking platform for escrow onboarding, bank review, private client documents, and officer-controlled release workflows.",
   publicDomain: "https://continentallbank.com",
   domain: process.env.NEXT_PUBLIC_SITE_URL ?? "https://continentallbank.com",
   contact: {
-    privateClient: "recovery@continentallbank.com",
+    privateClient: "escrow@continentallbank.com",
     support: "support@continentallbank.com",
   },
   estd: 1972,
@@ -157,7 +157,7 @@ export const REFUND_REASONS = [
 export const RECOVERY_CASE_TYPES = [
   {
     id: "romance_scam",
-    label: "Relationship-led investment mandate",
+    label: "Private banking escrow request",
     description: "Relationship-led financial pressure, private advances, or disputed transfers.",
   },
   {
@@ -167,8 +167,8 @@ export const RECOVERY_CASE_TYPES = [
   },
   {
     id: "investment_scam",
-    label: "Investment platform review",
-    description: "Broker, trading platform, IPO, fund, or managed-account matter.",
+    label: "Bank platform review",
+    description: "Broker, trading platform, fund, or managed-account matter.",
   },
   {
     id: "wire_bank_fraud",
@@ -197,8 +197,8 @@ export const RECOVERY_CASE_TYPES = [
   },
   {
     id: "other_recovery_matter",
-    label: "Other escrow or investment matter",
-    description: "Any asset, investment, payment, or private banking matter not listed above.",
+    label: "Other escrow or banking matter",
+    description: "Any asset, account, payment, or private banking matter not listed above.",
   },
 ] as const;
 

@@ -92,7 +92,7 @@ export async function createSecureEscrowAccount(): Promise<ActionResult> {
   ]);
 
   if (!recoveryCase) {
-    return { ok: false, error: "Submit an escrow or investment request before creating escrow access." };
+    return { ok: false, error: "Submit an escrow or banking request before creating escrow access." };
   }
 
   if (existing) {

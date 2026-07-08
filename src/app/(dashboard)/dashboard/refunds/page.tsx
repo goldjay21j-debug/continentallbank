@@ -111,7 +111,7 @@ export default async function RefundsPage() {
                         {formatDateTime(r.created_at)}
                       </div>
                       {r.transaction_reference && (
-                        <div className="text-[11.5px] tabular-figures text-muted-foreground mt-1">
+                        <div className="text-[11.5px] tabular-figures text-muted-foreground mt-1 break-all">
                           Ref · {r.transaction_reference}
                         </div>
                       )}

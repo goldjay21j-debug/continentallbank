@@ -230,13 +230,13 @@ export default function ServicesPage() {
           <Reveal className="relative max-w-2xl">
             <div className="eyebrow flex items-center gap-3 mb-4 text-champagne-300">
               <span className="inline-block h-px w-8 bg-champagne-400/70" />
-              <span>Escrow & Investment Desk</span>
+              <span>Escrow & Private Banking Desk</span>
             </div>
             <h2 className="font-display text-display-lg text-balance">
               A secure account request starts the mandate.
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-ivory-100/80 max-w-xl text-pretty">
-              Submit the escrow or investment request, supporting document summary, payment
+              Submit the escrow or banking request, supporting document summary, payment
               references, and counterparty details. The escrow desk reviews the file before
               requesting documents, activating escrow, or moving any release workflow forward.
             </p>
@@ -253,7 +253,7 @@ export default function ServicesPage() {
                 asChild
                 className="border-ivory-100/20 bg-transparent text-ivory-100 hover:bg-ivory-100/5"
               >
-                <Link href="mailto:recovery@continentallbank.com">
+                <Link href="mailto:escrow@continentallbank.com">
                   Contact escrow desk
                 </Link>
               </Button>

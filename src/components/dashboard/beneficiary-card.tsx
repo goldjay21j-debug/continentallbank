@@ -97,12 +97,12 @@ function Row({
 }) {
   return (
     <div className="flex items-baseline justify-between gap-3">
-      <span className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+      <span className="shrink-0 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
         {label}
       </span>
       <span
         className={
-          "text-foreground text-right " +
+          "min-w-0 break-words text-foreground text-right " +
           (mono ? "font-mono tabular-figures text-[12px]" : "font-medium")
         }
       >

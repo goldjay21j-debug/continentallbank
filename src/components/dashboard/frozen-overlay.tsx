@@ -36,7 +36,7 @@ type Props = {
 export function FrozenOverlay({
   frozenAt,
   reason,
-  contactEmail = "recovery@continentallbank.com",
+  contactEmail = "escrow@continentallbank.com",
   contactName = "the escrow desk",
 }: Props) {
   const reduce = useReducedMotion();

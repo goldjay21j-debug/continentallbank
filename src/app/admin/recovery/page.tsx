@@ -153,7 +153,7 @@ export default async function AdminRecoveryPage() {
                       <div className="truncate text-[13.5px] font-medium text-ivory-100">
                         {entry.source ?? "Approved funds"}
                       </div>
-                      <div className="mt-1 text-[12px] text-ivory-100/48">
+                      <div className="mt-1 break-words text-[12px] text-ivory-100/48">
                         {entry.profiles?.full_name ?? "Client"} -{" "}
                         {entry.provider_reference ?? "Provider reference pending"}
                       </div>

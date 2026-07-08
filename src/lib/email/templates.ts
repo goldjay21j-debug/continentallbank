@@ -48,7 +48,7 @@ function shell({
               <table role="presentation" width="100%"><tr>
                 <td style="font-family:Georgia,serif;color:${palette.champagne};font-size:22px;letter-spacing:2px;">CB</td>
                 <td align="right" style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:${palette.muted};">
-                  Escrow & Investment Desk · Secure Portal
+                  Escrow & Private Banking Desk · Secure Portal
                 </td>
               </tr></table>
             </td>
@@ -99,8 +99,8 @@ export const emails = {
       title: "Client profile received.",
       body: `<p>Dear ${escapeHtml(fullName)},</p>
         <p>Continental Bank acknowledges receipt of your secure client profile. A relationship officer has been assigned to review your file.</p>
-        <p>You will be notified when your portal access is activated. You can then open escrow services, start an investment request, submit KYC, and continue through officer review.</p>
-        <p>- The Escrow & Investment Desk</p>`,
+        <p>You will be notified when your portal access is activated. You can then open escrow services, submit KYC, and continue through bank officer review.</p>
+        <p>- The Escrow & Private Banking Desk</p>`,
     }),
 
   accountApproved: (fullName: string, accountNumber: string, portalUrl: string) =>
@@ -108,10 +108,10 @@ export const emails = {
       preheader: "Your secure portal is active.",
       title: "Your secure portal is now active.",
       body: `<p>Dear ${escapeHtml(fullName)},</p>
-        <p>Your secure portal has been activated. You may now access the dashboard to open escrow services, start an investment request, submit KYC, review escrow readiness, and reach the escrow desk.</p>
+        <p>Your secure portal has been activated. You may now access the dashboard to open escrow services, submit KYC, review escrow readiness, and reach the escrow desk.</p>
         <p><strong>Account reference:</strong> <span style="font-family:monospace;letter-spacing:1px;">${escapeHtml(accountNumber)}</span></p>
         <p>For any matter requiring discretion, please correspond through the secure portal or contact the escrow desk directly.</p>
-        <p>- The Escrow & Investment Desk</p>`,
+        <p>- The Escrow & Private Banking Desk</p>`,
       cta: { href: portalUrl, label: "Enter portal" },
     }),
 
@@ -122,7 +122,7 @@ export const emails = {
       body: `<p>Dear ${escapeHtml(fullName)},</p>
         <p>We confirm receipt of your withdrawal instruction for <strong>${escapeHtml(amount)}</strong> via <strong>${escapeHtml(method)}</strong>. The funds are now held in your pending balance while an officer reviews the instruction.</p>
         <p>You will be notified upon settlement or if further information is required.</p>
-        <p>- The Escrow & Investment Desk</p>`,
+        <p>- The Escrow & Private Banking Desk</p>`,
     }),
 
   withdrawalApproved: (fullName: string, amount: string, method: string, note?: string | null) =>
@@ -133,7 +133,7 @@ export const emails = {
         <p>Your withdrawal instruction for <strong>${escapeHtml(amount)}</strong> via <strong>${escapeHtml(method)}</strong> has been approved and is scheduled for settlement.</p>
         ${note ? `<p style="border-left:2px solid ${palette.champagne};padding-left:12px;color:rgba(246,241,232,0.7);font-style:italic;">"${escapeHtml(note)}"</p>` : ""}
         <p>You will receive a separate confirmation once settlement is complete.</p>
-        <p>- The Escrow & Investment Desk</p>`,
+        <p>- The Escrow & Private Banking Desk</p>`,
     }),
 
   withdrawalRejected: (fullName: string, amount: string, reason: string) =>
@@ -144,7 +144,7 @@ export const emails = {
         <p>We regret that your withdrawal instruction for <strong>${escapeHtml(amount)}</strong> could not be processed at this time. The funds have been returned to your available balance.</p>
         <p style="border-left:2px solid ${palette.champagne};padding-left:12px;color:rgba(246,241,232,0.7);font-style:italic;">"${escapeHtml(reason)}"</p>
         <p>Please contact the escrow desk for further detail.</p>
-        <p>- The Escrow & Investment Desk</p>`,
+        <p>- The Escrow & Private Banking Desk</p>`,
     }),
 
   supportResponse: (fullName: string, subject: string, message: string) =>
@@ -155,7 +155,7 @@ export const emails = {
         <p>A member of the Escrow Desk has responded to your ticket - <em>${escapeHtml(subject)}</em>:</p>
         <p style="border-left:2px solid ${palette.champagne};padding-left:12px;color:rgba(246,241,232,0.85);">${escapeHtml(message).replace(/\n/g, "<br/>")}</p>
         <p>You may continue the conversation from your portal.</p>
-        <p>- The Escrow & Investment Desk</p>`,
+        <p>- The Escrow & Private Banking Desk</p>`,
     }),
 };
 

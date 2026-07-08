@@ -7,7 +7,7 @@ const features = [
     icon: FileCheck2,
     eyebrow: "Escrow Intake",
     title: "A verified file for every client request",
-    body: "Clients can open secure escrow requests, relationship-led investment mandates, digital asset reviews, bank transfer support, marketplace payment reviews, or inheritance service files with structured supporting details.",
+    body: "Clients can open secure escrow requests, private banking files, digital asset reviews, bank transfer support, marketplace payment reviews, or inheritance service files with structured supporting details.",
   },
   {
     icon: ShieldCheck,
@@ -46,7 +46,7 @@ export function FeaturesSection() {
             <span>Escrow Operations</span>
           </div>
           <h2 className="font-display text-display-lg text-foreground text-balance">
-            Private banking tools for escrow and investment review.
+            Private banking tools for escrow and bank review.
           </h2>
         </Reveal>
 

@@ -31,7 +31,7 @@ export default async function AdminThreadPage({
         </div>
         <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
           <div className="text-[15px] font-medium text-foreground">{clientHeader.full_name}</div>
-          <div className="text-[12px] text-muted-foreground tabular-figures">
+          <div className="min-w-0 break-words text-[12px] text-muted-foreground tabular-figures">
             {clientHeader.account_number ?? "—"} · {clientHeader.email ?? ""}
           </div>
         </div>

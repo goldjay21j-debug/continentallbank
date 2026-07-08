@@ -25,7 +25,7 @@ import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const clientItems = [
-  { href: "/dashboard", label: "Recovery", icon: LayoutDashboard },
+  { href: "/dashboard", label: "Escrow", icon: LayoutDashboard },
   { href: "/dashboard/escrow", label: "Escrow", icon: LockKeyhole },
   { href: "/dashboard/withdraw", label: "Release", icon: ArrowDownLeft },
   { href: "/dashboard/onboarding", label: "Onboarding", icon: ClipboardCheck },

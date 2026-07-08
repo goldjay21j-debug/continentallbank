@@ -36,7 +36,7 @@ export const WithdrawalRequestSchema = z.object({
 export const RecoveryCaseSchema = z.object({
   title: z.string().min(4, "Enter a short request title").max(160),
   complaintType: z.enum(RECOVERY_CASE_TYPE_VALUES),
-  summary: z.string().min(30, "Describe the escrow or investment request in at least 30 characters").max(5000),
+  summary: z.string().min(30, "Describe the escrow or banking request in at least 30 characters").max(5000),
   evidenceSummary: z.string().max(3000).optional().or(z.literal("")),
   counterpartyName: z.string().max(160).optional().or(z.literal("")),
   counterpartyContact: z.string().max(180).optional().or(z.literal("")),

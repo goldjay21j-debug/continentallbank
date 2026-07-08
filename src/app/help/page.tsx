@@ -4,7 +4,7 @@ import { LegalPage } from "@/components/marketing/legal-page";
 export const metadata: Metadata = {
   title: "Help Center",
   description:
-    "Common questions about client onboarding, KYC, escrow, investment review, releases, and the secure message center.",
+    "Common questions about client onboarding, KYC, escrow, bank review, releases, and the secure message center.",
 };
 
 export default function HelpPage() {
@@ -20,9 +20,8 @@ export default function HelpPage() {
             <>
               <p>
                 <strong>How do I start?</strong> Create a secure client profile, wait for account
-                approval, then open a secure escrow account or start an investment request from
-                your dashboard. The escrow desk will request identity documents and supporting
-                records as needed.
+                approval, then open a secure escrow account from your dashboard. The escrow desk
+                will request identity documents and supporting records as needed.
               </p>
               <p>
                 <strong>How long does approval take?</strong> Typically one business day for

@@ -170,7 +170,7 @@ function Detail({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-md border border-foreground/[0.06] bg-foreground/[0.025] p-4">
       <div className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{label}</div>
-      <div className="mt-1.5 text-[13px] font-medium text-foreground">{value}</div>
+      <div className="mt-1.5 break-words text-[13px] font-medium text-foreground">{value}</div>
     </div>
   );
 }

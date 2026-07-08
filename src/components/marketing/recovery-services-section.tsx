@@ -5,9 +5,9 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/primitives";
 import { MarketingBackdrop } from "./marketing-backdrop";
 
 const caseTypes = [
-  "Relationship-led investment mandates",
+  "Private banking escrow requests",
   "Digital asset wallet matters",
-  "Investment platform reviews",
+  "Bank platform reviews",
   "Wire and bank transfer support",
   "Identity impersonation concerns",
   "Phishing and account takeover",
@@ -19,7 +19,7 @@ const steps = [
   {
     icon: FileCheck2,
     title: "Open the request",
-    body: "Clients submit the investment objective, escrow amount, counterparty details, payment references, and supporting document summary.",
+    body: "Clients submit the escrow purpose, account amount, counterparty details, payment references, and supporting document summary.",
   },
   {
     icon: ShieldCheck,
@@ -47,13 +47,13 @@ export function RecoveryServicesSection() {
           <Reveal>
             <div className="eyebrow flex items-center gap-3 mb-4 text-champagne-700">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
-              <span>Escrow & Investment Desk</span>
+              <span>Escrow & Private Banking Desk</span>
             </div>
             <h2 className="font-display text-display-lg text-foreground text-balance">
-              Secure escrow accounts, investment review, and controlled release workflows.
+              Secure escrow accounts, bank review, and controlled release workflows.
             </h2>
             <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground text-pretty">
-              Continental Bank gives clients a structured way to open escrow, start investment
+              Continental Bank gives clients a structured way to open escrow, complete bank
               review, organize supporting documents, verify identity, and manage approved release
               instructions through a private banking workflow.
             </p>

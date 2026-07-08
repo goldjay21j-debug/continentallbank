@@ -458,7 +458,7 @@ export default async function AdminOverviewPage() {
           className="overflow-hidden rounded-md border border-white/[0.09] bg-white/[0.045] shadow-[0_24px_70px_-46px_rgba(0,0,0,0.95)] backdrop-blur-xl"
         >
           <SectionHeader
-            eyebrow="Escrow and investment"
+            eyebrow="Escrow and banking"
             title="Escrow request queue"
             href="/admin/recovery"
             label="Current"
@@ -580,7 +580,7 @@ export default async function AdminOverviewPage() {
                   <div className="truncate text-[13.5px] font-medium text-ivory-100">
                     {entry.source ?? "Approved funds"}
                   </div>
-                  <div className="mt-1 text-[12px] text-ivory-100/46">
+                  <div className="mt-1 break-words text-[12px] text-ivory-100/46">
                     {entry.profiles?.full_name ?? "Client"} - {entry.cases?.title ?? "Request"} -{" "}
                     {entry.provider_reference ?? "Provider reference pending"}
                   </div>
