@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
   // Base — premium transition envelope, refined cubic
-  "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium tracking-tight " +
+  "relative inline-flex min-w-0 max-w-full items-center justify-center gap-2 whitespace-normal rounded-md text-center font-medium tracking-tight " +
     "transition-[transform,box-shadow,background-color,border-color,color,opacity] duration-[220ms] " +
     "[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] " +
     "focus-ring disabled:pointer-events-none disabled:opacity-50 " +
@@ -36,10 +36,10 @@ const buttonVariants = cva(
         subtle: "bg-muted/70 text-foreground hover:bg-muted",
       },
       size: {
-        default: "h-10 px-5 text-sm",
-        sm: "h-8 px-3 text-xs",
-        lg: "h-12 px-7 text-[15px]",
-        xl: "h-14 px-9 text-base",
+        default: "min-h-10 px-5 py-2 text-sm",
+        sm: "min-h-8 px-3 py-1.5 text-xs",
+        lg: "min-h-12 px-7 py-2.5 text-[15px]",
+        xl: "min-h-14 px-9 py-3 text-base",
         icon: "h-10 w-10",
       },
     },

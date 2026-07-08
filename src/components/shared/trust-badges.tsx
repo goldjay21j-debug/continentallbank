@@ -162,7 +162,7 @@ function TrustBadgeCard({
   );
 
   const className = cn(
-    "group flex items-start gap-3 rounded-md border p-3 transition-colors duration-200",
+    "group flex min-w-0 items-start gap-3 rounded-md border p-3 transition-colors duration-200",
     tone === "dark"
       ? "border-ivory-100/[0.08] bg-ivory-100/[0.045] hover:border-champagne-400/24 hover:bg-ivory-100/[0.07]"
       : "border-border bg-card/60 hover:border-champagne-500/25 hover:bg-card",

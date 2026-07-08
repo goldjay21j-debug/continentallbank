@@ -103,7 +103,7 @@ export default async function WithdrawalMethodPage({
           </h2>
           <p className="mt-2 text-[13px] leading-6 text-muted-foreground">
             A release request is not a payout confirmation. The provider verifies fee completion,
-            recipient details, fraud controls, and final release status before settlement.
+            recipient details, risk controls, and final release status before settlement.
           </p>
           <div className="mt-5 rounded-md border border-foreground/[0.06] bg-foreground/[0.025] p-4">
             <div className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">

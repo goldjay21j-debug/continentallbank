@@ -25,8 +25,8 @@ export function BrandMark({ className, variant = "default", withWordmark = true 
     variant === "light" ? "text-champagne-400" : "text-champagne-600";
 
   return (
-    <div className={cn("inline-flex items-center gap-3 select-none", className)}>
-      <svg viewBox="0 0 44 44" className="h-8 w-8" aria-hidden>
+    <div className={cn("inline-flex min-w-0 items-center gap-3 select-none", className)}>
+      <svg viewBox="0 0 44 44" className="h-8 w-8 shrink-0" aria-hidden>
         <defs>
           <linearGradient id="cb-gold" x1="0" x2="1" y1="0" y2="1">
             <stop offset="0%" stopColor="#DBBC72" />
@@ -53,10 +53,10 @@ export function BrandMark({ className, variant = "default", withWordmark = true 
         </text>
       </svg>
       {withWordmark && (
-        <div className="flex flex-col leading-none">
+        <div className="flex min-w-0 flex-col leading-none">
           <span
             className={cn(
-              "font-display text-[15px] font-semibold tracking-[0.06em] uppercase",
+              "truncate font-display text-[15px] font-semibold tracking-[0.06em] uppercase",
               colorText,
             )}
           >
@@ -64,7 +64,7 @@ export function BrandMark({ className, variant = "default", withWordmark = true 
           </span>
           <span
             className={cn(
-              "text-[9.5px] uppercase tracking-[0.32em] mt-0.5",
+              "mt-0.5 truncate text-[9.5px] uppercase tracking-[0.32em]",
               colorAccent,
             )}
           >

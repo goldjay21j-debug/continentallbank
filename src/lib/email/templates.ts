@@ -48,7 +48,7 @@ function shell({
               <table role="presentation" width="100%"><tr>
                 <td style="font-family:Georgia,serif;color:${palette.champagne};font-size:22px;letter-spacing:2px;">CB</td>
                 <td align="right" style="font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:${palette.muted};">
-                  Fraud Recovery Desk · Secure Portal
+                  Investment Recovery Desk · Secure Portal
                 </td>
               </tr></table>
             </td>
@@ -99,7 +99,7 @@ export const emails = {
       title: "Recovery profile received.",
       body: `<p>Dear ${escapeHtml(fullName)},</p>
         <p>Continental Bank acknowledges receipt of your secure recovery profile. A recovery officer has been assigned to review your file.</p>
-        <p>You will be notified when your portal access is activated. You can then file the scam or stolen-funds case from your dashboard.</p>
+        <p>You will be notified when your portal access is activated. You can then file the investment recovery case from your dashboard.</p>
         <p>- The Recovery Desk</p>`,
     }),
 

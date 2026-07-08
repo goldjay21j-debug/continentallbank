@@ -37,7 +37,7 @@ const DropdownMenuSubContent = React.forwardRef<
   <DropdownMenuPrimitive.SubContent
     ref={ref}
     className={cn(
-      "z-50 min-w-[8rem] overflow-hidden rounded-sm border border-border bg-popover p-1 text-popover-foreground shadow-soft-lg",
+      "z-50 max-h-[min(24rem,calc(100dvh-1rem))] min-w-[8rem] max-w-[calc(100vw-1rem)] overflow-y-auto overflow-x-hidden rounded-sm border border-border bg-popover p-1 text-popover-foreground shadow-soft-lg",
       className,
     )}
     {...props}
@@ -54,7 +54,7 @@ const DropdownMenuContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        "z-50 min-w-[10rem] overflow-hidden glass-card p-1 text-popover-foreground",
+        "z-50 max-h-[min(24rem,calc(100dvh-1rem))] min-w-[10rem] max-w-[calc(100vw-1rem)] overflow-y-auto overflow-x-hidden glass-card p-1 text-popover-foreground",
         // Apple contextual-menu motion: scale + fade from the trigger origin
         "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-[0.96]",
         "data-[state=open]:slide-in-from-top-1",
@@ -79,7 +79,7 @@ const DropdownMenuItem = React.forwardRef<
   <DropdownMenuPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors",
+      "relative flex min-w-0 cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors [&>*]:min-w-0",
       "focus:bg-muted focus:text-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       inset && "pl-8",
       className,

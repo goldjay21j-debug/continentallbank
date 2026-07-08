@@ -61,7 +61,7 @@ export default async function EscrowDashboardPage() {
                   <GateStep
                     icon={FolderOpen}
                     label="Investigation case"
-                    description="Scam report and evidence logged"
+                    description="Recovery file and evidence logged"
                     complete={Boolean(primaryCase)}
                   />
                   <GateStep
@@ -79,7 +79,7 @@ export default async function EscrowDashboardPage() {
                 </div>
               </div>
 
-              <div className="border-t border-slate-200 bg-[#0B1722] p-5 text-ivory-100 sm:p-6 lg:border-l lg:border-t-0">
+              <div className="min-w-0 border-t border-slate-200 bg-[#0B1722] p-5 text-ivory-100 sm:p-6 lg:border-l lg:border-t-0">
                 <div className="flex h-full flex-col justify-between gap-6">
                   <div>
                     <div className="flex h-11 w-11 items-center justify-center rounded-md border border-champagne-300/22 bg-white/[0.07]">
@@ -88,7 +88,7 @@ export default async function EscrowDashboardPage() {
                     <div className="mt-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-champagne-300">
                       Current gate
                     </div>
-                    <div className="mt-2 font-display text-2xl font-semibold">
+                    <div className="mt-2 break-words font-display text-2xl font-semibold">
                       Controlled release only
                     </div>
                     <p className="mt-3 text-[13px] leading-6 text-ivory-100/70">
@@ -147,9 +147,9 @@ export default async function EscrowDashboardPage() {
         <section className="grid gap-5 xl:grid-cols-[0.82fr_1.18fr]">
           <MotionCard index={2} className="p-5 sm:p-6">
             <div className="eyebrow text-champagne-700">Access checklist</div>
-            <h2 className="mt-2 font-display text-2xl font-semibold text-slate-950">
-              Required before escrow opens.
-            </h2>
+                <h2 className="mt-2 font-display text-2xl font-semibold text-slate-950">
+                  Required before escrow opens.
+                </h2>
             <div className="mt-5 space-y-3">
               <GateRow icon={FolderOpen} label="Investigation case" complete={Boolean(primaryCase)} />
               <GateRow icon={ShieldCheck} label="KYC verification" complete={verified} />
@@ -164,9 +164,9 @@ export default async function EscrowDashboardPage() {
           ) : (
             <MotionCard index={3} className="p-5 sm:p-6">
               <div className="eyebrow text-champagne-700">Verification status</div>
-              <h2 className="mt-2 font-display text-xl font-semibold text-slate-950">
-                {verified ? "Identity approved." : "KYC still required."}
-              </h2>
+                <h2 className="mt-2 font-display text-xl font-semibold text-slate-950">
+                  {verified ? "Identity approved." : "KYC still required."}
+                </h2>
               <div className="mt-5 rounded-md border border-slate-200 bg-slate-50 p-4">
                 <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500">
                   Current KYC status
@@ -210,7 +210,7 @@ export default async function EscrowDashboardPage() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <div className="eyebrow text-champagne-700">Escrow contract</div>
-                <h2 className="mt-2 font-display text-2xl font-semibold text-foreground">
+                <h2 className="mt-2 break-words font-display text-2xl font-semibold text-foreground">
                   {contract.reference}
                 </h2>
                 <p className="mt-1 text-[13px] text-muted-foreground">
@@ -261,12 +261,12 @@ export default async function EscrowDashboardPage() {
           <MotionList className="divide-y divide-foreground/[0.05]">
             {overview.recoveredFunds.map((entry) => (
               <MotionRow key={entry.id} className="px-6 py-4">
-                <div className="flex items-start justify-between gap-4">
+                <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                   <div className="min-w-0">
-                    <div className="text-[14px] font-medium text-foreground">
+                    <div className="break-words text-[14px] font-medium text-foreground">
                       {entry.source ?? "Recovered funds"}
                     </div>
-                    <div className="mt-1 text-[12px] text-muted-foreground">
+                    <div className="mt-1 break-words text-[12px] text-muted-foreground">
                       {entry.provider_reference ?? "Provider reference pending"} -{" "}
                       {formatDateTime(entry.created_at)}
                     </div>
@@ -276,7 +276,7 @@ export default async function EscrowDashboardPage() {
                       </p>
                     )}
                   </div>
-                  <div className="text-right text-[14px] font-semibold tabular-figures text-foreground">
+                  <div className="min-w-0 text-left text-[14px] font-semibold tabular-figures text-foreground sm:text-right">
                     {formatCurrency(entry.amount, entry.currency)}
                   </div>
                 </div>
@@ -296,14 +296,14 @@ export default async function EscrowDashboardPage() {
             <MotionList className="divide-y divide-foreground/[0.05]">
               {overview.activeDisputes.map((dispute) => (
                 <MotionRow key={dispute.id} className="px-6 py-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <div className="text-[14px] font-medium text-foreground">{dispute.title}</div>
+                  <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="min-w-0">
+                      <div className="break-words text-[14px] font-medium text-foreground">{dispute.title}</div>
                       <p className="mt-1 text-[12.5px] leading-5 text-muted-foreground">
                         {dispute.description}
                       </p>
                     </div>
-                    <Badge variant="warning">{formatStatus(dispute.status)}</Badge>
+                    <Badge variant="warning" className="w-fit shrink-0">{formatStatus(dispute.status)}</Badge>
                   </div>
                 </MotionRow>
               ))}
@@ -325,10 +325,10 @@ function GateRow({
   complete: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-md border border-foreground/[0.06] bg-foreground/[0.025] px-4 py-3">
-      <div className="flex items-center gap-3">
+    <div className="flex min-w-0 flex-wrap items-center justify-between gap-3 rounded-md border border-foreground/[0.06] bg-foreground/[0.025] px-4 py-3">
+      <div className="flex min-w-0 items-center gap-3">
         <Icon className="h-4 w-4 text-champagne-600" strokeWidth={1.6} />
-        <span className="text-[13px] font-medium text-foreground">{label}</span>
+        <span className="min-w-0 break-words text-[13px] font-medium text-foreground">{label}</span>
       </div>
       <Badge variant={complete ? "success" : "warning"}>{complete ? "Done" : "Required"}</Badge>
     </div>
@@ -347,12 +347,12 @@ function GateStep({
   complete: boolean;
 }) {
   return (
-    <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
+    <div className="min-w-0 rounded-md border border-slate-200 bg-slate-50 p-4">
       <div className="flex items-center justify-between gap-3">
         <Icon className="h-4 w-4 text-champagne-700" strokeWidth={1.6} />
         <Badge variant={complete ? "success" : "warning"}>{complete ? "Cleared" : "Required"}</Badge>
       </div>
-      <div className="mt-4 text-[13px] font-semibold text-slate-950">{label}</div>
+      <div className="mt-4 break-words text-[13px] font-semibold text-slate-950">{label}</div>
       <div className="mt-1 text-[12px] leading-5 text-slate-500">{description}</div>
     </div>
   );
@@ -373,9 +373,9 @@ function AssuranceRow({ label, value }: { label: string; value: string }) {
 
 function EscrowMetric({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) {
   return (
-    <div className="rounded-md border border-[#E3D8C5] bg-white p-4">
+    <div className="min-w-0 rounded-md border border-[#E3D8C5] bg-white p-4">
       <div className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{label}</div>
-      <div className={strong ? "mt-2 font-display text-2xl font-semibold tabular-figures text-foreground" : "mt-2 text-[16px] font-semibold tabular-figures text-foreground"}>
+      <div className={strong ? "mt-2 break-words font-display text-2xl font-semibold tabular-figures text-foreground" : "mt-2 break-words text-[16px] font-semibold tabular-figures text-foreground"}>
         {value}
       </div>
     </div>
@@ -384,8 +384,8 @@ function EscrowMetric({ label, value, strong = false }: { label: string; value: 
 
 function ControlRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-baseline justify-between gap-4 border-b border-foreground/[0.06] pb-3 last:border-b-0">
-      <span className="shrink-0 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{label}</span>
+    <div className="flex min-w-0 flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-foreground/[0.06] pb-3 last:border-b-0">
+      <span className="min-w-0 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{label}</span>
       <span className="min-w-0 max-w-[55%] break-words text-right text-[13px] font-medium text-foreground">
         {value}
       </span>

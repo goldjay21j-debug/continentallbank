@@ -59,9 +59,9 @@ export default async function DashboardOverviewPage() {
   return (
     <div className="space-y-5">
       <PageHeader
-        eyebrow={`Fraud recovery office - ${user.profile.full_name.split(" ")[0]}`}
-        title="Stolen-funds recovery center."
-        description="A controlled path for scam investigation, evidence review, KYC approval, private escrow activation, and eligible release requests."
+        eyebrow={`Investment recovery office - ${user.profile.full_name.split(" ")[0]}`}
+        title="Investment recovery center."
+        description="A controlled path for asset investigation, evidence review, KYC approval, private escrow activation, and eligible release requests."
         actions={
           <>
             <Button variant="outline" asChild>
@@ -229,7 +229,7 @@ export default async function DashboardOverviewPage() {
               Recovery-first access model
             </h3>
             <div className="mt-5 space-y-3">
-              <ProcessStep label="1" title="Case recorded" body="A scam or stolen-funds report is created and assigned for officer review." />
+              <ProcessStep label="1" title="Case recorded" body="An investment recovery file is created and assigned for officer review." />
               <ProcessStep label="2" title="Evidence requested" body="The recovery desk requests receipts, wallet records, communications, provider references, and timelines." />
               <ProcessStep label="3" title="KYC approved" body="Identity, address, and ownership records are checked before private escrow access." />
               <ProcessStep label="4" title="Escrow opened" body="Any recovered funds are controlled through private escrow and release eligibility rules." />
@@ -286,17 +286,17 @@ export default async function DashboardOverviewPage() {
               <MotionList className="divide-y divide-foreground/[0.05]">
                 {overview.recoveredFunds.map((entry) => (
                   <MotionRow key={entry.id} className="px-6 py-4">
-                    <div className="flex items-start justify-between gap-4">
+                    <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                       <div className="min-w-0">
-                        <div className="text-[14px] font-medium text-foreground">
+                        <div className="break-words text-[14px] font-medium text-foreground">
                           {entry.source ?? "Recovered funds"}
                         </div>
-                        <div className="mt-1 text-[12px] text-muted-foreground">
+                        <div className="mt-1 break-words text-[12px] text-muted-foreground">
                           {entry.provider_reference ?? "Provider reference pending"} -{" "}
                           {formatDateTime(entry.created_at)}
                         </div>
                       </div>
-                      <div className="text-right text-[14px] font-semibold tabular-figures text-foreground">
+                      <div className="min-w-0 text-left text-[14px] font-semibold tabular-figures text-foreground sm:text-right">
                         {formatCurrency(entry.amount, entry.currency)}
                       </div>
                     </div>
@@ -394,9 +394,9 @@ function ReadinessRow({
 
 function PositionRow({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) {
   return (
-    <div className="flex items-baseline justify-between gap-4 border-b border-foreground/[0.06] pb-3 last:border-b-0">
-      <span className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{label}</span>
-      <span className={strong ? "font-display text-xl font-semibold tabular-figures text-foreground" : "text-[14px] font-medium tabular-figures text-foreground"}>
+    <div className="flex min-w-0 flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-foreground/[0.06] pb-3 last:border-b-0">
+      <span className="min-w-0 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{label}</span>
+      <span className={strong ? "min-w-0 break-words text-left font-display text-xl font-semibold tabular-figures text-foreground sm:text-right" : "min-w-0 break-words text-left text-[14px] font-medium tabular-figures text-foreground sm:text-right"}>
         {value}
       </span>
     </div>
@@ -405,12 +405,12 @@ function PositionRow({ label, value, strong = false }: { label: string; value: s
 
 function ProcessStep({ label, title, body }: { label: string; title: string; body: string }) {
   return (
-    <div className="grid grid-cols-[40px_1fr] gap-3">
+    <div className="grid min-w-0 grid-cols-[40px_minmax(0,1fr)] gap-3">
       <div className="grid h-9 w-9 place-items-center rounded-sm border border-champagne-500/24 bg-champagne-500/10 text-[12px] font-semibold text-champagne-700">
         {label}
       </div>
-      <div>
-        <div className="text-[14px] font-semibold text-foreground">{title}</div>
+      <div className="min-w-0">
+        <div className="break-words text-[14px] font-semibold text-foreground">{title}</div>
         <p className="mt-1 text-[12.5px] leading-5 text-muted-foreground">{body}</p>
       </div>
     </div>
@@ -419,9 +419,9 @@ function ProcessStep({ label, title, body }: { label: string; title: string; bod
 
 function Control({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-md border border-foreground/[0.06] bg-foreground/[0.025] p-4">
+    <div className="min-w-0 rounded-md border border-foreground/[0.06] bg-foreground/[0.025] p-4">
       <div className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{label}</div>
-      <div className="mt-1.5 text-[13px] font-medium text-foreground">{value}</div>
+      <div className="mt-1.5 break-words text-[13px] font-medium text-foreground">{value}</div>
     </div>
   );
 }

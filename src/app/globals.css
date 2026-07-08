@@ -117,6 +117,8 @@
   }
 
   html {
+    max-width: 100%;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -132,7 +134,47 @@
 
   body {
     @apply bg-background text-foreground;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: clip;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01", "cv01";
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg,
+  iframe {
+    max-width: 100%;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  iframe {
+    height: auto;
+  }
+
+  table {
+    max-width: 100%;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    min-width: 0;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6, p, li, dt, dd, blockquote) {
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  :where(a, button, label) {
+    overflow-wrap: anywhere;
   }
 
   ::selection {
@@ -167,6 +209,8 @@
 
   /* Standard glass surface — dark backdrop (navy dashboard / admin) */
   .glass-card {
+    max-width: 100%;
+    min-width: 0;
     background: rgba(255, 255, 255, 0.06);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     backdrop-filter: blur(24px) saturate(180%);
@@ -189,6 +233,8 @@
 
   /* Heavier glass — hero / statement / dialog surfaces */
   .glass-strong {
+    max-width: 100%;
+    min-width: 0;
     background: rgba(255, 255, 255, 0.08);
     -webkit-backdrop-filter: blur(36px) saturate(190%);
     backdrop-filter: blur(36px) saturate(190%);
@@ -229,6 +275,8 @@
 
   /* Light glass — for ivory marketing surfaces */
   .glass-light {
+    max-width: 100%;
+    min-width: 0;
     background: rgba(255, 255, 255, 0.42);
     -webkit-backdrop-filter: blur(22px) saturate(180%);
     backdrop-filter: blur(22px) saturate(180%);

@@ -56,7 +56,7 @@ export default async function AdminUsersPage({
       </div>
 
       <div className="glass-card overflow-hidden">
-        <div className="hidden md:grid grid-cols-[1.35fr_1.1fr_0.8fr_0.9fr_0.8fr_0.9fr_auto] gap-4 border-b border-foreground/[0.06] bg-foreground/[0.02] px-6 py-3 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+        <div className="hidden md:grid grid-cols-[minmax(0,1.35fr)_minmax(0,1.1fr)_minmax(0,0.8fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_minmax(0,0.9fr)_auto] gap-4 border-b border-foreground/[0.06] bg-foreground/[0.02] px-6 py-3 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
           <span>Client</span>
           <span>Account</span>
           <span>Country</span>
@@ -74,12 +74,12 @@ export default async function AdminUsersPage({
             {profiles.map((p) => (
               <li
                 key={p.id}
-                className="grid grid-cols-[1fr_auto] md:grid-cols-[1.35fr_1.1fr_0.8fr_0.9fr_0.8fr_0.9fr_auto] items-center gap-4 px-6 py-4"
+                className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-4 sm:px-6 md:grid-cols-[minmax(0,1.35fr)_minmax(0,1.1fr)_minmax(0,0.8fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_minmax(0,0.9fr)_auto] md:gap-4"
               >
                 <div className="min-w-0">
                   <Link
                     href={`/admin/users/${p.id}`}
-                    className="text-[14px] font-medium text-foreground hover:underline underline-offset-4"
+                    className="break-words text-[14px] font-medium text-foreground underline-offset-4 hover:underline"
                   >
                     {p.full_name}
                   </Link>
@@ -100,7 +100,7 @@ export default async function AdminUsersPage({
                 <div className="hidden md:block">
                   <KycBadge status={(p.kyc_status ?? "not_submitted") as KycStatus} />
                 </div>
-                <div className="md:hidden flex items-center gap-2 justify-self-end">
+                <div className="flex min-w-0 items-center justify-self-end md:hidden">
                   <StatusBadge status={p.account_status} />
                 </div>
                 <div className="hidden md:flex justify-end items-center gap-2">

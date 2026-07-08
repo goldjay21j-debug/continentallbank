@@ -223,7 +223,7 @@ export default async function CompliancePage() {
             <h3 className="mt-1 font-display text-lg font-semibold">Compliance posture</h3>
           </div>
         </div>
-        <div className="hidden md:grid grid-cols-[1.4fr_1fr_1fr_0.9fr_0.7fr_auto] gap-4 border-b border-foreground/[0.05] bg-foreground/[0.02] px-6 py-3 text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
+        <div className="hidden md:grid grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.7fr)_auto] gap-4 border-b border-foreground/[0.05] bg-foreground/[0.02] px-6 py-3 text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
           <span>Client</span>
           <span>Account / Country</span>
           <span>KYC</span>
@@ -235,12 +235,12 @@ export default async function CompliancePage() {
           {roster.map((r) => (
             <li
               key={r.profile.id}
-              className="grid grid-cols-[1fr_auto] md:grid-cols-[1.4fr_1fr_1fr_0.9fr_0.7fr_auto] items-center gap-4 px-6 py-4 transition-colors duration-200 hover:bg-foreground/[0.03]"
+              className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-4 transition-colors duration-200 hover:bg-foreground/[0.03] sm:px-6 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.7fr)_auto] md:gap-4"
             >
               <div className="min-w-0">
                 <Link
                   href={`/admin/users/${r.profile.id}`}
-                  className="text-[14px] font-medium text-foreground hover:underline underline-offset-4 truncate"
+                  className="block break-words text-[14px] font-medium text-foreground underline-offset-4 hover:underline md:truncate"
                 >
                   {r.profile.full_name}
                 </Link>
@@ -281,7 +281,7 @@ export default async function CompliancePage() {
                   </Link>
                 </Button>
               </div>
-              <div className="md:hidden col-span-2 flex flex-wrap items-center gap-2">
+              <div className="col-span-2 flex min-w-0 flex-wrap items-center gap-2 md:hidden">
                 <KycChip kyc={r.kyc} />
                 <RiskBandPill band={r.score.band} score={r.score.score} />
               </div>

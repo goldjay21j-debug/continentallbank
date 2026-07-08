@@ -170,22 +170,22 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
           ) : (
             <ul className="divide-y divide-foreground/[0.05] max-h-[520px] overflow-y-auto">
               {ledgerRows.map((l) => (
-                <li key={l.id} className="px-6 py-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <div className="text-[13.5px] font-medium text-foreground capitalize">
+                <li key={l.id} className="px-4 py-4 sm:px-6">
+                  <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="min-w-0">
+                      <div className="break-words text-[13.5px] font-medium capitalize text-foreground">
                         {l.action_type.replace(/_/g, " ")}
                       </div>
-                      <div className="text-[11.5px] text-muted-foreground mt-0.5 tabular-figures">
+                      <div className="mt-0.5 break-words text-[11.5px] tabular-figures text-muted-foreground">
                         {formatDateTime(l.created_at)} · {l.currency}
                       </div>
                       {l.note && (
-                        <div className="text-[12.5px] text-muted-foreground mt-1.5 italic">
+                        <div className="mt-1.5 break-words text-[12.5px] italic text-muted-foreground">
                           &quot;{l.note}&quot;
                         </div>
                       )}
                     </div>
-                    <div className="text-right">
+                    <div className="min-w-0 text-left sm:text-right">
                       <div className="tabular-figures text-[14px] font-medium text-foreground">
                         {Number(l.amount) >= 0 ? "+" : ""}
                         {formatCurrency(l.amount, l.currency)}
@@ -214,13 +214,13 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
           ) : (
             <ul className="divide-y divide-foreground/[0.05] max-h-[520px] overflow-y-auto">
               {wds.map((w) => (
-                <li key={w.id} className="px-6 py-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
+                <li key={w.id} className="px-4 py-4 sm:px-6">
+                  <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="min-w-0">
                       <div className="tabular-figures text-[14px] font-medium text-foreground">
                         {formatCurrency(w.amount, w.currency)}
                       </div>
-                      <div className="text-[11.5px] text-muted-foreground capitalize">
+                      <div className="break-words text-[11.5px] capitalize text-muted-foreground">
                         {w.method.replace(/_/g, " ")} · {formatDateTime(w.created_at)}
                       </div>
                     </div>
@@ -258,9 +258,9 @@ function Row({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="flex items-baseline justify-between gap-3">
-      <span className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{label}</span>
-      <span className="text-[13.5px] font-medium text-foreground text-right tabular-figures">
+    <div className="flex min-w-0 flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+      <span className="min-w-0 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{label}</span>
+      <span className="min-w-0 break-words text-right text-[13.5px] font-medium tabular-figures text-foreground">
         {children ?? value}
       </span>
     </div>

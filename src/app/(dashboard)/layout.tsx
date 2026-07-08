@@ -64,8 +64,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
             locale={locale}
             notifications={notifications}
           />
-          <main className="flex-1 px-4 py-5 pb-12 sm:px-6 lg:px-8 xl:px-10">
-            <div className="mx-auto w-full max-w-[1500px]">
+          <main className="min-w-0 flex-1 px-4 py-5 pb-12 sm:px-6 lg:px-8 xl:px-10">
+            <div className="mx-auto w-full min-w-0 max-w-[1500px]">
               <PageTransition>{children}</PageTransition>
             </div>
           </main>

@@ -7,7 +7,7 @@ const features = [
     icon: FileCheck2,
     eyebrow: "Case Intake",
     title: "A real file for every recovery matter",
-    body: "Clients can file romance scam, crypto theft, investment fraud, wire fraud, impersonation, phishing, marketplace, or inheritance recovery cases with structured evidence details.",
+    body: "Clients can file relationship-led investment claims, digital asset matters, investment platform disputes, bank transfer claims, marketplace cases, or inheritance recovery matters with structured evidence details.",
   },
   {
     icon: ShieldCheck,
@@ -46,7 +46,7 @@ export function FeaturesSection() {
             <span>Recovery Operations</span>
           </div>
           <h2 className="font-display text-display-lg text-foreground text-balance">
-            Investigation tools for serious stolen-funds cases.
+            Investigation tools for serious investment recovery cases.
           </h2>
         </Reveal>
 

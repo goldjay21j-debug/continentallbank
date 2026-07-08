@@ -19,9 +19,10 @@ export async function SiteHeader() {
 
   return (
     <ScrollAwareHeader>
-      <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="focus-ring rounded-sm">
-          <BrandMark />
+      <div className="container flex h-16 min-w-0 items-center justify-between gap-3">
+        <Link href="/" className="focus-ring min-w-0 rounded-sm">
+          <BrandMark className="hidden min-w-0 sm:inline-flex" />
+          <BrandMark withWordmark={false} className="sm:hidden" />
         </Link>
 
         <nav className="hidden items-center gap-9 md:flex">
@@ -36,7 +37,7 @@ export async function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 items-center gap-2">
           <LanguageSwitcher currentLocale={locale} />
           <span className="mx-1 hidden h-5 w-px bg-border md:inline-block" />
           <Button variant="ghost" size="sm" asChild className="hidden md:inline-flex">

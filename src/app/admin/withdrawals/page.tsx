@@ -62,7 +62,7 @@ export default async function AdminWithdrawalsPage({
         ) : (
           <ul className="divide-y divide-foreground/[0.05]">
             {rows.map((r) => (
-              <li key={r.id} className="px-6 py-5">
+              <li key={r.id} className="px-4 py-5 sm:px-6">
                 <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 mb-1">
@@ -89,11 +89,11 @@ export default async function AdminWithdrawalsPage({
                     >
                       {r.profiles?.full_name ?? "—"}
                     </Link>
-                    <div className="text-[12px] text-muted-foreground tabular-figures">
+                    <div className="break-words text-[12px] tabular-figures text-muted-foreground">
                       {maskAccountNumber(r.profiles?.account_number)} · {r.profiles?.email} ·{" "}
                       {r.profiles?.country}
                     </div>
-                    <div className="mt-2 text-[12.5px] text-foreground">
+                    <div className="mt-2 break-words text-[12.5px] text-foreground">
                       <span className="capitalize">{String(r.method).replace(/_/g, " ")}</span>
                       {r.payment_details?.destination && (
                         <> · <span className="tabular-figures">{r.payment_details.destination}</span></>
@@ -106,8 +106,8 @@ export default async function AdminWithdrawalsPage({
                     )}
                   </div>
 
-                  <div className="flex flex-col items-start md:items-end gap-3">
-                    <div className="font-display text-2xl font-semibold tabular-figures text-foreground">
+                  <div className="flex min-w-0 flex-col items-start gap-3 md:items-end">
+                    <div className="min-w-0 break-words font-display text-2xl font-semibold tabular-figures text-foreground">
                       {formatCurrency(r.amount, r.currency)}
                     </div>
                     {r.escrow_contract_id && (

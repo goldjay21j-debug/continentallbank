@@ -32,8 +32,8 @@ export default async function AdminLoginPage() {
         }}
       />
 
-      <div className="relative mx-auto grid min-h-screen w-full max-w-7xl gap-8 px-5 py-8 lg:grid-cols-[1fr_480px] lg:px-10">
-        <section className="flex flex-col justify-between">
+      <div className="relative mx-auto grid min-h-screen w-full min-w-0 max-w-7xl gap-8 px-5 py-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,480px)] lg:px-10">
+        <section className="flex min-w-0 flex-col justify-between">
           <Link
             href={adminHref(adminBasePath, "/admin/login")}
             className="focus-ring w-fit rounded-sm"
@@ -66,8 +66,8 @@ export default async function AdminLoginPage() {
           </div>
         </section>
 
-        <section className="flex items-center justify-center">
-          <div className="w-full rounded-md border border-white/[0.10] bg-white/[0.065] p-6 shadow-[0_24px_80px_-48px_rgba(0,0,0,0.9)] backdrop-blur-2xl sm:p-8">
+        <section className="flex min-w-0 items-center justify-center">
+          <div className="w-full min-w-0 rounded-md border border-white/[0.10] bg-white/[0.065] p-6 shadow-[0_24px_80px_-48px_rgba(0,0,0,0.9)] backdrop-blur-2xl sm:p-8">
             <header className="mb-8">
               <div className="eyebrow mb-3 text-champagne-300">Officer sign in</div>
               <h2 className="font-display text-3xl font-semibold text-ivory-100">

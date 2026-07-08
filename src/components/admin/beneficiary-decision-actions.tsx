@@ -52,7 +52,7 @@ export function BeneficiaryDecisionActions({ id }: { id: string }) {
 
   return (
     <DialogPrimitive.Root open={open !== null} onOpenChange={(o) => !o && setOpen(null)}>
-      <div className="flex flex-wrap items-center gap-2 shrink-0">
+      <div className="flex max-w-full shrink-0 flex-wrap items-center gap-2">
         <ActionTrigger
           layoutId={layoutKey("approve")}
           visible={open !== "approve"}
@@ -176,7 +176,7 @@ function ActionTrigger({
           onClick={onClick}
           transition={{ duration: 0.36, ease: easeInOut }}
           className={cn(
-            "inline-flex items-center gap-2 rounded-md px-3 h-9 text-[12.5px] font-medium",
+            "inline-flex min-h-9 min-w-0 max-w-full items-center justify-center gap-2 rounded-md px-3 py-1.5 text-center text-[12.5px] font-medium",
             "transition-colors duration-200 focus-ring",
             variantClass,
           )}

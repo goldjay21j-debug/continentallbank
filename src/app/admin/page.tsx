@@ -225,9 +225,9 @@ export default async function AdminOverviewPage() {
     },
     {
       icon: FolderOpen,
-      label: "Fraud recovery cases",
+      label: "Asset recovery cases",
       value: String(recoveryMetrics.openCases),
-      detail: "Scam reports, evidence, and escrow readiness",
+      detail: "Investment files, evidence, and escrow readiness",
       href: "/admin/recovery",
       active: recoveryMetrics.openCases > 0,
     },
@@ -260,7 +260,7 @@ export default async function AdminOverviewPage() {
     {
       icon: FolderOpen,
       label: "Manage investigations",
-      detail: "Review scam intake, escrow contracts, recovered funds, and release eligibility.",
+      detail: "Review investment recovery intake, escrow contracts, recovered funds, and release eligibility.",
       href: "/admin/recovery",
       metric: recoveryMetrics.openCases,
     },
@@ -338,7 +338,7 @@ export default async function AdminOverviewPage() {
               </div>
             </div>
 
-            <div className="grid min-w-[280px] grid-cols-2 gap-3">
+            <div className="grid w-full min-w-0 grid-cols-2 gap-3 sm:min-w-[280px] lg:w-auto">
               <HeroMetric label="Review queue" value={reviewTotal} />
               <HeroMetric label="Clients" value={counts.totalClients} />
               <HeroMetric label="Domain" value="Live" />
@@ -451,20 +451,20 @@ export default async function AdminOverviewPage() {
         </MotionCard>
       </section>
 
-      <section id="recovery-command" className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(380px,0.9fr)] scroll-mt-6">
+      <section id="recovery-command" className="grid scroll-mt-6 gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
         <MotionCard
           index={5}
           surface="none"
           className="overflow-hidden rounded-md border border-white/[0.09] bg-white/[0.045] shadow-[0_24px_70px_-46px_rgba(0,0,0,0.95)] backdrop-blur-xl"
         >
           <SectionHeader
-            eyebrow="Fraud recovery and escrow"
+            eyebrow="Investment recovery and escrow"
             title="Investigation intake queue"
             href="/admin/recovery"
             label="Current"
           />
           {(recoveryCases as RecoveryCaseRow[]).length === 0 ? (
-          <EmptyState message="No fraud recovery cases are currently open." />
+          <EmptyState message="No investment recovery cases are currently open." />
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full min-w-[780px] text-left">
@@ -532,7 +532,7 @@ export default async function AdminOverviewPage() {
             <MotionList className="divide-y divide-white/[0.06]">
               {(escrowContracts as EscrowContractRow[]).slice(0, 5).map((contract) => (
                 <MotionRow key={contract.id} className="px-5 py-4">
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                     <div className="min-w-0">
                       <div className="truncate text-[13.5px] font-medium text-ivory-100">
                         {contract.reference}
@@ -548,7 +548,7 @@ export default async function AdminOverviewPage() {
                         </Badge>
                       </div>
                     </div>
-                    <div className="text-right text-[13px] font-semibold tabular-figures text-ivory-100">
+                    <div className="min-w-0 text-left text-[13px] font-semibold tabular-figures text-ivory-100 sm:text-right">
                       {formatCurrency(contract.available_for_withdrawal, contract.currency)}
                     </div>
                   </div>
@@ -595,7 +595,7 @@ export default async function AdminOverviewPage() {
         )}
       </MotionCard>
 
-      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)]">
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
         <MotionCard
           index={8}
           surface="none"
@@ -695,7 +695,7 @@ export default async function AdminOverviewPage() {
         </MotionCard>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[minmax(360px,0.85fr)_minmax(0,1.15fr)]">
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
         <MotionCard
           index={10}
           surface="none"

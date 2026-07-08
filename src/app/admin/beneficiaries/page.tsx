@@ -106,14 +106,14 @@ export default async function AdminBeneficiariesPage({
                   </div>
 
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between gap-x-3">
-                    <div>
+                    <div className="min-w-0">
                       <Link
                         href={`/admin/users/${b.user_id}`}
-                        className="text-[15px] font-medium text-foreground hover:underline underline-offset-4"
+                        className="break-words text-[15px] font-medium text-foreground underline-offset-4 hover:underline"
                       >
                         {b.client_name}
                       </Link>
-                      <span className="ml-2 text-[12px] text-muted-foreground tabular-figures">
+                      <span className="ml-2 inline-block break-words text-[12px] tabular-figures text-muted-foreground">
                         {maskAccountNumber(b.client_account)}
                       </span>
                     </div>
@@ -175,13 +175,13 @@ function Row({
   span?: boolean;
 }) {
   return (
-    <div className={"flex flex-col gap-0.5 " + (span ? "sm:col-span-2" : "")}>
+    <div className={"flex min-w-0 flex-col gap-0.5 " + (span ? "sm:col-span-2" : "")}>
       <span className="text-[10.5px] uppercase tracking-[0.14em] text-muted-foreground">
         {label}
       </span>
       <span
         className={
-          "text-foreground " +
+          "break-words text-foreground " +
           (mono ? "font-mono tabular-figures text-[12.5px]" : "text-[13px] font-medium")
         }
       >

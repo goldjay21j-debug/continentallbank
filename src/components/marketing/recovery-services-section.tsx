@@ -5,21 +5,21 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/primitives";
 import { MarketingBackdrop } from "./marketing-backdrop";
 
 const caseTypes = [
-  "Romance scams",
-  "Crypto wallet theft",
-  "Investment fraud",
-  "Wire and bank fraud",
-  "Impersonation scams",
+  "Relationship-led investment claims",
+  "Digital asset wallet matters",
+  "Investment platform disputes",
+  "Wire and bank transfer claims",
+  "Identity impersonation concerns",
   "Phishing and account takeover",
-  "Marketplace fraud",
-  "Inheritance fraud",
+  "Marketplace payment disputes",
+  "Inheritance recovery claims",
 ];
 
 const steps = [
   {
     icon: FileCheck2,
     title: "File the case",
-    body: "Clients submit the scam timeline, amount lost, counterparty details, payment references, and evidence summary.",
+    body: "Clients submit the investment timeline, claimed amount, counterparty details, payment references, and evidence summary.",
   },
   {
     icon: ShieldCheck,
@@ -47,15 +47,15 @@ export function RecoveryServicesSection() {
           <Reveal>
             <div className="eyebrow flex items-center gap-3 mb-4 text-champagne-700">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
-              <span>Fraud Recovery Desk</span>
+              <span>Investment Recovery Desk</span>
             </div>
             <h2 className="font-display text-display-lg text-foreground text-balance">
-              Stolen funds, scam investigations, and controlled recovery cases.
+              Investment recovery, asset investigation, and controlled escrow cases.
             </h2>
             <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground text-pretty">
-              Continental Bank gives victims a structured way to file a case for romance scams,
-              crypto theft, fake investments, wire fraud, impersonation, phishing, and related
-              stolen-funds matters.
+              Continental Bank gives clients a structured way to file a case for relationship-led
+              investment claims, digital asset matters, platform disputes, bank transfers,
+              identity concerns, and related recovery mandates.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Button size="lg" asChild>

@@ -67,7 +67,7 @@ export function AdminSidebar({
           <Link href={adminHref(basePath, "/admin")} className="focus-ring inline-block rounded-sm">
             <BrandMark variant="light" />
           </Link>
-          <div className="mt-5 grid grid-cols-[auto_1fr] gap-3 rounded-md border border-champagne-500/20 bg-champagne-500/[0.07] p-3">
+          <div className="mt-5 grid grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-md border border-champagne-500/20 bg-champagne-500/[0.07] p-3">
             <div className="grid h-9 w-9 place-items-center rounded-sm border border-champagne-500/30 bg-navy-900 text-champagne-300">
               <ShieldCheck className="h-4 w-4" strokeWidth={1.7} />
             </div>
@@ -142,7 +142,7 @@ export function AdminSidebar({
           <Link href={adminHref(basePath, "/admin")} className="focus-ring shrink-0 rounded-sm">
             <BrandMark variant="light" withWordmark={false} />
           </Link>
-          <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto">
+          <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {[...primaryItems, ...secondaryItems].map((item) => {
               const active = isActive(item.href, pathname);
               const Icon = item.icon;

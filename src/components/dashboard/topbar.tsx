@@ -32,8 +32,8 @@ export function DashboardTopbar({ fullName, email, accountNumber, locale, notifi
 
   return (
     <header className="sticky top-[65px] z-30 border-b border-[#D8DEE6] bg-white/88 shadow-[0_18px_46px_-42px_rgba(15,23,42,0.46)] backdrop-blur-xl lg:top-0">
-      <div className="flex min-h-16 items-center justify-between gap-4 px-4 py-3 lg:px-8">
-        <div className="hidden min-w-[220px] md:block">
+      <div className="flex min-h-16 min-w-0 items-center justify-between gap-4 px-4 py-3 lg:px-8">
+        <div className="hidden min-w-0 md:block md:w-[220px]">
           <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#B08231]">
             {t("dash.private_portal")}
           </div>
@@ -51,7 +51,7 @@ export function DashboardTopbar({ fullName, email, accountNumber, locale, notifi
           />
         </label>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex min-w-0 items-center gap-2">
           <Button variant="gold" size="sm" asChild className="hidden shadow-none sm:inline-flex">
             <Link href="/dashboard/messages">
               <MessageSquare className="h-3.5 w-3.5" />
@@ -67,12 +67,12 @@ export function DashboardTopbar({ fullName, email, accountNumber, locale, notifi
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="focus-ring flex items-center gap-3 rounded-md border border-slate-200 bg-[#F7F8FA] py-1 pl-1 pr-3 transition-colors hover:border-slate-300 hover:bg-white">
+              <button className="focus-ring flex min-w-0 items-center gap-3 rounded-md border border-slate-200 bg-[#F7F8FA] py-1 pl-1 pr-3 transition-colors hover:border-slate-300 hover:bg-white">
                 <Avatar>
                   <AvatarFallback>{initials(fullName)}</AvatarFallback>
                 </Avatar>
-                <div className="hidden text-left sm:block">
-                  <div className="text-[13px] font-semibold leading-tight text-slate-900">
+                <div className="hidden min-w-0 text-left sm:block">
+                  <div className="max-w-40 truncate text-[13px] font-semibold leading-tight text-slate-900">
                     {fullName}
                   </div>
                   <div className="mt-0.5 text-[11px] uppercase leading-tight tracking-[0.14em] text-slate-500">

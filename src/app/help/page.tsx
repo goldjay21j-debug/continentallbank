@@ -20,7 +20,7 @@ export default function HelpPage() {
             <>
               <p>
                 <strong>How do I start?</strong> Create a secure recovery profile, wait for
-                account approval, then file the scam or stolen-funds case from your dashboard. The
+                account approval, then file the investment recovery case from your dashboard. The
                 recovery desk will request identity documents and evidence as needed.
               </p>
               <p>

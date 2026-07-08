@@ -236,7 +236,7 @@ export function ActivityTicker({
       >
         <div
           className={cn(
-            "flex shrink-0 items-center gap-2 border-r pr-4 text-[10px] font-medium uppercase tracking-[0.18em]",
+          "flex min-w-0 max-w-[45%] shrink items-center gap-2 border-r pr-4 text-[10px] font-medium uppercase tracking-[0.18em]",
             tone === "dark" ? "border-ivory-100/[0.10] text-champagne-300" : "border-border text-champagne-700",
           )}
         >
@@ -244,7 +244,7 @@ export function ActivityTicker({
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-champagne-500 opacity-40" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-champagne-500" />
           </span>
-          {label}
+          <span className="truncate">{label}</span>
         </div>
 
         <div className="activity-ticker-mask min-w-0 flex-1" aria-hidden="true">
@@ -278,7 +278,7 @@ function ActivityChip({
   return (
     <div
       className={cn(
-        "flex shrink-0 items-center gap-2 rounded-full border",
+        "flex max-w-[calc(100vw-2rem)] shrink-0 items-center gap-2 rounded-full border",
         compact ? "px-3 py-1.5" : "px-3.5 py-2",
         tone === "dark"
           ? "border-ivory-100/[0.08] bg-[#17212B]/70"

@@ -10,8 +10,8 @@ type Props = {
 
 export function PageHeader({ eyebrow, title, description, actions, className }: Props) {
   return (
-    <div className={cn("flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between", className)}>
-      <div>
+    <div className={cn("flex min-w-0 flex-col gap-4 sm:flex-row sm:items-end sm:justify-between", className)}>
+      <div className="min-w-0">
         {eyebrow && <div className="eyebrow text-champagne-700 dark:text-champagne-400 mb-2">{eyebrow}</div>}
         <h1 className="font-display text-display-md text-foreground tracking-tight">
           {title}
@@ -22,7 +22,7 @@ export function PageHeader({ eyebrow, title, description, actions, className }: 
           </p>
         )}
       </div>
-      {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
+      {actions && <div className="flex min-w-0 flex-wrap items-center gap-2">{actions}</div>}
     </div>
   );
 }

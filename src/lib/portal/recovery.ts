@@ -28,7 +28,7 @@ export function recoveryAccessState(
       key: "case_required",
       title: "Investigation Case Required",
       description:
-        "File a stolen-funds investigation first. The escrow desk opens only after a scam, fraud, or recovery case has been recorded and reviewed.",
+        "File an investment recovery case first. The escrow desk opens only after the matter has been recorded and reviewed by an officer.",
       actionHref: "/dashboard",
       actionLabel: "File investigation",
     };

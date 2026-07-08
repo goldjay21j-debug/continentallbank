@@ -21,7 +21,7 @@ export default async function AdminTransactionsPage() {
       />
 
       <div className="glass-card overflow-hidden">
-        <div className="hidden md:grid grid-cols-[auto_1.4fr_1fr_0.8fr_0.8fr_0.8fr_auto] gap-4 border-b border-foreground/[0.06] bg-foreground/[0.02] px-6 py-3 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+        <div className="hidden md:grid grid-cols-[auto_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.8fr)_minmax(0,0.8fr)_auto] gap-4 border-b border-foreground/[0.06] bg-foreground/[0.02] px-6 py-3 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
           <span></span>
           <span>Client</span>
           <span>Type / Description</span>
@@ -39,7 +39,7 @@ export default async function AdminTransactionsPage() {
             {rows.map((t) => (
               <li
                 key={t.id}
-                className="grid grid-cols-[auto_1fr_auto] md:grid-cols-[auto_1.4fr_1fr_0.8fr_0.8fr_0.8fr_auto] items-center gap-4 px-6 py-4"
+                className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-3 px-4 py-4 sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:px-6 md:grid-cols-[auto_minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,0.8fr)_minmax(0,0.8fr)_minmax(0,0.8fr)_auto] md:gap-4"
               >
                 <span
                   className={
@@ -54,7 +54,7 @@ export default async function AdminTransactionsPage() {
                 <div className="min-w-0">
                   <Link
                     href={`/admin/users/${t.profiles?.id}`}
-                    className="text-[14px] font-medium text-foreground hover:underline underline-offset-4"
+                    className="break-words text-[14px] font-medium text-foreground underline-offset-4 hover:underline"
                   >
                     {t.profiles?.full_name ?? "—"}
                   </Link>
@@ -69,7 +69,7 @@ export default async function AdminTransactionsPage() {
                   <div className="text-[11.5px] text-muted-foreground capitalize">{t.type}</div>
                 </div>
                 <div className="hidden md:block text-[13px] text-foreground">{t.currency}</div>
-                <div className="text-right tabular-figures text-[14px] font-medium text-foreground">
+                <div className="col-span-2 min-w-0 text-right tabular-figures text-[14px] font-medium text-foreground sm:col-span-1">
                   {t.amount >= 0 ? "+" : ""}
                   {formatCurrency(t.amount, t.currency)}
                 </div>

@@ -49,7 +49,7 @@ export default async function WithdrawalsPage() {
         ) : (
           <ul className="divide-y divide-foreground/[0.05]">
             {reqs.map((request) => (
-              <li key={request.id} className="px-6 py-5">
+              <li key={request.id} className="px-4 py-5 sm:px-6">
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                   <div className="min-w-0">
                     <div className="mb-2 flex flex-wrap items-center gap-2">
@@ -65,7 +65,7 @@ export default async function WithdrawalsPage() {
                     <div className="text-[15px] font-medium text-foreground">
                       {formatCurrency(request.amount, request.currency)}
                     </div>
-                    <div className="mt-1 text-[12px] capitalize text-muted-foreground">
+                    <div className="mt-1 break-words text-[12px] capitalize text-muted-foreground">
                       {request.method.replace(/_/g, " ")} - {formatDateTime(request.created_at)}
                     </div>
                     {Number(request.release_processing_fee ?? 0) > 0 && (
@@ -99,11 +99,11 @@ export default async function WithdrawalsPage() {
 
 function Detail({ label, value }: { label: string; value: string }) {
   return (
-    <span className="rounded-md border border-foreground/[0.06] bg-foreground/[0.025] px-3 py-2">
+    <span className="min-w-0 rounded-md border border-foreground/[0.06] bg-foreground/[0.025] px-3 py-2">
       <span className="block text-[9.5px] uppercase tracking-[0.14em] text-muted-foreground">
         {label}
       </span>
-      <span className="mt-1 block font-medium text-foreground">{value}</span>
+      <span className="mt-1 block break-words font-medium text-foreground">{value}</span>
     </span>
   );
 }

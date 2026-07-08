@@ -76,15 +76,16 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
     <form onSubmit={submit} className="space-y-5">
       <div>
         <div className="eyebrow text-champagne-700 dark:text-champagne-400">
-          Fraud recovery intake
+          Investment recovery intake
         </div>
         <h3 className="mt-2 font-display text-xl font-semibold text-foreground">
-          File a stolen-funds investigation
+          File an investment recovery case
         </h3>
         <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
-          Report romance scams, crypto wallet theft, investment fraud, wire fraud, impersonation,
-          phishing, marketplace fraud, or any other recovery matter. Officers review the case and
-          request evidence before escrow access can open.
+          Report relationship-led investment claims, digital asset matters, investment platform
+          disputes, bank transfer claims, identity concerns, marketplace payment disputes, or any
+          other recovery matter. Officers review the case and request evidence before escrow access
+          can open.
         </p>
       </div>
 
@@ -95,7 +96,7 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
             id="case-title"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            placeholder="e.g. Romance scam recovery involving wire transfers"
+            placeholder="e.g. Investment recovery involving wire transfers"
           />
         </div>
 
@@ -118,7 +119,7 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
           </Select>
         </div>
 
-        <div className="grid grid-cols-[1fr_110px] gap-2">
+        <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_96px] gap-2 sm:grid-cols-[minmax(0,1fr)_110px]">
           <div className="space-y-2">
             <Label htmlFor="amount-claimed">Estimated loss</Label>
             <Input
@@ -154,7 +155,7 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
             rows={5}
             value={summary}
             onChange={(event) => setSummary(event.target.value)}
-            placeholder="Explain how the scam started, dates, payment methods, wallet or bank details, profiles used, promises made, and what recovery help you need."
+            placeholder="Explain the investment timeline, dates, payment methods, wallet or bank details, counterparties, representations made, and what recovery help you need."
           />
         </div>
 

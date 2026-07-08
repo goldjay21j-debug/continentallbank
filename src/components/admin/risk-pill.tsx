@@ -24,13 +24,13 @@ export function RiskBandPill({ band, score }: { band: Band; score: number }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border px-2.5 py-1 text-[10.5px] uppercase tracking-[0.16em]",
+        "inline-flex min-w-0 max-w-full items-center gap-2 rounded-full border px-2.5 py-1 text-[10.5px] uppercase tracking-[0.16em]",
         BAND_STYLES[band],
       )}
     >
       <span className="h-1.5 w-1.5 rounded-full bg-current" />
-      <span>Risk · {BAND_LABEL[band]}</span>
-      <span className="tabular-figures opacity-70">· {score}</span>
+      <span className="min-w-0 break-words">Risk · {BAND_LABEL[band]}</span>
+      <span className="shrink-0 tabular-figures opacity-70">· {score}</span>
     </span>
   );
 }
@@ -46,7 +46,7 @@ export function SeverityChip({ severity }: { severity: RiskSeverity }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] font-medium",
+        "inline-flex min-w-0 max-w-full items-center justify-center rounded-full border px-2 py-0.5 text-center text-[10px] font-medium uppercase tracking-[0.14em]",
         SEVERITY_STYLES[severity],
       )}
     >

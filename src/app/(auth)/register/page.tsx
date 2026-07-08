@@ -17,13 +17,13 @@ export default function RegisterPage() {
     <div className="space-y-8">
       <header>
         <div className="eyebrow text-champagne-700 dark:text-champagne-400 mb-4">
-          Fraud Recovery Desk
+          Investment Recovery Desk
         </div>
         <h1 className="font-display text-display-md text-foreground text-balance">
           Create your recovery case profile.
         </h1>
         <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
-          Submit your secure profile first. Once approved, you can file the scam or stolen-funds
+          Submit your secure profile first. Once approved, you can file the investment recovery
           case, upload KYC, and continue through officer review.
         </p>
       </header>

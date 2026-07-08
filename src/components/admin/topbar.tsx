@@ -35,8 +35,8 @@ export function AdminTopbar({
 
   return (
     <header className="sticky top-[65px] z-30 border-b border-white/[0.08] bg-navy-950/72 backdrop-blur-xl lg:top-0">
-      <div className="flex min-h-16 items-center justify-between gap-4 px-4 py-3 lg:px-8">
-        <div className="hidden min-w-[220px] md:block">
+      <div className="flex min-h-16 min-w-0 items-center justify-between gap-4 px-4 py-3 lg:px-8">
+        <div className="hidden min-w-0 md:block md:w-[220px]">
           <div className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.2em] text-champagne-300">
             <ShieldCheck className="h-3.5 w-3.5" strokeWidth={1.7} />
             {t("admin.officer_desk")}
@@ -55,7 +55,7 @@ export function AdminTopbar({
           />
         </label>
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex min-w-0 items-center gap-2">
           <Button
             variant="outline"
             size="sm"
@@ -94,12 +94,12 @@ export function AdminTopbar({
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="focus-ring flex items-center gap-3 rounded-sm border border-white/[0.08] bg-white/[0.045] py-1 pl-1 pr-3 transition-colors hover:bg-white/[0.08]">
+              <button className="focus-ring flex min-w-0 items-center gap-3 rounded-sm border border-white/[0.08] bg-white/[0.045] py-1 pl-1 pr-3 transition-colors hover:bg-white/[0.08]">
                 <Avatar>
                   <AvatarFallback>{initials(fullName)}</AvatarFallback>
                 </Avatar>
-                <div className="hidden text-left sm:block">
-                  <div className="text-[13px] font-medium leading-tight text-ivory-100">
+                <div className="hidden min-w-0 text-left sm:block">
+                  <div className="max-w-40 truncate text-[13px] font-medium leading-tight text-ivory-100">
                     {fullName}
                   </div>
                   <div className="mt-0.5 text-[11px] uppercase leading-tight tracking-[0.14em] text-ivory-100/46">

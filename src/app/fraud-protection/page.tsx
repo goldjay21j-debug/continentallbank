@@ -3,7 +3,7 @@ import { LegalPage } from "@/components/marketing/legal-page";
 import { TrustBadgeRail } from "@/components/shared/trust-badges";
 
 export const metadata: Metadata = {
-  title: "Fraud Protection",
+  title: "Account Protection",
   description:
     "How to recognise impersonation, what Continental will and will not ask of you, and how to report a concern.",
 };
@@ -12,7 +12,7 @@ export default function FraudProtectionPage() {
   return (
     <LegalPage
       eyebrow="Trust"
-      title="Fraud protection"
+      title="Account protection"
       lead="A small set of habits will keep you safe. Continental will never ask you to circumvent any of them."
       afterLead={<TrustBadgeRail preset="security" compact />}
       sections={[
@@ -85,7 +85,7 @@ export default function FraudProtectionPage() {
           body: (
             <>
               <p>
-                If you suspect you have responded to a fraudulent communication or that an
+                If you suspect you have responded to an unauthorised communication or that an
                 unauthorised person has reached your account, write to{" "}
                 <a
                   href="mailto:incident@continentallbank.com"

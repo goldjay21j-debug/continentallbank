@@ -215,7 +215,7 @@ function ActionTrigger({
           onClick={onClick}
           transition={{ duration: 0.36, ease: easeInOut }}
           className={cn(
-            "inline-flex items-center gap-1.5 rounded-md px-3 h-8 text-xs font-medium",
+            "inline-flex min-h-8 min-w-0 max-w-full items-center justify-center gap-1.5 rounded-md px-3 py-1.5 text-center text-xs font-medium",
             "transition-colors duration-200 focus-ring",
             variantClass,
           )}

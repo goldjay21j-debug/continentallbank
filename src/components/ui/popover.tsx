@@ -18,7 +18,7 @@ const PopoverContent = React.forwardRef<
       align={align}
       sideOffset={sideOffset}
       className={cn(
-        "z-50 w-72 overflow-hidden glass-card p-0 text-popover-foreground",
+        "z-50 w-72 max-w-[calc(100vw-1rem)] max-h-[min(32rem,calc(100dvh-1rem))] overflow-y-auto overflow-x-hidden glass-card p-0 text-popover-foreground",
         "origin-[var(--radix-popover-content-transform-origin)]",
         "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-[0.96] data-[state=open]:slide-in-from-top-1",
         "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-[0.97]",

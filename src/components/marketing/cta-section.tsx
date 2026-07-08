@@ -25,7 +25,7 @@ export function CtaSection() {
               Start with a case file. Continue with officer review.
             </h2>
             <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-ivory-100/75 text-pretty">
-              If you lost funds to a scam, submit the case details first. The recovery desk can
+              If you need an investment or asset recovery review, submit the case details first. The recovery desk can
               request evidence, verify identity, review provider references, and open escrow only
               after the required checks are complete.
             </p>
@@ -55,10 +55,11 @@ export function CtaSection() {
             className="space-y-5 border border-ivory-100/15 bg-navy-800/40 p-5 rounded-md backdrop-blur-sm sm:p-6"
           >
             <div>
-              <div className="eyebrow text-champagne-300">Fraud Recovery Desk</div>
+              <div className="eyebrow text-champagne-300">Investment Recovery Desk</div>
               <p className="mt-3 text-[14px] leading-relaxed text-ivory-100/80">
-                Case intake for romance scams, crypto theft, fake investment platforms, wire
-                fraud, impersonation, phishing, and marketplace disputes.
+                Case intake for relationship-led investment claims, digital asset matters,
+                investment platform disputes, bank transfers, identity concerns, and marketplace
+                disputes.
               </p>
             </div>
             <div className="hairline bg-ivory-100/10" />

@@ -58,7 +58,7 @@ export default async function AdminRefundsPage({
         ) : (
           <ul className="divide-y divide-foreground/[0.05]">
             {rows.map((r) => (
-              <li key={r.id} className="px-6 py-5">
+              <li key={r.id} className="px-4 py-5 sm:px-6">
                 <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-1.5 flex-wrap">
@@ -88,13 +88,13 @@ export default async function AdminRefundsPage({
                       {r.profiles?.id ? (
                         <Link
                           href={`/admin/users/${r.profiles.id}`}
-                          className="text-[15px] font-medium text-foreground hover:underline underline-offset-4 inline-flex items-center gap-1"
+                          className="inline-flex min-w-0 items-center gap-1 break-words text-[15px] font-medium text-foreground underline-offset-4 hover:underline"
                         >
                           {r.claimant_name}
                           <ExternalLink className="h-3 w-3" />
                         </Link>
                       ) : (
-                        <span className="text-[15px] font-medium text-foreground inline-flex items-center gap-1.5">
+                        <span className="inline-flex min-w-0 items-center gap-1.5 break-words text-[15px] font-medium text-foreground">
                           <UserRound className="h-3.5 w-3.5 text-muted-foreground" />
                           {r.claimant_name}
                           <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground ml-1">
@@ -104,7 +104,7 @@ export default async function AdminRefundsPage({
                       )}
                     </div>
 
-                    <div className="text-[12px] text-muted-foreground tabular-figures mt-0.5">
+                    <div className="mt-0.5 break-words text-[12px] tabular-figures text-muted-foreground">
                       {r.claimant_email}
                       {r.claimant_phone && <> · {r.claimant_phone}</>}
                       {r.account_reference && (
@@ -139,8 +139,8 @@ export default async function AdminRefundsPage({
                     )}
                   </div>
 
-                  <div className="flex flex-col items-start md:items-end gap-3">
-                    <div className="font-display text-2xl font-semibold tabular-figures text-foreground">
+                  <div className="flex min-w-0 flex-col items-start gap-3 md:items-end">
+                    <div className="min-w-0 break-words font-display text-2xl font-semibold tabular-figures text-foreground">
                       {r.currency
                         ? formatCurrency(r.amount, r.currency)
                         : Number(r.amount).toLocaleString()}

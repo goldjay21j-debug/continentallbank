@@ -236,8 +236,8 @@ export default function ServicesPage() {
               A case file starts the recovery mandate.
             </h2>
             <p className="mt-4 text-[15px] leading-relaxed text-ivory-100/80 max-w-xl text-pretty">
-              Submit the stolen-funds matter, evidence summary, payment references, and suspect
-              details. The recovery desk reviews the file before requesting documents, activating
+              Submit the investment recovery matter, evidence summary, payment references, and
+              counterparty details. The recovery desk reviews the file before requesting documents, activating
               escrow, or moving any release workflow forward.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
