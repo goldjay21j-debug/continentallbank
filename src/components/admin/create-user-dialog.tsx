@@ -76,7 +76,7 @@ export function CreateUserDialog({ trigger }: { trigger?: React.ReactNode }) {
       </MorphDialog.Header>
 
       <form onSubmit={submit} className="mt-5 space-y-5">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="fullName">Full legal name</Label>
             <Input
@@ -111,7 +111,7 @@ export function CreateUserDialog({ trigger }: { trigger?: React.ReactNode }) {
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid gap-4 sm:grid-cols-3">
           <div className="space-y-2">
             <Label>Country</Label>
             <Select value={state.country} onValueChange={(v) => setState({ ...state, country: v })}>
@@ -165,7 +165,7 @@ export function CreateUserDialog({ trigger }: { trigger?: React.ReactNode }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label>Role</Label>
             <Select value={state.role} onValueChange={(v) => setState({ ...state, role: v as Role })}>

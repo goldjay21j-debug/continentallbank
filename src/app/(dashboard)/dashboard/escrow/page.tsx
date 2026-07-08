@@ -361,10 +361,12 @@ function GateStep({
 function AssuranceRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-start justify-between gap-4 rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
-      <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
+      <span className="shrink-0 text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
         {label}
       </span>
-      <span className="max-w-[52%] text-right text-[13px] font-semibold text-slate-950">{value}</span>
+      <span className="min-w-0 max-w-[52%] break-words text-right text-[13px] font-semibold text-slate-950">
+        {value}
+      </span>
     </div>
   );
 }
@@ -383,8 +385,10 @@ function EscrowMetric({ label, value, strong = false }: { label: string; value: 
 function ControlRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-baseline justify-between gap-4 border-b border-foreground/[0.06] pb-3 last:border-b-0">
-      <span className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{label}</span>
-      <span className="max-w-[55%] text-right text-[13px] font-medium text-foreground">{value}</span>
+      <span className="shrink-0 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{label}</span>
+      <span className="min-w-0 max-w-[55%] break-words text-right text-[13px] font-medium text-foreground">
+        {value}
+      </span>
     </div>
   );
 }

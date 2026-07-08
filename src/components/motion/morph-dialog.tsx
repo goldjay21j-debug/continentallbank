@@ -90,7 +90,7 @@ function MorphDialogRoot({
             </DialogPrimitive.Overlay>
 
             <DialogPrimitive.Content asChild>
-              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+              <div className="pointer-events-none fixed inset-0 z-50 flex items-start justify-center overflow-y-auto px-4 py-6 sm:items-center">
                 <motion.div
                   layoutId={reduce ? undefined : layoutId}
                   initial={reduce ? { opacity: 0, scale: 0.98 } : false}
@@ -98,7 +98,7 @@ function MorphDialogRoot({
                   exit={reduce ? { opacity: 0, scale: 0.98 } : undefined}
                   transition={{ duration: 0.36, ease: easeInOut }}
                   className={cn(
-                    "relative w-full max-w-xl glass-strong p-7 pointer-events-auto",
+                    "pointer-events-auto relative max-h-[calc(100dvh-3rem)] w-full max-w-xl overflow-y-auto glass-strong p-5 sm:p-7",
                     className,
                   )}
                 >

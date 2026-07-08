@@ -50,7 +50,7 @@ export function BalanceAdjustForm({ userId }: { userId: string }) {
 
   return (
     <form onSubmit={submit} className="space-y-4">
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid gap-3 sm:grid-cols-3">
         <div className="space-y-1.5">
           <Label>Currency</Label>
           <Select value={state.currency} onValueChange={(v) => setState({ ...state, currency: v as Currency })}>
@@ -93,8 +93,8 @@ export function BalanceAdjustForm({ userId }: { userId: string }) {
         />
       </div>
 
-      <div className="flex items-center gap-3">
-        <Button type="submit" disabled={pending}>
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+        <Button type="submit" disabled={pending} className="w-full sm:w-auto">
           {pending ? "Posting…" : "Post adjustment"}
         </Button>
         <p className="text-[11.5px] text-muted-foreground">

@@ -188,10 +188,12 @@ export function KycVerificationForm({ initial }: { initial: KycSnapshot }) {
 function ReviewRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-baseline justify-between gap-4 border-b border-foreground/[0.06] pb-2 last:border-b-0">
-      <span className="text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
+      <span className="shrink-0 text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground">
         {label}
       </span>
-      <span className="max-w-[60%] text-right font-medium text-foreground">{value}</span>
+      <span className="min-w-0 max-w-[60%] break-words text-right font-medium text-foreground">
+        {value}
+      </span>
     </div>
   );
 }

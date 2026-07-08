@@ -4,7 +4,7 @@ import { AmbientBackdrop } from "@/components/shared/ambient-backdrop";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative min-h-screen overflow-hidden text-foreground dark">
+    <div className="relative min-h-screen overflow-x-hidden text-foreground dark">
       <AmbientBackdrop variant="navy" />
 
       <div className="relative min-h-screen grid lg:grid-cols-[1fr_1.05fr]">
@@ -34,7 +34,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </aside>
 
         {/* Form column — a glass-strong card centred on the navy backdrop */}
-        <main className="relative flex items-center justify-center p-6 sm:p-10 lg:p-16">
+        <main className="relative flex items-start justify-center px-4 pb-10 pt-24 sm:px-10 sm:pb-12 lg:items-center lg:p-16">
           {/* Mobile-only brand mark at the top */}
           <div className="lg:hidden absolute top-6 left-6">
             <Link href="/" className="focus-ring rounded-sm inline-block">
@@ -43,7 +43,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           <div className="relative w-full max-w-md animate-fade-in">
-            <div className="glass-strong p-7 sm:p-9">{children}</div>
+            <div className="glass-strong p-5 sm:p-9">{children}</div>
           </div>
         </main>
       </div>

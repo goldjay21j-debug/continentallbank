@@ -102,14 +102,14 @@ export function WithdrawalDecisionActions({
             </DialogPrimitive.Overlay>
 
             <DialogPrimitive.Content asChild>
-              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+              <div className="pointer-events-none fixed inset-0 z-50 flex items-start justify-center overflow-y-auto px-4 py-6 sm:items-center">
                 <motion.div
                   layoutId={reduce ? undefined : layoutKey(open)}
                   initial={reduce ? { opacity: 0, scale: 0.98 } : false}
                   animate={reduce ? { opacity: 1, scale: 1 } : undefined}
                   exit={reduce ? { opacity: 0, scale: 0.98 } : undefined}
                   transition={{ duration: 0.36, ease: easeInOut }}
-                  className="relative w-full max-w-md glass-strong p-6 pointer-events-auto"
+                  className="pointer-events-auto relative max-h-[calc(100dvh-3rem)] w-full max-w-md overflow-y-auto glass-strong p-5 sm:p-6"
                 >
                   <motion.div
                     initial={{ opacity: 0, y: 4 }}
