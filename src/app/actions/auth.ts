@@ -3,8 +3,8 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { createClient } from "@/lib/supabase/server";
-import { supabasePublicConfigured } from "@/lib/auth-mode";
+import { createClient, createServiceClient } from "@/lib/supabase/server";
+import { supabaseConfigured, supabasePublicConfigured } from "@/lib/auth-mode";
 import { CURRENCIES, SUPPORTED_LOCALES_VALUES } from "@/lib/validation";
 
 const SignUpSchema = z.object({
@@ -26,6 +26,20 @@ const ADMIN_ROLES = ["super_admin", "finance_admin", "support_admin"] as const;
 
 function isAdminRole(role: string | null | undefined) {
   return Boolean(role && ADMIN_ROLES.includes(role as (typeof ADMIN_ROLES)[number]));
+}
+
+function friendlyAuthError(message: string) {
+  const lower = message.toLowerCase();
+  if (lower.includes("already registered") || lower.includes("already exists")) {
+    return "An account already exists for this email. Please sign in instead.";
+  }
+  if (lower.includes("password")) {
+    return "Use a stronger password with at least 8 characters.";
+  }
+  if (lower.includes("redirect")) {
+    return "The account portal is not fully configured for signups yet. Please contact the recovery desk.";
+  }
+  return message || "We could not create the account right now. Please try again.";
 }
 
 export type SignUpResult =
@@ -51,27 +65,56 @@ export async function signUpAction(formData: FormData): Promise<SignUpResult> {
     return { ok: false, error: "Please review the highlighted fields.", fieldErrors };
   }
 
-  const supabase = await createClient();
-  const h = await headers();
-  const origin = h.get("origin") ?? process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  try {
+    const supabase = await createClient();
+    const userMetadata = {
+      full_name: parsed.data.fullName,
+      phone: parsed.data.phone || null,
+      country: parsed.data.country,
+      preferred_language: parsed.data.preferredLanguage,
+      preferred_currency: parsed.data.preferredCurrency,
+    };
 
-  const { error } = await supabase.auth.signUp({
-    email: parsed.data.email,
-    password: parsed.data.password,
-    options: {
-      emailRedirectTo: `${origin}/auth/callback`,
-      data: {
-        full_name: parsed.data.fullName,
-        phone: parsed.data.phone || null,
-        country: parsed.data.country,
-        preferred_language: parsed.data.preferredLanguage,
-        preferred_currency: parsed.data.preferredCurrency,
+    if (supabaseConfigured()) {
+      const admin = createServiceClient();
+      const { error: createError } = await admin.auth.admin.createUser({
+        email: parsed.data.email,
+        password: parsed.data.password,
+        email_confirm: true,
+        user_metadata: userMetadata,
+      });
+
+      if (createError) return { ok: false, error: friendlyAuthError(createError.message) };
+
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: parsed.data.email,
+        password: parsed.data.password,
+      });
+
+      return { ok: true, redirectTo: signInError ? "/login" : "/pending" };
+    }
+
+    const h = await headers();
+    const origin = h.get("origin") ?? process.env.NEXT_PUBLIC_SITE_URL ?? "";
+    const { data, error } = await supabase.auth.signUp({
+      email: parsed.data.email,
+      password: parsed.data.password,
+      options: {
+        emailRedirectTo: `${origin}/auth/callback`,
+        data: userMetadata,
       },
-    },
-  });
+    });
 
-  if (error) return { ok: false, error: error.message };
-  return { ok: true };
+    if (error) return { ok: false, error: friendlyAuthError(error.message) };
+    return { ok: true, redirectTo: data.session ? "/pending" : "/login" };
+  } catch (error) {
+    console.error("signUpAction failed", error);
+    return {
+      ok: false,
+      error:
+        "We could not create the account right now. Please try again in a moment or contact the recovery desk.",
+    };
+  }
 }
 
 export type SignInResult =
