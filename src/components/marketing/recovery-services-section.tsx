@@ -42,22 +42,22 @@ export function RecoveryServicesSection() {
   return (
     <section id="recovery" className="relative overflow-hidden border-b border-border bg-ivory-50">
       <MarketingBackdrop />
-      <div className="container relative py-20 lg:py-28">
-        <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+      <div className="container relative py-14 lg:py-20">
+        <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-10">
           <Reveal>
-            <div className="eyebrow flex items-center gap-3 mb-6 text-champagne-700">
+            <div className="eyebrow flex items-center gap-3 mb-4 text-champagne-700">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
               <span>Fraud Recovery Desk</span>
             </div>
             <h2 className="font-display text-display-lg text-foreground text-balance">
               Stolen funds, scam investigations, and controlled recovery cases.
             </h2>
-            <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground text-pretty">
               Continental Bank gives victims a structured way to file a case for romance scams,
               crypto theft, fake investments, wire fraud, impersonation, phishing, and related
               stolen-funds matters.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Button size="lg" asChild>
                 <Link href="/register">
                   File a recovery case
@@ -68,14 +68,14 @@ export function RecoveryServicesSection() {
                 <Link href="/login">Continue an existing case</Link>
               </Button>
             </div>
-            <p className="mt-5 max-w-lg text-[12.5px] leading-5 text-muted-foreground">
+            <p className="mt-4 max-w-lg text-[12.5px] leading-5 text-muted-foreground">
               Recovery is evidence-led and not guaranteed. Officers must validate identity,
               documents, payment records, and provider references before escrow access or release
               steps become available.
             </p>
           </Reveal>
 
-          <div className="space-y-5">
+          <div className="space-y-4">
             <Stagger as="ul" className="grid gap-3 sm:grid-cols-2" step={0.05}>
               {caseTypes.map((type) => (
                 <StaggerItem
@@ -96,10 +96,10 @@ export function RecoveryServicesSection() {
                 <StaggerItem
                   as="li"
                   key={step.title}
-                  className="rounded-md border border-[#E3D8C5] bg-white p-5 shadow-[0_22px_60px_-46px_rgba(15,23,42,0.45)]"
+                  className="rounded-md border border-[#E3D8C5] bg-white p-4 shadow-[0_22px_60px_-46px_rgba(15,23,42,0.45)]"
                 >
                   <step.icon className="h-5 w-5 text-champagne-700" strokeWidth={1.6} />
-                  <h3 className="mt-4 font-display text-lg font-semibold text-foreground">
+                  <h3 className="mt-3 font-display text-lg font-semibold text-foreground">
                     {step.title}
                   </h3>
                   <p className="mt-2 text-[13px] leading-6 text-muted-foreground">

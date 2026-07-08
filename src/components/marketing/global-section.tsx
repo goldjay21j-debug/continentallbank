@@ -12,17 +12,17 @@ const desks = [
 export function GlobalSection() {
   return (
     <section id="global" className="border-t border-border bg-background">
-      <div className="container py-24 lg:py-32">
-        <div className="grid gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20">
+      <div className="container py-16 lg:py-20">
+        <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:gap-12">
           <Reveal>
-            <div className="eyebrow flex items-center gap-3 mb-6">
+            <div className="eyebrow flex items-center gap-3 mb-4">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
               <span>Global Reach</span>
             </div>
             <h2 className="font-display text-display-lg text-foreground text-balance">
               Six desks. One ledger. One relationship.
             </h2>
-            <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground text-pretty">
               Whether you wake in Singapore or settle in Geneva, the same banker, the same record,
               the same standard. Continental's coordinated desks operate as one institution under
               one common protocol.
@@ -34,7 +34,7 @@ export function GlobalSection() {
               <StaggerItem
                 as="li"
                 key={d.city}
-                className="flex items-baseline justify-between py-5 transition-colors hover:bg-muted/40"
+                className="flex items-baseline justify-between py-4 transition-colors hover:bg-muted/40"
               >
                 <div>
                   <div className="font-display text-lg font-medium text-foreground">{d.city}</div>

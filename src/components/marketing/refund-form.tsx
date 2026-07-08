@@ -55,7 +55,7 @@ export function PublicRefundForm() {
 
   if (submitted) {
     return (
-      <div className="glass-light p-8 lg:p-10 text-center max-w-2xl mx-auto">
+      <div className="glass-light p-5 text-center max-w-2xl mx-auto sm:p-6 lg:p-7">
         <div className="eyebrow text-champagne-700 dark:text-champagne-400 mb-3">
           Claim received
         </div>
@@ -70,7 +70,7 @@ export function PublicRefundForm() {
         </p>
         <Button
           variant="outline"
-          className="mt-7"
+          className="mt-5"
           onClick={() => {
             setSubmitted(false);
             setState({ ...state, amount: "", description: "" });
@@ -83,7 +83,7 @@ export function PublicRefundForm() {
   }
 
   return (
-    <form onSubmit={submit} className="glass-light p-8 lg:p-10 space-y-7">
+    <form onSubmit={submit} className="glass-light p-5 space-y-5 sm:p-6 lg:p-7">
       <div>
         <div className="eyebrow text-champagne-700 dark:text-champagne-400 mb-2">
           Refund &amp; recovery
@@ -99,7 +99,7 @@ export function PublicRefundForm() {
       </div>
 
       {/* Claimant identity */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="claimantName">Full legal name</Label>
           <Input
@@ -123,7 +123,7 @@ export function PublicRefundForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="claimantPhone">Phone (optional)</Label>
           <Input
@@ -147,7 +147,7 @@ export function PublicRefundForm() {
       </div>
 
       {/* Claim details */}
-      <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_1fr] gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_1fr] gap-4">
         <div className="space-y-2">
           <Label>Reason</Label>
           <Select value={state.reason} onValueChange={(v) => setState({ ...state, reason: v })}>

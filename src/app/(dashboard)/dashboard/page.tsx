@@ -57,7 +57,7 @@ export default async function DashboardOverviewPage() {
   const pending = pendingWithdrawals as WithdrawalRequest[];
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-5">
       <PageHeader
         eyebrow={`Fraud recovery office - ${user.profile.full_name.split(" ")[0]}`}
         title="Stolen-funds recovery center."
@@ -82,7 +82,7 @@ export default async function DashboardOverviewPage() {
 
       <section className="grid gap-5 xl:grid-cols-[1.3fr_0.85fr]">
         <MotionCard index={0} intensity="strong" className="overflow-hidden border border-[#E3D8C5]">
-          <div className="border-b border-[#E3D8C5] px-6 py-5 sm:px-8">
+          <div className="border-b border-[#E3D8C5] px-5 py-4 sm:px-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
               <div>
                 <div className="eyebrow text-champagne-700">Recovery relationship</div>
@@ -115,7 +115,7 @@ export default async function DashboardOverviewPage() {
             </div>
           </div>
 
-          <div className="grid gap-6 px-6 py-7 sm:px-8 lg:grid-cols-[1fr_0.9fr]">
+          <div className="grid gap-5 px-5 py-5 sm:px-6 lg:grid-cols-[1fr_0.9fr]">
             <div>
               <div className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                 Current gate
@@ -123,10 +123,10 @@ export default async function DashboardOverviewPage() {
               <h3 className="mt-2 font-display text-[clamp(2rem,4vw,3.65rem)] leading-none text-foreground">
                 {overview.accessState.title}
               </h3>
-              <p className="mt-4 max-w-2xl text-[14px] leading-6 text-muted-foreground">
+              <p className="mt-3 max-w-2xl text-[14px] leading-6 text-muted-foreground">
                 {overview.accessState.description}
               </p>
-              <div className="mt-6 flex flex-wrap gap-2">
+              <div className="mt-4 flex flex-wrap gap-2">
                 {overview.accessState.key === "case_required" && (
                   <Button asChild>
                     <Link href="#recovery-intake">
@@ -203,7 +203,7 @@ export default async function DashboardOverviewPage() {
             <Landmark className="h-5 w-5 text-champagne-600" strokeWidth={1.5} />
           </div>
 
-          <div className="mt-6 space-y-4">
+          <div className="mt-5 space-y-3">
             <PositionRow label="Recovered funds" value={formatCurrency(recoveredTotal, currency)} />
             <PositionRow label="Eligible balance" value={formatCurrency(availableForRelease, currency)} />
             <PositionRow label="Processing fee - 20%" value={formatCurrency(releaseQuote.releaseProcessingFee, currency)} />
@@ -218,7 +218,7 @@ export default async function DashboardOverviewPage() {
 
       {!primaryCase ? (
         <section id="recovery-intake" className="grid gap-5 xl:grid-cols-[1.05fr_0.95fr]">
-          <MotionCard index={2} className="p-6 lg:p-8">
+          <MotionCard index={2} className="p-5 lg:p-6">
             <RecoveryCaseForm defaultCurrency={user.profile.preferred_currency as Currency} />
           </MotionCard>
           <MotionCard index={3} className="p-6">
@@ -228,7 +228,7 @@ export default async function DashboardOverviewPage() {
             <h3 className="mt-2 font-display text-xl font-semibold text-foreground">
               Recovery-first access model
             </h3>
-            <div className="mt-6 space-y-4">
+            <div className="mt-5 space-y-3">
               <ProcessStep label="1" title="Case recorded" body="A scam or stolen-funds report is created and assigned for officer review." />
               <ProcessStep label="2" title="Evidence requested" body="The recovery desk requests receipts, wallet records, communications, provider references, and timelines." />
               <ProcessStep label="3" title="KYC approved" body="Identity, address, and ownership records are checked before private escrow access." />
@@ -245,7 +245,7 @@ export default async function DashboardOverviewPage() {
                 {primaryCase.title}
               </h3>
             </div>
-            <div className="space-y-4 p-6">
+            <div className="space-y-3 p-5 sm:p-6">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge variant={primaryCase.status === "recovered" ? "success" : "warning"}>
                   {formatStatus(primaryCase.status)}
@@ -317,7 +317,7 @@ export default async function DashboardOverviewPage() {
             Officer/provider review queue
           </h3>
           {pending.length === 0 ? (
-            <div className="mt-6 rounded-md border border-foreground/[0.06] bg-foreground/[0.025] p-6 text-center text-[13px] text-muted-foreground">
+              <div className="mt-5 rounded-md border border-foreground/[0.06] bg-foreground/[0.025] p-5 text-center text-[13px] text-muted-foreground">
               <ShieldCheck className="mx-auto mb-3 h-5 w-5 text-champagne-600" />
               No pending release or withdrawal requests.
             </div>

@@ -36,25 +36,25 @@ const columns = [
 export function SiteFooter() {
   return (
     <footer className="border-t border-border bg-background">
-      <div className="container py-14 lg:py-16">
-        <div className="grid gap-12 lg:grid-cols-[1.2fr_2fr] lg:gap-20">
+      <div className="container py-10 lg:py-12">
+        <div className="grid gap-8 lg:grid-cols-[1.2fr_2fr] lg:gap-12">
           <div>
             <BrandMark />
-            <p className="mt-6 max-w-sm text-[13px] leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-4 max-w-sm text-[13px] leading-relaxed text-muted-foreground text-pretty">
               Continental Bank is a private institution serving principals and family offices
               across 38 jurisdictions. Discreet by tradition, exacting by mandate. Established
               Geneva 1972.
             </p>
-            <p className="mt-6 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+            <p className="mt-4 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
               Member · International Private Banking Council
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-7 sm:grid-cols-3">
             {columns.map((col) => (
               <div key={col.title}>
-                <h4 className="eyebrow mb-5 text-foreground">{col.title}</h4>
-                <ul className="space-y-3 text-[13px]">
+                <h4 className="eyebrow mb-4 text-foreground">{col.title}</h4>
+                <ul className="space-y-2.5 text-[13px]">
                   {col.links.map((l) => (
                     <li key={l.label}>
                       <Link
@@ -72,7 +72,7 @@ export function SiteFooter() {
         </div>
 
         {/* Regulatory disclosure block */}
-        <div className="mt-12 grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:gap-16 border-t border-border pt-10">
+        <div className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:gap-10 border-t border-border pt-7">
           <div className="text-[12px] leading-relaxed text-muted-foreground text-pretty max-w-3xl">
             <p>
               Continental Bank is a private banking institution operating under the prudential
@@ -109,7 +109,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-border pt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+        <div className="mt-7 border-t border-border pt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
           <div>
             © {new Date().getFullYear()} {SITE.name}. Geneva · London · Luxembourg · Singapore ·
             Dubai · New York.

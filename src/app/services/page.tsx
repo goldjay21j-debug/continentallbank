@@ -106,7 +106,7 @@ export default function ServicesPage() {
       <section className="relative overflow-hidden bg-paper">
         <div className="absolute inset-0 bg-noise pointer-events-none" aria-hidden />
         <MarketingBackdrop />
-        <div className="container relative pt-20 pb-16 lg:pt-28 lg:pb-20">
+        <div className="container relative pt-14 pb-10 lg:pt-20 lg:pb-14">
           <Link
             href="/"
             className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.16em] text-muted-foreground hover:text-foreground transition-colors duration-200"
@@ -115,29 +115,29 @@ export default function ServicesPage() {
             Return home
           </Link>
 
-          <Reveal className="mt-7 max-w-3xl">
-            <div className="eyebrow flex items-center gap-3 mb-6">
+          <Reveal className="mt-5 max-w-3xl">
+            <div className="eyebrow flex items-center gap-3 mb-4">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
               <span>Services</span>
             </div>
             <h1 className="font-display text-display-xl text-foreground text-balance">
               Private banking, in the original sense.
             </h1>
-            <p className="mt-6 text-[15px] leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground text-pretty">
               Continental Bank offers the institutional services a principal needs to oversee
               wealth quietly: custody, treasury, multi-currency accounts, discretionary and
               advisory mandates, and the coordination that makes them work together.
             </p>
-            <TrustBadgeRail preset="marketing" compact className="mt-8 lg:grid-cols-4" />
+            <TrustBadgeRail preset="marketing" compact className="mt-6 lg:grid-cols-4" />
           </Reveal>
         </div>
       </section>
 
       {/* Services grid */}
       <section className="bg-background border-t border-border/60">
-        <div className="container py-16 lg:py-20">
-          <Reveal className="mb-12 max-w-2xl">
-            <div className="eyebrow flex items-center gap-3 mb-5">
+        <div className="container py-10 lg:py-14">
+          <Reveal className="mb-8 max-w-2xl">
+            <div className="eyebrow flex items-center gap-3 mb-4">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
               <span>Service lines</span>
             </div>
@@ -151,7 +151,7 @@ export default function ServicesPage() {
               <StaggerItem
                 as="article"
                 key={s.title}
-                className="glass-light p-6 lg:p-7 flex flex-col"
+                className="glass-light p-5 lg:p-6 flex flex-col"
               >
                 <div className="flex items-center justify-between">
                   <div className="eyebrow text-champagne-700 dark:text-champagne-400">
@@ -175,16 +175,16 @@ export default function ServicesPage() {
       <section className="bg-paper relative overflow-hidden border-t border-border/60">
         <div className="absolute inset-0 bg-noise pointer-events-none" aria-hidden />
         <MarketingBackdrop />
-        <div className="container relative py-16 lg:py-20">
-          <Reveal className="mb-12 max-w-2xl">
-            <div className="eyebrow flex items-center gap-3 mb-5">
+        <div className="container relative py-10 lg:py-14">
+          <Reveal className="mb-8 max-w-2xl">
+            <div className="eyebrow flex items-center gap-3 mb-4">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
               <span>Mandates</span>
             </div>
             <h2 className="font-display text-display-md text-foreground text-balance">
               Four mandate frameworks.
             </h2>
-            <p className="mt-5 text-[14.5px] leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-4 text-[14.5px] leading-relaxed text-muted-foreground text-pretty">
               We do not market individual products. Continental establishes a mandate at
               relationship opening and reviews it on the agreed cadence.
             </p>
@@ -192,7 +192,7 @@ export default function ServicesPage() {
 
           <Stagger className="grid gap-4 md:grid-cols-2" step={0.06}>
             {mandates.map((m, i) => (
-              <StaggerItem as="article" key={m.name} className="glass-light p-7">
+              <StaggerItem as="article" key={m.name} className="glass-light p-5 lg:p-6">
                 <div className="flex items-baseline justify-between gap-3">
                   <h3 className="font-display text-xl font-semibold text-foreground tracking-tight">
                     {m.name}
@@ -218,7 +218,7 @@ export default function ServicesPage() {
 
       {/* CTA */}
       <section className="bg-navy-900 text-ivory-100">
-        <div className="container py-16 lg:py-20 relative overflow-hidden">
+        <div className="container py-12 lg:py-16 relative overflow-hidden">
           <div
             className="pointer-events-none absolute inset-0 opacity-[0.06]"
             style={{
@@ -228,19 +228,19 @@ export default function ServicesPage() {
             aria-hidden
           />
           <Reveal className="relative max-w-2xl">
-            <div className="eyebrow flex items-center gap-3 mb-5 text-champagne-300">
+            <div className="eyebrow flex items-center gap-3 mb-4 text-champagne-300">
               <span className="inline-block h-px w-8 bg-champagne-400/70" />
               <span>Recovery Desk</span>
             </div>
             <h2 className="font-display text-display-lg text-balance">
               A case file starts the recovery mandate.
             </h2>
-            <p className="mt-6 text-[15px] leading-relaxed text-ivory-100/80 max-w-xl text-pretty">
+            <p className="mt-4 text-[15px] leading-relaxed text-ivory-100/80 max-w-xl text-pretty">
               Submit the stolen-funds matter, evidence summary, payment references, and suspect
               details. The recovery desk reviews the file before requesting documents, activating
               escrow, or moving any release workflow forward.
             </p>
-            <div className="mt-9 flex flex-col sm:flex-row gap-3">
+            <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <Button size="lg" variant="gold" asChild>
                 <Link href="/register">
                   File a recovery case

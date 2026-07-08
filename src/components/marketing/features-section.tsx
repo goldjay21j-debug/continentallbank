@@ -39,9 +39,9 @@ export function FeaturesSection() {
   return (
     <section id="services" className="relative bg-background overflow-hidden">
       <MarketingBackdrop />
-      <div className="container relative py-24 lg:py-32">
-        <Reveal className="mb-16 max-w-2xl">
-          <div className="eyebrow flex items-center gap-3 mb-6">
+      <div className="container relative py-16 lg:py-20">
+        <Reveal className="mb-10 max-w-2xl">
+          <div className="eyebrow flex items-center gap-3 mb-4">
             <span className="inline-block h-px w-8 bg-champagne-500/70" />
             <span>Recovery Operations</span>
           </div>
@@ -52,16 +52,16 @@ export function FeaturesSection() {
 
         <Stagger as="ul" className="grid gap-4 md:grid-cols-2" step={0.07}>
           {features.map((f) => (
-            <StaggerItem as="li" key={f.title} className="glass-light p-8 lg:p-10">
-              <div className="flex items-start justify-between gap-6">
+            <StaggerItem as="li" key={f.title} className="glass-light p-5 lg:p-6">
+              <div className="flex items-start justify-between gap-4">
                 <div>
                   <div className="eyebrow text-champagne-700 dark:text-champagne-400">
                     {f.eyebrow}
                   </div>
-                  <h3 className="mt-3 font-display text-xl font-semibold text-foreground text-balance">
+                  <h3 className="mt-2.5 font-display text-xl font-semibold text-foreground text-balance">
                     {f.title}
                   </h3>
-                  <p className="mt-3 max-w-md text-[14px] leading-relaxed text-muted-foreground text-pretty">
+                  <p className="mt-2.5 max-w-md text-[14px] leading-relaxed text-muted-foreground text-pretty">
                     {f.body}
                   </p>
                 </div>

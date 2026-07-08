@@ -6,7 +6,7 @@ import { Reveal } from "@/components/motion/primitives";
 export function CtaSection() {
   return (
     <section id="contact" className="bg-navy-900 text-ivory-100">
-      <div className="container relative overflow-hidden py-24 lg:py-32">
+      <div className="container relative overflow-hidden py-16 lg:py-20">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.06]"
           style={{
@@ -15,22 +15,22 @@ export function CtaSection() {
           }}
           aria-hidden
         />
-        <div className="relative grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-end lg:gap-20">
+        <div className="relative grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-end lg:gap-12">
           <Reveal>
-            <div className="eyebrow flex items-center gap-3 mb-6 text-champagne-300">
+            <div className="eyebrow flex items-center gap-3 mb-4 text-champagne-300">
               <span className="inline-block h-px w-8 bg-champagne-400/70" />
               <span>Recovery Desk</span>
             </div>
             <h2 className="font-display text-display-xl text-balance">
               Start with a case file. Continue with officer review.
             </h2>
-            <p className="mt-7 max-w-xl text-[15px] leading-relaxed text-ivory-100/75 text-pretty">
+            <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-ivory-100/75 text-pretty">
               If you lost funds to a scam, submit the case details first. The recovery desk can
               request evidence, verify identity, review provider references, and open escrow only
               after the required checks are complete.
             </p>
 
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Button size="lg" variant="gold" asChild>
                 <Link href="/register">
                   File a recovery case
@@ -52,7 +52,7 @@ export function CtaSection() {
 
           <Reveal
             delay={0.08}
-            className="space-y-7 border border-ivory-100/15 bg-navy-800/40 p-8 rounded-md backdrop-blur-sm"
+            className="space-y-5 border border-ivory-100/15 bg-navy-800/40 p-5 rounded-md backdrop-blur-sm sm:p-6"
           >
             <div>
               <div className="eyebrow text-champagne-300">Fraud Recovery Desk</div>

@@ -23,7 +23,7 @@ export default function RefundPage() {
         <div className="absolute inset-0 bg-noise pointer-events-none" aria-hidden />
         <MarketingBackdrop />
 
-        <div className="container relative pt-16 pb-12 lg:pt-24 lg:pb-16">
+        <div className="container relative pt-14 pb-10 lg:pt-20 lg:pb-14">
           <Link
             href="/"
             className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.16em] text-muted-foreground hover:text-foreground transition-colors duration-200"
@@ -32,20 +32,20 @@ export default function RefundPage() {
             Return home
           </Link>
 
-          <div className="mt-7 max-w-3xl">
-            <div className="eyebrow flex items-center gap-3 mb-6">
+          <div className="mt-5 max-w-3xl">
+            <div className="eyebrow flex items-center gap-3 mb-4">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
               <span>Refund &amp; Recovery</span>
             </div>
             <h1 className="font-display text-display-xl text-foreground text-balance">
               File a claim. We will respond.
             </h1>
-            <p className="mt-6 text-[15px] leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground text-pretty">
               The form below is for disputed charges, failed settlements, recovery of dormant
               deposits, and any other matter requiring restitution. Each claim is reviewed by
               hand by a relationship officer of the Bank — there is no automated outcome.
             </p>
-            <TrustBadgeRail preset="refund" compact className="mt-8 lg:grid-cols-3 xl:grid-cols-3" />
+            <TrustBadgeRail preset="refund" compact className="mt-6 lg:grid-cols-3 xl:grid-cols-3" />
             <ActivityTicker preset="refund" label="Recovery activity" compact className="mt-4" />
           </div>
         </div>
@@ -53,7 +53,7 @@ export default function RefundPage() {
 
       {/* Information row — what to expect */}
       <section className="relative bg-background">
-        <div className="container py-10 lg:py-12">
+        <div className="container py-8 lg:py-10">
           <div className="grid gap-4 md:grid-cols-3">
             <InfoCard
               icon={Clock}
@@ -79,7 +79,7 @@ export default function RefundPage() {
 
       {/* Form */}
       <section className="relative bg-background">
-        <div className="container pb-20 lg:pb-28">
+        <div className="container pb-12 lg:pb-16">
           <div className="mx-auto max-w-3xl">
             <PublicRefundForm />
           </div>
@@ -103,7 +103,7 @@ function InfoCard({
   body: string;
 }) {
   return (
-    <article className="glass-light p-6">
+    <article className="glass-light p-5">
       <div className="flex items-start justify-between">
         <div className="eyebrow text-champagne-700 dark:text-champagne-400">{eyebrow}</div>
         <Icon className="h-4 w-4 text-champagne-600" strokeWidth={1.5} />

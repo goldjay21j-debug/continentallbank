@@ -9,7 +9,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
       <div className="relative min-h-screen grid lg:grid-cols-[1fr_1.05fr]">
         {/* Left rail — editorial quote, sits on the ambient navy */}
-        <aside className="relative hidden lg:flex flex-col justify-between p-12">
+        <aside className="relative hidden lg:flex flex-col justify-between p-9 xl:p-10">
           <div>
             <Link href="/" className="focus-ring rounded-sm inline-block">
               <BrandMark variant="light" />
@@ -17,12 +17,12 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           <div className="max-w-md">
-            <div className="eyebrow text-champagne-300 mb-5">A note from the chairman</div>
+            <div className="eyebrow text-champagne-300 mb-4">A note from the chairman</div>
             <p className="font-display text-2xl leading-[1.35] text-ivory-100/95 text-balance">
               &ldquo;We do not chase scale. We protect the few who have entrusted us with a
               lifetime of careful work. Restraint is our standard.&rdquo;
             </p>
-            <p className="mt-6 text-[12px] uppercase tracking-[0.18em] text-ivory-100/55">
+            <p className="mt-4 text-[12px] uppercase tracking-[0.18em] text-ivory-100/55">
               É. Marchand · Chairman, Continental Bank · Geneva
             </p>
           </div>
@@ -34,7 +34,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </aside>
 
         {/* Form column — a glass-strong card centred on the navy backdrop */}
-        <main className="relative flex items-start justify-center px-4 pb-10 pt-24 sm:px-10 sm:pb-12 lg:items-center lg:p-16">
+        <main className="relative flex items-start justify-center px-4 pb-8 pt-20 sm:px-8 sm:pb-10 lg:items-center lg:p-10 xl:p-12">
           {/* Mobile-only brand mark at the top */}
           <div className="lg:hidden absolute top-6 left-6">
             <Link href="/" className="focus-ring rounded-sm inline-block">
@@ -43,7 +43,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </div>
 
           <div className="relative w-full max-w-md animate-fade-in">
-            <div className="glass-strong p-5 sm:p-9">{children}</div>
+            <div className="glass-strong p-5 sm:p-7">{children}</div>
           </div>
         </main>
       </div>

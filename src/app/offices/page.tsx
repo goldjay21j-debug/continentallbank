@@ -101,7 +101,7 @@ export default function OfficesPage() {
       <section className="relative overflow-hidden bg-paper">
         <div className="absolute inset-0 bg-noise pointer-events-none" aria-hidden />
         <MarketingBackdrop />
-        <div className="container relative pt-20 pb-16 lg:pt-28 lg:pb-20">
+        <div className="container relative pt-14 pb-10 lg:pt-20 lg:pb-14">
           <Link
             href="/"
             className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.16em] text-muted-foreground hover:text-foreground transition-colors duration-200"
@@ -110,15 +110,15 @@ export default function OfficesPage() {
             Return home
           </Link>
 
-          <Reveal className="mt-7 max-w-3xl">
-            <div className="eyebrow flex items-center gap-3 mb-6">
+          <Reveal className="mt-5 max-w-3xl">
+            <div className="eyebrow flex items-center gap-3 mb-4">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
               <span>Global Reach</span>
             </div>
             <h1 className="font-display text-display-xl text-foreground text-balance">
               Six offices, one institution.
             </h1>
-            <p className="mt-6 text-[15px] leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground text-pretty">
               Continental Bank operates under one common protocol across six offices. Whether
               your day begins in Singapore or settles in Geneva, the same officer, the same
               record, the same standard.
@@ -128,10 +128,10 @@ export default function OfficesPage() {
       </section>
 
       <section className="bg-background border-t border-border/60">
-        <div className="container py-16 lg:py-20">
+        <div className="container py-10 lg:py-14">
           <Stagger className="grid gap-5 md:grid-cols-2 xl:grid-cols-3" step={0.06}>
             {offices.map((o) => (
-              <StaggerItem as="article" key={o.city} className="glass-light p-6 lg:p-7 flex flex-col">
+              <StaggerItem as="article" key={o.city} className="glass-light p-5 lg:p-6 flex flex-col">
                 <div className="flex items-start justify-between">
                   <div>
                     <div className="eyebrow text-champagne-700 dark:text-champagne-400">

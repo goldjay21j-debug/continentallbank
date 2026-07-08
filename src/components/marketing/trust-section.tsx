@@ -34,27 +34,27 @@ export async function TrustSection() {
   return (
     <section className="relative border-y border-border bg-background overflow-hidden">
       <MarketingBackdrop />
-      <div className="container relative py-24 lg:py-32">
-        <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+      <div className="container relative py-16 lg:py-20">
+        <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-12">
           <Reveal>
-            <div className="eyebrow flex items-center gap-3 mb-6">
+            <div className="eyebrow flex items-center gap-3 mb-4">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
               <span>{t("trust.eyebrow")}</span>
             </div>
             <h2 className="font-display text-display-lg text-foreground text-balance">
               {t("trust.title")}
             </h2>
-            <p className="mt-6 max-w-md text-[15px] leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground text-pretty">
               {t("trust.description_long")}
             </p>
 
             <TrustBadgeRail
               preset="marketing"
               compact
-              className="mt-8 max-w-xl lg:grid-cols-2 xl:grid-cols-2"
+              className="mt-6 max-w-xl lg:grid-cols-2 xl:grid-cols-2"
             />
 
-            <dl className="mt-12 space-y-6 border-l border-border pl-6">
+            <dl className="mt-7 space-y-4 border-l border-border pl-5">
               <Number title="ø 11 years" body={t("trust.metric_tenure")} />
               <Number title="38 jurisdictions" body={t("trust.metric_jurisdictions")} />
               <Number title="< 0.02%" body={t("trust.metric_variance")} />
@@ -63,9 +63,9 @@ export async function TrustSection() {
 
           <Stagger as="ul" className="grid gap-4 sm:grid-cols-2" step={0.07}>
             {pillars.map((p) => (
-              <StaggerItem as="li" key={p.title} className="glass-light p-7 lg:p-9">
+              <StaggerItem as="li" key={p.title} className="glass-light p-5 lg:p-6">
                 <p.icon className="h-5 w-5 text-champagne-600" strokeWidth={1.5} />
-                <h3 className="mt-5 font-display text-lg font-semibold text-foreground">
+                <h3 className="mt-4 font-display text-lg font-semibold text-foreground">
                   {t(p.title)}
                 </h3>
                 <p className="mt-2.5 text-[14px] leading-relaxed text-muted-foreground text-pretty">

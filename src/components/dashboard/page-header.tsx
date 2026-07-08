@@ -10,9 +10,9 @@ type Props = {
 
 export function PageHeader({ eyebrow, title, description, actions, className }: Props) {
   return (
-    <div className={cn("flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between", className)}>
+    <div className={cn("flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between", className)}>
       <div>
-        {eyebrow && <div className="eyebrow text-champagne-700 dark:text-champagne-400 mb-3">{eyebrow}</div>}
+        {eyebrow && <div className="eyebrow text-champagne-700 dark:text-champagne-400 mb-2">{eyebrow}</div>}
         <h1 className="font-display text-display-md text-foreground tracking-tight">
           {title}
         </h1>

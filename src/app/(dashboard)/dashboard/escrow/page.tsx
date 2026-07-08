@@ -38,7 +38,7 @@ export default async function EscrowDashboardPage() {
 
   if (overview.accessState.key !== "ready" || !contract || !primaryCase) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-5">
         <section className="grid gap-5 xl:grid-cols-[1fr_0.82fr]">
           <MotionCard
             index={0}
@@ -46,7 +46,7 @@ export default async function EscrowDashboardPage() {
             className="overflow-hidden border border-slate-200 bg-white"
           >
             <div className="grid gap-0 lg:grid-cols-[1fr_280px]">
-              <div className="p-6 sm:p-8">
+              <div className="p-5 sm:p-6">
                 <div className="eyebrow text-champagne-700">Private escrow control</div>
                 <h1 className="mt-3 max-w-3xl font-display text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
                   {overview.accessState.title}
@@ -57,7 +57,7 @@ export default async function EscrowDashboardPage() {
                   officer.
                 </p>
 
-                <div className="mt-7 grid gap-3 sm:grid-cols-3">
+                <div className="mt-5 grid gap-3 sm:grid-cols-3">
                   <GateStep
                     icon={FolderOpen}
                     label="Investigation case"
@@ -79,8 +79,8 @@ export default async function EscrowDashboardPage() {
                 </div>
               </div>
 
-              <div className="border-t border-slate-200 bg-[#0B1722] p-6 text-ivory-100 lg:border-l lg:border-t-0">
-                <div className="flex h-full flex-col justify-between gap-8">
+              <div className="border-t border-slate-200 bg-[#0B1722] p-5 text-ivory-100 sm:p-6 lg:border-l lg:border-t-0">
+                <div className="flex h-full flex-col justify-between gap-6">
                   <div>
                     <div className="flex h-11 w-11 items-center justify-center rounded-md border border-champagne-300/22 bg-white/[0.07]">
                       <WalletCards className="h-5 w-5 text-champagne-300" strokeWidth={1.6} />
@@ -150,7 +150,7 @@ export default async function EscrowDashboardPage() {
             <h2 className="mt-2 font-display text-2xl font-semibold text-slate-950">
               Required before escrow opens.
             </h2>
-            <div className="mt-6 space-y-3">
+            <div className="mt-5 space-y-3">
               <GateRow icon={FolderOpen} label="Investigation case" complete={Boolean(primaryCase)} />
               <GateRow icon={ShieldCheck} label="KYC verification" complete={verified} />
               <GateRow icon={LockKeyhole} label="Private escrow account" complete={Boolean(contract)} />
@@ -187,7 +187,7 @@ export default async function EscrowDashboardPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-5">
       <PageHeader
         eyebrow="Private escrow"
         title="Escrow dashboard."
@@ -206,7 +206,7 @@ export default async function EscrowDashboardPage() {
 
       <section className="grid gap-5 xl:grid-cols-[1.25fr_0.75fr]">
         <MotionCard index={0} intensity="strong" className="overflow-hidden border border-[#E3D8C5]">
-          <div className="border-b border-[#E3D8C5] px-6 py-5 sm:px-8">
+          <div className="border-b border-[#E3D8C5] px-5 py-4 sm:px-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <div className="eyebrow text-champagne-700">Escrow contract</div>
@@ -226,7 +226,7 @@ export default async function EscrowDashboardPage() {
             </div>
           </div>
 
-          <div className="grid gap-4 px-6 py-7 sm:grid-cols-2 lg:grid-cols-4 sm:px-8">
+          <div className="grid gap-4 px-5 py-5 sm:grid-cols-2 lg:grid-cols-4 sm:px-6">
             <EscrowMetric label="Total recovered" value={formatCurrency(contract.total_recovered, currency)} />
             <EscrowMetric label="Available release" value={formatCurrency(available, currency)} />
             <EscrowMetric label="Release fee" value={formatCurrency(releaseQuote.releaseProcessingFee, currency)} />
@@ -246,7 +246,7 @@ export default async function EscrowDashboardPage() {
             </div>
             <Landmark className="h-5 w-5 text-champagne-600" strokeWidth={1.5} />
           </div>
-          <div className="mt-6 space-y-3">
+          <div className="mt-5 space-y-3">
             <ControlRow label="Provider reference" value={contract.provider_reference ?? "Pending"} />
             <ControlRow label="Release conditions" value={contract.release_conditions_open ? "Open" : "Satisfied"} />
             <ControlRow label="Fee verification" value="Required before payout" />

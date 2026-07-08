@@ -105,7 +105,7 @@ export default function InsightsPage() {
       <section className="relative overflow-hidden bg-paper">
         <div className="absolute inset-0 bg-noise pointer-events-none" aria-hidden />
         <MarketingBackdrop />
-        <div className="container relative pt-20 pb-16 lg:pt-28 lg:pb-20">
+        <div className="container relative pt-14 pb-10 lg:pt-20 lg:pb-14">
           <Link
             href="/"
             className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-[0.16em] text-muted-foreground hover:text-foreground transition-colors duration-200"
@@ -114,15 +114,15 @@ export default function InsightsPage() {
             Return home
           </Link>
 
-          <Reveal className="mt-7 max-w-3xl">
-            <div className="eyebrow flex items-center gap-3 mb-6">
+          <Reveal className="mt-5 max-w-3xl">
+            <div className="eyebrow flex items-center gap-3 mb-4">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
               <span>Market Insights</span>
             </div>
             <h1 className="font-display text-display-xl text-foreground text-balance">
               Notes from the Geneva research desk.
             </h1>
-            <p className="mt-6 text-[15px] leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground text-pretty">
               Continental's Bureau de Recherche publishes a short body of work each quarter —
               long-form commentary for the Bank's principals and their advisors. We do not
               publish on macro events as they happen.
@@ -133,9 +133,9 @@ export default function InsightsPage() {
 
       {/* Featured note */}
       <section className="bg-background border-t border-border/60">
-        <div className="container py-16 lg:py-20">
-          <Reveal className="mb-10 max-w-2xl">
-            <div className="eyebrow flex items-center gap-3 mb-5">
+        <div className="container py-10 lg:py-14">
+          <Reveal className="mb-8 max-w-2xl">
+            <div className="eyebrow flex items-center gap-3 mb-4">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
               <span>Featured</span>
             </div>
@@ -145,7 +145,7 @@ export default function InsightsPage() {
           </Reveal>
 
           <Reveal>
-            <article className="glass-light p-8 lg:p-10 flex flex-col lg:flex-row gap-8 lg:items-start">
+            <article className="glass-light p-5 lg:p-7 flex flex-col lg:flex-row gap-6 lg:items-start">
               <div className="lg:max-w-md shrink-0">
                 <span
                   className={
@@ -183,9 +183,9 @@ export default function InsightsPage() {
       <section className="bg-paper relative overflow-hidden border-t border-border/60">
         <div className="absolute inset-0 bg-noise pointer-events-none" aria-hidden />
         <MarketingBackdrop />
-        <div className="container relative py-16 lg:py-20">
-          <Reveal className="mb-10 max-w-2xl">
-            <div className="eyebrow flex items-center gap-3 mb-5">
+        <div className="container relative py-10 lg:py-14">
+          <Reveal className="mb-8 max-w-2xl">
+            <div className="eyebrow flex items-center gap-3 mb-4">
               <span className="inline-block h-px w-8 bg-champagne-500/70" />
               <span>Archive</span>
             </div>
@@ -199,7 +199,7 @@ export default function InsightsPage() {
               <StaggerItem
                 as="li"
                 key={p.title}
-                className="glass-light p-6 lg:p-7 flex flex-col"
+                className="glass-light p-5 lg:p-6 flex flex-col"
               >
                 <div className="flex items-center justify-between">
                   <span
@@ -227,8 +227,8 @@ export default function InsightsPage() {
             ))}
           </Stagger>
 
-          <Reveal className="mt-12 max-w-xl">
-            <div className="glass-light p-6 lg:p-7 flex items-start gap-4">
+          <Reveal className="mt-8 max-w-xl">
+            <div className="glass-light p-5 lg:p-6 flex items-start gap-4">
               <ScrollText className="h-5 w-5 mt-1 text-champagne-600 shrink-0" strokeWidth={1.5} />
               <div>
                 <h4 className="font-display text-base font-semibold text-foreground">

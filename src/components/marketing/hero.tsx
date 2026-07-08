@@ -17,7 +17,7 @@ export async function Hero() {
       <div className="absolute inset-0 bg-noise pointer-events-none" aria-hidden />
       <MarketingBackdrop />
 
-      <div className="container relative pt-16 sm:pt-20 pb-20 lg:pt-28 lg:pb-28">
+      <div className="container relative pt-12 pb-14 sm:pt-16 sm:pb-16 lg:pt-20 lg:pb-20">
         {/*
           Layout
             Mobile : text-top → vault → CTAs   (single column, semantic order)
@@ -28,7 +28,7 @@ export async function Hero() {
           col-start-2, so it sits in the right column spanning both rows
           while the two text blocks stack in the left column.
         */}
-        <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+        <div className="grid gap-7 lg:grid-cols-[1.05fr_1fr] lg:gap-10">
           {/* ---- TOP TEXT (eyebrow + headline + subtitle) ---- */}
           <Stagger
             className="max-w-2xl lg:col-start-1 lg:row-start-1"
@@ -36,7 +36,7 @@ export async function Hero() {
             step={0.07}
           >
             <StaggerItem>
-              <div className="eyebrow inline-flex items-center gap-3 mb-5">
+              <div className="eyebrow inline-flex items-center gap-3 mb-4">
                 <span className="inline-block h-px w-8 bg-champagne-500/70" />
                 <span>{t("hero.eyebrow")}</span>
               </div>
@@ -51,7 +51,7 @@ export async function Hero() {
 
             <StaggerItem
               as="p"
-              className="mt-6 max-w-xl text-[15px] leading-relaxed text-muted-foreground text-pretty"
+              className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground text-pretty"
             >
               {t("hero.subtitle")}
             </StaggerItem>
@@ -83,7 +83,7 @@ export async function Hero() {
               </Button>
             </StaggerItem>
 
-            <StaggerItem className="mt-6">
+            <StaggerItem className="mt-5">
               <TrustBadgeRail
                 preset="marketing"
                 compact
@@ -94,7 +94,7 @@ export async function Hero() {
         </div>
 
         {/* ---- Stats strip (full-width, below everything) ---- */}
-        <div className="mx-auto mt-14 lg:mt-20 max-w-3xl">
+        <div className="mx-auto mt-8 lg:mt-10 max-w-3xl">
           <div className="glass-light grid grid-cols-3">
             <Stat label={t("hero.stat_established")} value={String(SITE.estd)} />
             <Stat label={t("hero.stat_jurisdictions")} value="38" hasDivider />
@@ -120,7 +120,7 @@ function Stat({
   return (
     <div
       className={
-        "relative p-6 text-center " +
+        "relative p-4 text-center sm:p-5 " +
         (hasDivider ? "before:absolute before:left-0 before:top-3 before:bottom-3 before:w-px before:bg-foreground/10" : "")
       }
     >
