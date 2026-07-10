@@ -12,11 +12,12 @@ import { RTL_LOCALES, type Locale } from "@/lib/i18n/dictionaries";
  * swaps matching text nodes and a few user-facing attributes, re-applying to nodes
  * added on client navigation via a MutationObserver.
  *
- * The dictionary for the active locale is loaded on demand (per-locale chunk), so
- * English visitors download nothing extra. English is a no-op. Dynamic values
- * (balances, names, references) never match a key, so they are left as-is. The
- * observer processes only the *changed* nodes from each mutation batch — never a
- * full-document re-walk — so it stays cheap on animation-heavy pages.
+ * Matching is whitespace- and entity-normalized: dictionary keys come from source
+ * where a multi-line paragraph collapses to one line and characters like `&`/`<`
+ * appear as `&amp;`/`&lt;`, whereas the rendered DOM text has original whitespace and
+ * decoded characters. We normalize both sides so long paragraphs and `&`-strings
+ * translate too. English is a no-op; dynamic values never match a key. The observer
+ * processes only changed nodes — never a full re-walk — so it stays cheap.
  *
  * Opt out of translation for a subtree with `data-no-translate`.
  */
@@ -35,6 +36,30 @@ const LOADERS: Partial<Record<Locale, () => Promise<{ default: Dict }>>> = {
 const ATTRS = ["placeholder", "title", "aria-label", "alt"] as const;
 const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "CODE", "PRE", "TEXTAREA", "SVG"]);
 
+let decoderEl: HTMLTextAreaElement | null = null;
+function decodeEntities(s: string): string {
+  if (s.indexOf("&") === -1) return s;
+  if (!decoderEl) decoderEl = document.createElement("textarea");
+  decoderEl.innerHTML = s;
+  return decoderEl.value;
+}
+
+function normalize(s: string): string {
+  return s.replace(/\s+/g, " ").trim();
+}
+
+/** Build a normalized+decoded lookup: decoded/collapsed English → decoded translation. */
+function buildLookup(raw: Dict): Dict {
+  const out: Dict = {};
+  for (const en in raw) {
+    const key = normalize(decodeEntities(en));
+    if (!key) continue;
+    const val = decodeEntities(raw[en]);
+    if (val && val !== key) out[key] = val;
+  }
+  return out;
+}
+
 function isSkipped(el: Element | null): boolean {
   let node: Element | null = el;
   while (node) {
@@ -47,30 +72,25 @@ function isSkipped(el: Element | null): boolean {
   return false;
 }
 
-function lookup(dict: Dict, text: string): string | null {
-  const key = text.trim();
-  if (!key) return null;
-  const value = dict[key];
-  return value && value !== key ? value : null;
-}
-
 function translateTextNode(node: Text, dict: Dict) {
   if (isSkipped(node.parentElement)) return;
   const raw = node.nodeValue ?? "";
-  const trimmed = raw.trim();
-  if (!trimmed) return;
-  const t = lookup(dict, trimmed);
-  if (t != null) node.nodeValue = raw.replace(trimmed, t);
+  if (!raw.trim()) return;
+  const t = dict[normalize(raw)];
+  if (t != null) {
+    const lead = raw.slice(0, raw.length - raw.trimStart().length);
+    const trail = raw.slice(raw.trimEnd().length);
+    node.nodeValue = lead + t + trail;
+  }
 }
 
 function translateAttrs(el: Element, dict: Dict) {
   for (const attr of ATTRS) {
     if (!el.hasAttribute(attr)) continue;
     const v = el.getAttribute(attr) ?? "";
-    const trimmed = v.trim();
-    if (!trimmed) continue;
-    const t = lookup(dict, trimmed);
-    if (t != null) el.setAttribute(attr, v.replace(trimmed, t));
+    if (!v.trim()) continue;
+    const t = dict[normalize(v)];
+    if (t != null) el.setAttribute(attr, t);
   }
 }
 
@@ -111,7 +131,7 @@ export function TranslationProvider({ locale }: { locale: Locale }) {
     loader()
       .then((mod) => {
         if (cancelled) return;
-        const dict = mod.default;
+        const dict = buildLookup(mod.default);
 
         const process = (records: MutationRecord[]) => {
           for (const r of records) {
