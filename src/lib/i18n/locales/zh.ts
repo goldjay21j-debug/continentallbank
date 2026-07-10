@@ -1,0 +1,3 @@
+// AUTO-GENERATED — source-keyed translations (English → zh). Do not edit by hand.
+const d: Record<string, string> = {"Services":"服务","Leadership":"领导团队","Global Reach":"全球覆盖","Insights":"洞察","Contact":"联系","Private Clients":"私人客户","Sign in":"登录","Open Account":"开户","Sign out":"退出登录","Continental balance":"Continental 余额","Available balance":"可用余额","Escrow eligible":"可托管金额","Withdraw":"提款","Request an eligible release":"申请符合条件的放款","Transactions":"交易","Accounts":"账户","Escrow":"托管","Message banker":"联系银行家","Messages":"消息","Ledger":"账目","Release":"放款","Recovery":"追回","Private client":"私人客户","Private portal":"私人门户"};
+export default d;

@@ -3,6 +3,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 
 import { Providers } from "@/components/shared/providers";
+import { TranslationProvider } from "@/components/shared/translation-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { detectLocale } from "@/lib/i18n/detect";
 import { RTL_LOCALES } from "@/lib/i18n/dictionaries";
@@ -64,6 +65,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         )}
       >
         <Providers>{children}</Providers>
+        <TranslationProvider locale={locale} />
         <Toaster />
       </body>
     </html>
