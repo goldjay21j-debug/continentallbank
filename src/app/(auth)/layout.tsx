@@ -34,7 +34,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </aside>
 
         {/* Form column — a glass-strong card centred on the navy backdrop */}
-        <main className="relative flex w-full min-w-0 items-start justify-center px-4 pb-8 pt-20 sm:px-8 sm:pb-10 lg:items-center lg:p-10 xl:p-12">
+        <main id="main-content" tabIndex={-1} className="relative flex w-full min-w-0 items-start justify-center px-4 pb-8 pt-20 sm:px-8 sm:pb-10 lg:items-center lg:p-10 xl:p-12">
           {/* Mobile-only brand mark at the top */}
           <div className="lg:hidden absolute top-6 left-6">
             <Link href="/" className="focus-ring rounded-sm inline-block">

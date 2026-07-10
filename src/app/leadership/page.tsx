@@ -96,6 +96,7 @@ export default function LeadershipPage() {
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
+      <main id="main-content" tabIndex={-1}>
       {/* Hero */}
       <section className="relative overflow-hidden bg-paper">
         <div className="absolute inset-0 bg-noise pointer-events-none" aria-hidden />
@@ -178,6 +179,7 @@ export default function LeadershipPage() {
         </div>
       </section>
 
+      </main>
       <SiteFooter />
     </div>
   );

@@ -52,6 +52,12 @@ function splitAmount(amount: number, currency: Currency) {
   return { sym, int, cents };
 }
 
+/** Symbol-first single string (e.g. "€0,00") so secondary figures match the hero's style. */
+function cardCurrency(amount: number, currency: Currency) {
+  const { sym, int, cents } = splitAmount(amount, currency);
+  return `${sym}${int}${cents}`;
+}
+
 /**
  * "Minimal" balance card (Option C): a compact navy card — one balance, one gold
  * hairline, one account number — with the quick actions in a row below it.
@@ -68,7 +74,7 @@ export function BalanceCard({
 
   const active = balances.find((b) => b.currency === ccy) ?? balances[0];
   const { sym, int, cents } = splitAmount(active?.availableBalance ?? 0, ccy);
-  const escrowStr = formatCurrency(active?.escrowEligible ?? 0, ccy);
+  const escrowStr = cardCurrency(active?.escrowEligible ?? 0, ccy);
 
   return (
     <section className="cb-balance" aria-label="Continental balance">

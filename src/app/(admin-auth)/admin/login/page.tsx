@@ -22,7 +22,7 @@ export default async function AdminLoginPage() {
   const adminBasePath = adminBasePathForHost(h.get("host"));
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-[#050B13] text-ivory-100">
+    <main id="main-content" tabIndex={-1} className="relative min-h-screen overflow-x-hidden bg-[#050B13] text-ivory-100">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
