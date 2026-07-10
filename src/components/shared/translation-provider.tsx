@@ -45,7 +45,16 @@ function decodeEntities(s: string): string {
 }
 
 function normalize(s: string): string {
-  return s.replace(/\s+/g, " ").trim();
+  // Unify "smart" punctuation to ASCII so curly-vs-straight quotes never break a
+  // match (extraction flattens them; the rendered DOM keeps the curly originals),
+  // then collapse whitespace. Applied to both dictionary keys and looked-up DOM text.
+  return s
+    .replace(/[‘’‚‛′]/g, "'")
+    .replace(/[“”„‟″]/g, '"')
+    .replace(/…/g, "...")
+    .replace(/[–—]/g, "-")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 /** Build a normalized+decoded lookup: decoded/collapsed English → decoded translation. */
