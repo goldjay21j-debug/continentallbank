@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useReducedMotion, useInView } from "framer-motion";
 
 /**
  * Continental Bank — Vault door.
@@ -37,6 +38,11 @@ type VaultProps = {
 
 export function Vault({ size }: VaultProps = {}) {
   const reduce = useReducedMotion();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(rootRef, { margin: "240px 0px" });
+  // Ongoing ambient loops (halo, sheen, pulse) only run while the vault is on
+  // screen — off-screen they idle so they stop burning CPU after the fold.
+  const ambient = !reduce && inView;
 
   // Timing — all numbers in seconds.
   const tEnter = 0.7;
@@ -80,6 +86,7 @@ export function Vault({ size }: VaultProps = {}) {
 
   return (
     <div
+      ref={rootRef}
       className="relative"
       style={sizeStyle}
       aria-label="Continental Bank vault — opens, reveals secured reserves, and locks"
@@ -95,9 +102,9 @@ export function Vault({ size }: VaultProps = {}) {
           filter: "blur(26px)",
         }}
         animate={
-          reduce
-            ? undefined
-            : { opacity: [0.55, 0.8, 0.55], scale: [1, 1.02, 1] }
+          ambient
+            ? { opacity: [0.55, 0.8, 0.55], scale: [1, 1.02, 1] }
+            : { opacity: 0.62, scale: 1 }
         }
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -444,22 +451,21 @@ export function Vault({ size }: VaultProps = {}) {
         {!reduce && (
           <motion.g
             initial={{ rotate: 0, opacity: 0 }}
-            animate={{ rotate: 360, opacity: [0, 0.6, 0.6, 0] }}
-            transition={{
-              rotate: {
-                duration: 14,
-                ease: "linear",
-                repeat: Infinity,
-                delay: tSecureDelay + 0.5,
-              },
-              opacity: {
-                duration: 14,
-                ease: "easeInOut",
-                repeat: Infinity,
-                times: [0, 0.15, 0.85, 1],
-                delay: tSecureDelay + 0.5,
-              },
-            }}
+            animate={ambient ? { rotate: 360, opacity: [0, 0.6, 0.6, 0] } : { opacity: 0 }}
+            transition={
+              ambient
+                ? {
+                    rotate: { duration: 14, ease: "linear", repeat: Infinity, delay: tSecureDelay + 0.5 },
+                    opacity: {
+                      duration: 14,
+                      ease: "easeInOut",
+                      repeat: Infinity,
+                      times: [0, 0.15, 0.85, 1],
+                      delay: tSecureDelay + 0.5,
+                    },
+                  }
+                : { duration: 0.3 }
+            }
             style={{ transformOrigin: `${C}px ${C}px` }}
           >
             <circle
@@ -713,7 +719,7 @@ export function Vault({ size }: VaultProps = {}) {
         <motion.span
           className="h-1.5 w-1.5 rounded-full"
           style={{ background: "#C8A96A", boxShadow: "0 0 6px rgba(200,169,106,0.8)" }}
-          animate={reduce ? undefined : { opacity: [1, 0.5, 1] }}
+          animate={ambient ? { opacity: [1, 0.5, 1] } : { opacity: 1 }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
         />
         Vault secured
