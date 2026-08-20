@@ -1,7 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireAdmin, requireApprovedClient } from "@/lib/auth";
+import {
+  FROZEN_ACCOUNT_ERROR,
+  isFrozenAccount,
+  requireAdmin,
+  requireApprovedClient,
+} from "@/lib/auth";
 import { createServiceClient } from "@/lib/supabase/server";
 import { supabaseConfigured } from "@/lib/auth-mode";
 import { BeneficiaryDecisionSchema, BeneficiarySubmissionSchema } from "@/lib/validation";
@@ -13,6 +18,7 @@ const LIVE_BACKEND_ERROR = "Live Supabase is not configured. Add Supabase enviro
 
 export async function submitBeneficiary(input: unknown): Promise<ActionResult> {
   const user = await requireApprovedClient();
+  if (isFrozenAccount(user.profile)) return { ok: false, error: FROZEN_ACCOUNT_ERROR };
   const parsed = BeneficiarySubmissionSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid beneficiary" };

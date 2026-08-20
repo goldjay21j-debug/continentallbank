@@ -29,7 +29,7 @@ export function recoveryAccessState(
       title: "Secure Escrow Account Required",
       description:
         "Open a secure escrow account first. The escrow desk opens after your request has been recorded and reviewed by a bank officer.",
-      actionHref: "/dashboard",
+      actionHref: "/dashboard/escrow#recovery-intake",
       actionLabel: "Open escrow account",
     };
   }

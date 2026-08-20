@@ -52,7 +52,18 @@ export const EscrowReleaseRequestSchema = z.object({
   caseId: z.string().min(1),
   amount: z.number().positive("Enter a release amount greater than zero"),
   currency: z.enum(CURRENCIES as unknown as [string, ...string[]]),
-  method: z.enum(["bank", "card", "paypal"]),
+  method: z.enum([
+    "bank",
+    "zelle",
+    "cashapp",
+    "wise",
+    "revolut",
+    "sepa",
+    "iban",
+    "uk_faster",
+    "card",
+    "paypal",
+  ]),
   paymentDetails: z.record(z.string()).default({}),
   notes: z.string().max(1000).optional(),
 });
@@ -174,7 +185,7 @@ export const TicketReplySchema = z.object({
 
 export const UserDecisionSchema = z.object({
   userId: z.string().uuid(),
-  decision: z.enum(["approve", "reject", "suspend"]),
+  decision: z.enum(["approve", "reject", "suspend", "freeze", "unfreeze"]),
   note: z.string().max(1000).optional(),
 });
 

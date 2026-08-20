@@ -169,12 +169,14 @@
   }
 
   :where(h1, h2, h3, h4, h5, h6, p, li, dt, dd, blockquote) {
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    word-break: normal;
     hyphens: auto;
   }
 
   :where(a, button, label) {
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    word-break: normal;
   }
 
   ::selection {
@@ -598,7 +600,7 @@
 
   .cb-figure {
     font-family: var(--cb-serif); font-weight: 400; font-size: clamp(1.8rem, 6.4vw, 2.5rem); line-height: 1.05;
-    letter-spacing: -0.012em; color: #F6F1E8; white-space: nowrap; overflow-wrap: anywhere; word-break: break-word;
+    letter-spacing: -0.012em; color: #F6F1E8; white-space: nowrap; overflow-wrap: normal; word-break: normal;
     font-variant-numeric: tabular-nums; text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
   }
   .cb-figure .cb-sym { font-size: 0.62em; color: #DBBC72; vertical-align: 0.08em; margin-right: 0.04em; }
@@ -622,7 +624,7 @@
 
   .cb-cbottom { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 12px; }
   .cb-cardno { font-size: clamp(0.85rem, 3.4vw, 0.95rem); letter-spacing: 0.15em; color: rgba(246, 241, 232, 0.9); white-space: nowrap; font-variant-numeric: tabular-nums; }
-  .cb-holder { font-size: 0.68rem; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(246, 241, 232, 0.72); overflow-wrap: anywhere; }
+  .cb-holder { font-size: 0.68rem; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(246, 241, 232, 0.72); overflow-wrap: break-word; word-break: normal; }
 
   /* quick actions — a compact row BELOW the card */
   .cb-actions { margin-top: 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }

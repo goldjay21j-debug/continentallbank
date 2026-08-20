@@ -60,11 +60,21 @@ export async function decideUser(input: unknown): Promise<ActionResult> {
   if (!profile) return { ok: false, error: "User not found" };
 
   const nextStatus =
-    parsed.data.decision === "approve"
+    parsed.data.decision === "approve" || parsed.data.decision === "unfreeze"
       ? "approved"
-      : parsed.data.decision === "reject"
+    : parsed.data.decision === "reject"
         ? "rejected"
         : "suspended";
+  const auditDecision =
+    parsed.data.decision === "suspend" ? "freeze" : parsed.data.decision;
+  const message =
+    auditDecision === "freeze"
+      ? "Account frozen."
+      : auditDecision === "unfreeze"
+        ? "Account unfrozen."
+        : auditDecision === "approve"
+          ? "Account activated."
+          : "Account rejected.";
 
   await service
     .from("profiles")
@@ -75,16 +85,43 @@ export async function decideUser(input: unknown): Promise<ActionResult> {
   await service.from("audit_logs").insert({
     admin_id: admin.id,
     user_id: parsed.data.userId,
-    action_type: `user_${parsed.data.decision}`,
+    action_type: `user_${auditDecision}`,
     old_value: { status: profile.account_status },
     new_value: { status: nextStatus },
     note: parsed.data.note ?? null,
     ip_address: ip,
   });
 
+  await service.from("notifications").insert({
+    user_id: parsed.data.userId,
+    kind: "account",
+    severity:
+      nextStatus === "suspended" ? "danger" : nextStatus === "approved" ? "success" : "info",
+    title:
+      nextStatus === "suspended"
+        ? "Account frozen"
+        : nextStatus === "approved"
+          ? "Account active"
+          : "Account status updated",
+    body:
+      nextStatus === "suspended"
+        ? "Outbound activity, profile changes, and new instructions are paused pending bank review."
+        : nextStatus === "approved"
+          ? "Your account is active. Portal access and client instructions are available again."
+          : "Your account status has been updated by the administration desk.",
+    href: "/dashboard/security",
+    currency: null,
+    amount_label: null,
+    read: false,
+  });
+
   revalidatePath("/admin/users");
   revalidatePath(`/admin/users/${parsed.data.userId}`);
-  return { ok: true, message: `User ${parsed.data.decision}.` };
+  revalidatePath("/admin/compliance");
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/security");
+  revalidatePath("/dashboard/notifications");
+  return { ok: true, message };
 }
 
 /* ---------------------------------------------------------- *

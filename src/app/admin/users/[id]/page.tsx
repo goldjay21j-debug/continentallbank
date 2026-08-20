@@ -11,6 +11,7 @@ import { BalanceAdjustForm } from "@/components/admin/balance-adjust-form";
 import { requireAdmin } from "@/lib/auth";
 import { adminClientDetail } from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime, maskAccountNumber } from "@/lib/utils";
+import { formatWithdrawalMethod } from "@/lib/withdrawal-methods";
 import { KYC_METHODS, KYC_STATUS, ROLE_LABELS, type KycStatus, type Role } from "@/lib/constants";
 import type { LedgerEntry, Profile, Wallet, WithdrawalRequest } from "@/lib/types/database";
 
@@ -66,7 +67,7 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
                 }
                 className="capitalize"
               >
-                {p.account_status}
+                {p.account_status === "suspended" ? "Frozen" : p.account_status}
               </Badge>
             </Row>
             <Row label="Country" value={p.country ?? "—"} />
@@ -221,7 +222,7 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
                         {formatCurrency(w.amount, w.currency)}
                       </div>
                       <div className="break-words text-[11.5px] capitalize text-muted-foreground">
-                        {w.method.replace(/_/g, " ")} · {formatDateTime(w.created_at)}
+                        {formatWithdrawalMethod(w.method)} · {formatDateTime(w.created_at)}
                       </div>
                     </div>
                     <Badge

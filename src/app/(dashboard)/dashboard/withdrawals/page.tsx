@@ -9,6 +9,7 @@ import { MotionCard } from "@/components/motion/motion-card";
 import { requireApprovedClient } from "@/lib/auth";
 import { clientWithdrawals } from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime } from "@/lib/utils";
+import { formatWithdrawalMethod } from "@/lib/withdrawal-methods";
 import type { WithdrawalRequest } from "@/lib/types/database";
 
 export const metadata = { title: "Request History" };
@@ -20,13 +21,13 @@ export default async function WithdrawalsPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        eyebrow="Release history"
+        eyebrow="Withdrawal history"
         title="Requests and payout instructions."
-        description="Review escrow release requests, fee verification state, and historical withdrawal instructions."
+        description="Review submitted withdrawal instructions, officer review state, and settlement history."
         actions={
           <Button asChild>
             <Link href="/dashboard/withdraw">
-              New release request
+              New withdrawal request
               <ArrowDownLeft className="h-4 w-4" />
             </Link>
           </Button>
@@ -44,7 +45,7 @@ export default async function WithdrawalsPage() {
         {reqs.length === 0 ? (
           <div className="p-10 text-center text-[13px] text-muted-foreground">
             <ShieldCheck className="mx-auto mb-3 h-5 w-5 text-champagne-600" />
-            No release or withdrawal requests yet.
+            No withdrawal requests yet.
           </div>
         ) : (
           <ul className="divide-y divide-foreground/[0.05]">
@@ -66,7 +67,7 @@ export default async function WithdrawalsPage() {
                       {formatCurrency(request.amount, request.currency)}
                     </div>
                     <div className="mt-1 break-words text-[12px] capitalize text-muted-foreground">
-                      {request.method.replace(/_/g, " ")} - {formatDateTime(request.created_at)}
+                      {formatWithdrawalMethod(request.method)} - {formatDateTime(request.created_at)}
                     </div>
                     {Number(request.release_processing_fee ?? 0) > 0 && (
                       <div className="mt-3 grid gap-2 text-[12px] sm:grid-cols-2 lg:grid-cols-3">
@@ -82,8 +83,8 @@ export default async function WithdrawalsPage() {
                     )}
                   </div>
                   <Button variant="ghost" size="sm" asChild className="self-start">
-                    <Link href="/dashboard/escrow">
-                      Open escrow
+                    <Link href="/dashboard/documents">
+                      View documents
                       <ArrowRight className="h-3.5 w-3.5" />
                     </Link>
                   </Button>

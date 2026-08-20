@@ -306,7 +306,7 @@ export default async function CompliancePage() {
               <span
                 className={
                   "inline-flex h-8 w-8 items-center justify-center rounded-md border " +
-                  (e.action_type === "user_suspend"
+                  (e.action_type === "user_suspend" || e.action_type === "user_freeze"
                     ? "border-destructive/30 bg-destructive/10 text-destructive"
                     : e.action_type.includes("flag")
                       ? "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300"
@@ -315,7 +315,7 @@ export default async function CompliancePage() {
                         : "border-foreground/10 bg-foreground/[0.04] text-foreground")
                 }
               >
-                {e.action_type === "user_suspend" ? (
+                {e.action_type === "user_suspend" || e.action_type === "user_freeze" ? (
                   <Snowflake className="h-4 w-4" strokeWidth={1.6} />
                 ) : e.action_type.includes("flag") ? (
                   <FileWarning className="h-4 w-4" strokeWidth={1.6} />

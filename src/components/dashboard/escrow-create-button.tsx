@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { LockKeyhole } from "lucide-react";
 import { toast } from "sonner";
@@ -7,6 +8,7 @@ import { createSecureEscrowAccount } from "@/app/actions/recovery";
 import { Button } from "@/components/ui/button";
 
 export function EscrowCreateButton({ className }: { className?: string }) {
+  const router = useRouter();
   const [pending, startTransition] = useTransition();
 
   function createEscrow() {
@@ -17,6 +19,8 @@ export function EscrowCreateButton({ className }: { className?: string }) {
         return;
       }
       toast.success(result.message ?? "Escrow account created.");
+      router.refresh();
+      router.push("/dashboard/escrow");
     });
   }
 

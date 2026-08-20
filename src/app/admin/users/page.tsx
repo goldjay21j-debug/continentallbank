@@ -50,7 +50,7 @@ export default async function AdminUsersPage({
                 : "border-border text-muted-foreground hover:text-foreground")
             }
           >
-            {s}
+            {s === "suspended" ? "frozen" : s}
           </Link>
         ))}
       </div>
@@ -131,7 +131,7 @@ function StatusBadge({ status }: { status: Profile["account_status"] }) {
   } as const;
   return (
     <Badge variant={map[status]} className="capitalize">
-      {status}
+      {status === "suspended" ? "Frozen" : status}
     </Badge>
   );
 }

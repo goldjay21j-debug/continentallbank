@@ -5,6 +5,7 @@ import {
 } from "@/lib/portal/beneficiaries";
 import { DOCUMENT_TYPE_LABELS, type DocumentRecord, type DocumentType } from "@/lib/portal/documents";
 import { KYC_METHODS, KYC_STATUS, type KycStatus } from "@/lib/constants";
+import { formatWithdrawalMethod } from "@/lib/withdrawal-methods";
 import type {
   BeneficiaryRow,
   GeneratedDocument,
@@ -195,11 +196,12 @@ export async function issueWithdrawalReceipt(
 ) {
   const amount = formatCurrency(request.amount, request.currency);
   const label = statusLabel(status);
+  const methodLabel = formatWithdrawalMethod(request.method);
   const doc = await issueGeneratedDocument(service, {
     userId: profile.id,
     type: "withdrawal_receipt",
     title: `Withdrawal ${label.toLowerCase()} · ${amount}`,
-    description: `Outbound instruction via ${request.method.replace(/_/g, " ")}.`,
+    description: `Outbound instruction via ${methodLabel}.`,
     currency: request.currency as Currency,
     reference: referenceFor("withdrawal_receipt"),
     sourceType: "withdrawal",
@@ -212,7 +214,7 @@ export async function issueWithdrawalReceipt(
         { label: "Account holder", value: profile.full_name },
         { label: "Account reference", value: profile.account_number ?? "—" },
         { label: "Amount", value: amount },
-        { label: "Method", value: request.method.replace(/_/g, " ") },
+        { label: "Method", value: methodLabel },
         { label: "Status", value: label },
         { label: "Officer note", value: request.admin_note || "No officer note recorded." },
       ],
@@ -231,7 +233,7 @@ export async function issueWithdrawalReceipt(
     kind: "withdrawal",
     severity: status === "rejected" ? "danger" : status === "pending" ? "info" : "success",
     title: `Withdrawal ${label.toLowerCase()}`,
-    body: `${amount} via ${request.method.replace(/_/g, " ")} is ${label.toLowerCase()}.`,
+    body: `${amount} via ${methodLabel} is ${label.toLowerCase()}.`,
     href: status === "completed" ? "/dashboard/documents?type=withdrawal_receipt" : "/dashboard/withdrawals",
     currency: request.currency as Currency,
     amountLabel: amount,

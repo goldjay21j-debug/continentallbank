@@ -9,6 +9,8 @@ export type AuthedUser = {
 };
 
 const ADMIN_ROLES = ["super_admin", "finance_admin", "support_admin"] as const;
+export const FROZEN_ACCOUNT_ERROR =
+  "Account is frozen pending bank review. Contact your relationship manager before submitting new instructions.";
 
 export async function getAuthedUser(): Promise<AuthedUser | null> {
   const supabase = await createClient();
@@ -66,4 +68,8 @@ export async function requireSuperAdmin(): Promise<AuthedUser> {
 
 export function isAdmin(role: string) {
   return ADMIN_ROLES.includes(role as (typeof ADMIN_ROLES)[number]);
+}
+
+export function isFrozenAccount(profile: Pick<Profile, "account_status">) {
+  return profile.account_status === "suspended";
 }

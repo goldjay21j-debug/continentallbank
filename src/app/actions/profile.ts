@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireUser } from "@/lib/auth";
+import { FROZEN_ACCOUNT_ERROR, isFrozenAccount, requireUser } from "@/lib/auth";
 import { createClient, createServiceClient } from "@/lib/supabase/server";
 import { supabaseConfigured } from "@/lib/auth-mode";
 import { KycSubmissionSchema, PasswordChangeSchema, ProfileUpdateSchema } from "@/lib/validation";
@@ -15,6 +15,7 @@ const ALLOWED_KYC_MIME = new Set(["application/pdf", "image/jpeg", "image/png", 
 
 export async function updateProfile(input: unknown): Promise<ActionResult> {
   const user = await requireUser();
+  if (isFrozenAccount(user.profile)) return { ok: false, error: FROZEN_ACCOUNT_ERROR };
   const parsed = ProfileUpdateSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid input" };
@@ -72,6 +73,7 @@ export async function changePassword(input: unknown): Promise<ActionResult> {
 
 export async function submitKycVerification(formData: FormData): Promise<ActionResult> {
   const user = await requireUser();
+  if (isFrozenAccount(user.profile)) return { ok: false, error: FROZEN_ACCOUNT_ERROR };
   const parsed = KycSubmissionSchema.safeParse({
     method: formData.get("method"),
   });

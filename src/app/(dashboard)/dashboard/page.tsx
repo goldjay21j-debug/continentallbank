@@ -38,6 +38,7 @@ import {
   clientWallets,
 } from "@/lib/portal/queries";
 import { formatAccountNumber, formatCurrency, formatDate, formatDateTime } from "@/lib/utils";
+import { formatWithdrawalMethod } from "@/lib/withdrawal-methods";
 import type { WithdrawalRequest, Wallet } from "@/lib/types/database";
 
 export default async function DashboardOverviewPage() {
@@ -347,7 +348,7 @@ export default async function DashboardOverviewPage() {
                         {formatCurrency(request.amount, request.currency)}
                       </div>
                       <div className="mt-0.5 truncate text-[12px] capitalize text-muted-foreground">
-                        {request.method.replace(/_/g, " ")} - {formatDate(request.created_at)}
+                        {formatWithdrawalMethod(request.method)} - {formatDate(request.created_at)}
                       </div>
                     </div>
                     <Badge variant={request.status === "approved" ? "gold" : "warning"} className="shrink-0 capitalize">

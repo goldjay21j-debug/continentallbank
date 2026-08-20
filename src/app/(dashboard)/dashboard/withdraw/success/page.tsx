@@ -1,25 +1,25 @@
 import Link from "next/link";
-import { CheckCircle2, FileText, LockKeyhole } from "lucide-react";
+import { CheckCircle2, FileText, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/dashboard/page-header";
 import { MotionCard } from "@/components/motion/motion-card";
 
-export const metadata = { title: "Release Submitted" };
+export const metadata = { title: "Withdrawal Submitted" };
 
 export default function WithdrawSuccessPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        eyebrow="Release submitted"
-        title="Request sent for fee verification."
-        description="The release request has been recorded. Funds remain in escrow until the processing fee, provider status, beneficiary details, and payout controls are verified."
+        eyebrow="Withdrawal submitted"
+        title="Request sent for officer review."
+        description="The withdrawal instruction has been recorded. Funds move to pending balance until the bank verifies destination details and settlement status."
         actions={
           <>
             <Button asChild>
-              <Link href="/dashboard/escrow">Open escrow dashboard</Link>
+              <Link href="/dashboard/withdrawals">View request history</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="/dashboard/withdrawals">View request history</Link>
+              <Link href="/dashboard">Back to dashboard</Link>
             </Button>
           </>
         }
@@ -30,17 +30,17 @@ export default function WithdrawSuccessPage() {
           <Step
             icon={CheckCircle2}
             title="Request recorded"
-            body="Your release instruction is now visible to the operations desk."
+            body="Your withdrawal instruction is now visible to the operations desk."
           />
           <Step
-            icon={LockKeyhole}
-            title="Fee verification"
-            body="The release processing fee is checked before provider payout begins."
+            icon={ShieldCheck}
+            title="Officer review"
+            body="A bank officer verifies the recipient, method, and account controls before settlement."
           />
           <Step
             icon={FileText}
             title="Receipt trail"
-            body="Receipts and final payout documents can be issued to your secure document vault."
+            body="Receipts and completion documents can be issued to your secure document vault."
           />
         </div>
       </MotionCard>

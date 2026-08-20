@@ -4,23 +4,39 @@ import { ArrowLeft, LockKeyhole, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/dashboard/page-header";
-import { EscrowReleaseSubmitButton } from "@/components/dashboard/escrow-release-submit-button";
+import { WithdrawalSubmitButton } from "@/components/dashboard/withdrawal-submit-button";
 import { MotionCard } from "@/components/motion/motion-card";
 import { requireApprovedClient } from "@/lib/auth";
-import { calculateReleaseFee } from "@/lib/portal/recovery";
-import { clientEscrowOverview } from "@/lib/portal/queries";
+import { clientWallets } from "@/lib/portal/queries";
 import { formatCurrency } from "@/lib/utils";
-import type { Currency } from "@/lib/constants";
+import { CURRENCIES, type Currency } from "@/lib/constants";
 
-type Method = "bank" | "card" | "paypal";
+type Method =
+  | "bank"
+  | "zelle"
+  | "cashapp"
+  | "wise"
+  | "revolut"
+  | "sepa"
+  | "iban"
+  | "uk_faster"
+  | "card"
+  | "paypal";
 
 const methodLabel: Record<Method, string> = {
   bank: "Bank transfer",
+  zelle: "Zelle",
+  cashapp: "Cash App",
+  wise: "Wise",
+  revolut: "Revolut",
+  sepa: "SEPA transfer",
+  iban: "IBAN transfer",
+  uk_faster: "UK Faster Payments",
   card: "Card payout review",
-  paypal: "PayPal release",
+  paypal: "PayPal withdrawal",
 };
 
-export const metadata = { title: "Review Release" };
+export const metadata = { title: "Review Withdrawal" };
 
 export default async function WithdrawReviewPage({
   searchParams,
@@ -36,20 +52,25 @@ export default async function WithdrawReviewPage({
   const params = await searchParams;
   if (!isMethod(params.method)) notFound();
 
-  const overview = await clientEscrowOverview(user.id, user.profile);
-  const contract = overview.escrowContract;
-  const primaryCase = overview.primaryCase;
+  const wallets = await clientWallets(user.id);
+  const requestedCurrency = isCurrency(params.currency)
+    ? params.currency
+    : (user.profile.preferred_currency as Currency);
+  const wallet =
+    wallets.find((item) => item.currency === requestedCurrency) ??
+    wallets.find((item) => Number(item.available_balance) > 0) ??
+    wallets[0];
 
-  if (!overview.withdrawalEligibility || !contract || !primaryCase) {
+  if (!wallet || Number(wallet.available_balance) <= 0) {
     return (
       <div className="space-y-8">
         <PageHeader
-          eyebrow="Release review"
+          eyebrow="Withdrawal review"
           title="Review is not available."
-          description={overview.accessState.description}
+          description="There are no funds currently available for withdrawal in this currency."
           actions={
             <Button variant="outline" asChild>
-              <Link href="/dashboard/withdraw">Back to release options</Link>
+              <Link href="/dashboard/withdraw">Back to withdrawal options</Link>
             </Button>
           }
         />
@@ -57,22 +78,21 @@ export default async function WithdrawReviewPage({
     );
   }
 
-  const available = Number(contract.available_for_withdrawal);
+  const available = Number(wallet.available_balance);
+  const currency = wallet.currency as Currency;
   const requested = Number(params.amount ?? available);
   const amount =
     Number.isFinite(requested) && requested > 0
       ? Math.min(requested, available)
       : available;
-  const quote = calculateReleaseFee(amount);
   const destination = params.destination?.trim() || "To be confirmed during provider review";
-  const currency = contract.currency as Currency;
 
   return (
     <div className="space-y-8">
       <PageHeader
-        eyebrow="Release review"
-        title="Confirm release request."
-        description="Review the server-calculated processing fee, estimated net amount, method, and destination before submitting to provider verification."
+        eyebrow="Withdrawal review"
+        title="Confirm withdrawal request."
+        description="Review the amount, method, and destination before submitting the instruction for bank officer review."
         actions={
           <Button variant="outline" asChild>
             <Link href={`/dashboard/withdraw/${params.method}`}>
@@ -88,31 +108,30 @@ export default async function WithdrawReviewPage({
           <div className="border-b border-[#E3D8C5] px-6 py-5 sm:px-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <div className="eyebrow text-champagne-700">Release request</div>
+                <div className="eyebrow text-champagne-700">Withdrawal instruction</div>
                 <h2 className="mt-2 font-display text-2xl font-semibold text-foreground">
                   {methodLabel[params.method]}
                 </h2>
                 <p className="mt-1 text-[13px] text-muted-foreground">
-                  Escrow contract {contract.reference}
+                  Account {user.profile.account_number ?? "Pending assignment"}
                 </p>
               </div>
-              <Badge variant="warning">Awaiting fee verification</Badge>
+              <Badge variant="warning">Pending officer review</Badge>
             </div>
           </div>
 
-          <div className="grid gap-4 px-6 py-7 sm:grid-cols-2 lg:grid-cols-4 sm:px-8">
-            <ReviewMetric label="Requested amount" value={formatCurrency(quote.amount, currency)} />
-            <ReviewMetric label="Release fee - 20%" value={formatCurrency(quote.releaseProcessingFee, currency)} />
-            <ReviewMetric label="Estimated net" value={formatCurrency(quote.netAmount, currency)} strong />
+          <div className="grid gap-4 px-6 py-7 sm:grid-cols-2 lg:grid-cols-3 sm:px-8">
+            <ReviewMetric label="Requested amount" value={formatCurrency(amount, currency)} strong />
+            <ReviewMetric label="Pending after submit" value={formatCurrency(amount, currency)} />
             <ReviewMetric label="Eligible balance" value={formatCurrency(available, currency)} />
           </div>
 
           <div className="border-t border-[#E3D8C5] px-6 py-5 sm:px-8">
             <div className="grid gap-3 sm:grid-cols-2">
-              <Detail label="Case" value={primaryCase.title} />
+              <Detail label="Account holder" value={user.profile.full_name} />
               <Detail label="Destination" value={destination} />
-              <Detail label="Fee status" value="Pending verification" />
-              <Detail label="Withdrawal status" value="Awaiting fee completion" />
+              <Detail label="Review status" value="Pending bank officer review" />
+              <Detail label="Settlement status" value="Not settled" />
             </div>
           </div>
         </MotionCard>
@@ -124,26 +143,24 @@ export default async function WithdrawReviewPage({
                 Locked controls
               </div>
               <h2 className="mt-2 font-display text-xl font-semibold text-foreground">
-                Provider-controlled payout
+                Officer-controlled payout
               </h2>
             </div>
             <LockKeyhole className="h-5 w-5 text-champagne-600" strokeWidth={1.5} />
           </div>
           <div className="mt-5 space-y-3 text-[12.5px] leading-5 text-muted-foreground">
             <p>
-              The request will be filed as awaiting fee completion. Admins and providers verify
-              release processing fee status before payout can move to processing or paid.
+              The request will move the amount from available balance to pending balance. Admins
+              verify destination details before approving, rejecting, or marking the payout settled.
             </p>
             <div className="flex items-start gap-3 rounded-md border border-champagne-500/20 bg-champagne-500/5 px-4 py-3 text-foreground">
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-champagne-700" />
-              <span>Users cannot edit fee, net amount, provider status, or release status.</span>
+              <span>Users cannot edit approval status, settlement status, or audit records.</span>
             </div>
           </div>
           <div className="mt-6">
-            <EscrowReleaseSubmitButton
-              escrowContractId={contract.id}
-              caseId={primaryCase.id}
-              amount={quote.amount}
+            <WithdrawalSubmitButton
+              amount={amount}
               currency={currency}
               method={params.method}
               paymentDetails={{ destination }}
@@ -176,5 +193,9 @@ function Detail({ label, value }: { label: string; value: string }) {
 }
 
 function isMethod(value: string | undefined): value is Method {
-  return value === "bank" || value === "card" || value === "paypal";
+  return Boolean(value && value in methodLabel);
+}
+
+function isCurrency(value: string | undefined): value is Currency {
+  return Boolean(value && (CURRENCIES as readonly string[]).includes(value));
 }

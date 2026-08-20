@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireApprovedClient } from "@/lib/auth";
+import { FROZEN_ACCOUNT_ERROR, isFrozenAccount, requireApprovedClient } from "@/lib/auth";
 import { supabaseConfigured } from "@/lib/auth-mode";
 import { calculateReleaseFee, isRecoveryVerified } from "@/lib/portal/recovery";
 import { createServiceClient } from "@/lib/supabase/server";
@@ -12,6 +12,7 @@ const LIVE_BACKEND_ERROR = "Live Supabase is not configured. Add Supabase enviro
 
 export async function createRecoveryCase(input: unknown): Promise<ActionResult> {
   const user = await requireApprovedClient();
+  if (isFrozenAccount(user.profile)) return { ok: false, error: FROZEN_ACCOUNT_ERROR };
   const parsed = RecoveryCaseSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid escrow request" };
@@ -64,6 +65,7 @@ export async function createRecoveryCase(input: unknown): Promise<ActionResult> 
 
 export async function createSecureEscrowAccount(): Promise<ActionResult> {
   const user = await requireApprovedClient();
+  if (isFrozenAccount(user.profile)) return { ok: false, error: FROZEN_ACCOUNT_ERROR };
 
   if (!isRecoveryVerified(user.profile)) {
     return { ok: false, error: "Complete KYC verification before opening escrow access." };
@@ -142,6 +144,7 @@ export async function createSecureEscrowAccount(): Promise<ActionResult> {
 
 export async function submitEscrowReleaseRequest(input: unknown): Promise<ActionResult> {
   const user = await requireApprovedClient();
+  if (isFrozenAccount(user.profile)) return { ok: false, error: FROZEN_ACCOUNT_ERROR };
   const parsed = EscrowReleaseRequestSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid release request" };

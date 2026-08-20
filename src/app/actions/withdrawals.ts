@@ -2,7 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
-import { requireApprovedClient, requireAdmin } from "@/lib/auth";
+import {
+  FROZEN_ACCOUNT_ERROR,
+  isFrozenAccount,
+  requireApprovedClient,
+  requireAdmin,
+} from "@/lib/auth";
 import { createServiceClient } from "@/lib/supabase/server";
 import { supabaseConfigured } from "@/lib/auth-mode";
 import { WithdrawalRequestSchema, WithdrawalDecisionSchema } from "@/lib/validation";
@@ -17,10 +22,11 @@ const LIVE_BACKEND_ERROR = "Live Supabase is not configured. Add Supabase enviro
 /**
  * CLIENT — submit a new withdrawal request.
  * Validates that the user has the available balance, then moves funds to
- * pending_balance (escrow) and writes a ledger entry. Status = 'pending'.
+ * pending_balance and writes a ledger entry. Status = 'pending'.
  */
 export async function submitWithdrawal(input: unknown): Promise<ActionResult> {
   const user = await requireApprovedClient();
+  if (isFrozenAccount(user.profile)) return { ok: false, error: FROZEN_ACCOUNT_ERROR };
   const parsed = WithdrawalRequestSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid request" };
@@ -57,7 +63,7 @@ export async function submitWithdrawal(input: unknown): Promise<ActionResult> {
     .maybeSingle();
   if (uErr || !updated) return { ok: false, error: "Could not reserve funds" };
 
-  // Ledger entry — escrow movement
+  // Ledger entry for the available-to-pending reservation.
   await service.from("ledger_entries").insert({
     user_id: user.id,
     wallet_id: wallet.id,
@@ -97,6 +103,7 @@ export async function submitWithdrawal(input: unknown): Promise<ActionResult> {
   });
 
   revalidatePath("/dashboard/withdrawals");
+  revalidatePath("/dashboard/withdraw");
   revalidatePath("/dashboard/wallets");
   revalidatePath("/dashboard/documents");
   revalidatePath("/dashboard/notifications");

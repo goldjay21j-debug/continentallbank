@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { FileCheck2, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
@@ -23,6 +24,7 @@ import {
 } from "@/lib/constants";
 
 export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?: Currency }) {
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [complaintType, setComplaintType] = useState<RecoveryCaseType>(RECOVERY_CASE_TYPES[0].id);
   const [summary, setSummary] = useState("");
@@ -69,6 +71,8 @@ export function RecoveryCaseForm({ defaultCurrency = "USD" }: { defaultCurrency?
 
       toast.success(result.message ?? "Escrow request submitted.");
       reset();
+      router.refresh();
+      router.push("/dashboard/escrow");
     });
   }
 

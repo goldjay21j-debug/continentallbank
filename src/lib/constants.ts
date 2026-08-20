@@ -79,7 +79,7 @@ export const ACCOUNT_STATUS = {
   pending: "Awaiting Approval",
   approved: "Active",
   rejected: "Declined",
-  suspended: "Suspended",
+  suspended: "Frozen",
 } as const;
 
 export type AccountStatus = keyof typeof ACCOUNT_STATUS;

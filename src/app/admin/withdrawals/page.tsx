@@ -6,6 +6,7 @@ import { WithdrawalDecisionActions } from "@/components/admin/withdrawal-decisio
 import { requireAdmin } from "@/lib/auth";
 import { adminWithdrawalQueue } from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime, maskAccountNumber } from "@/lib/utils";
+import { formatWithdrawalMethod } from "@/lib/withdrawal-methods";
 
 export const metadata = { title: "Withdrawals — Admin" };
 
@@ -94,7 +95,7 @@ export default async function AdminWithdrawalsPage({
                       {r.profiles?.country}
                     </div>
                     <div className="mt-2 break-words text-[12.5px] text-foreground">
-                      <span className="capitalize">{String(r.method).replace(/_/g, " ")}</span>
+                      <span>{formatWithdrawalMethod(String(r.method))}</span>
                       {r.payment_details?.destination && (
                         <> · <span className="tabular-figures">{r.payment_details.destination}</span></>
                       )}

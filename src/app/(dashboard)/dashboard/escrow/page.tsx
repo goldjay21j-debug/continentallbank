@@ -39,25 +39,25 @@ export default async function EscrowDashboardPage() {
   if (overview.accessState.key !== "ready" || !contract || !primaryCase) {
     return (
       <div className="space-y-5">
-        <section className="grid gap-5 xl:grid-cols-[1fr_0.82fr]">
+        <section className="grid gap-5 2xl:grid-cols-[minmax(0,1fr)_minmax(340px,0.52fr)]">
           <MotionCard
             index={0}
             intensity="strong"
-            className="overflow-hidden border border-slate-200 bg-white"
+            className="min-w-0 overflow-hidden border border-slate-200 bg-white"
           >
-            <div className="grid gap-0 lg:grid-cols-[1fr_280px]">
-              <div className="p-5 sm:p-6">
+            <div className="grid min-w-0 gap-0 xl:grid-cols-[minmax(0,1fr)_minmax(300px,360px)]">
+              <div className="min-w-0 p-5 sm:p-6 lg:p-7">
                 <div className="eyebrow text-champagne-700">Private escrow control</div>
-                <h1 className="mt-3 max-w-3xl font-display text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
+                <h1 className="mt-3 max-w-3xl text-balance font-display text-3xl font-semibold leading-tight tracking-normal text-slate-950 sm:text-4xl lg:text-[2.65rem]">
                   {overview.accessState.title}
                 </h1>
-                <p className="mt-4 max-w-3xl text-[15px] leading-7 text-slate-600">
+                <p className="mt-4 max-w-2xl text-[15px] leading-7 text-slate-600">
                   {overview.accessState.description} Your release desk remains locked until the
                   escrow request, identity review, and escrow account setup are all cleared by an
                   officer.
                 </p>
 
-                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                <div className="mt-6 grid gap-3 md:grid-cols-3">
                   <GateStep
                     icon={FolderOpen}
                     label="Escrow request"
@@ -79,7 +79,7 @@ export default async function EscrowDashboardPage() {
                 </div>
               </div>
 
-              <div className="min-w-0 border-t border-slate-200 bg-[#0B1722] p-5 text-ivory-100 sm:p-6 lg:border-l lg:border-t-0">
+              <div className="min-w-0 border-t border-slate-200 bg-[#0B1722] p-5 text-ivory-100 sm:p-6 xl:border-l xl:border-t-0">
                 <div className="flex h-full flex-col justify-between gap-6">
                   <div>
                     <div className="flex h-11 w-11 items-center justify-center rounded-md border border-champagne-300/22 bg-white/[0.07]">
@@ -88,7 +88,7 @@ export default async function EscrowDashboardPage() {
                     <div className="mt-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-champagne-300">
                       Current gate
                     </div>
-                    <div className="mt-2 break-words font-display text-2xl font-semibold">
+                    <div className="mt-2 text-balance font-display text-2xl font-semibold">
                       Controlled release only
                     </div>
                     <p className="mt-3 text-[13px] leading-6 text-ivory-100/70">
@@ -97,7 +97,7 @@ export default async function EscrowDashboardPage() {
                     </p>
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="grid gap-3">
                     {overview.accessState.key === "identity_required" && (
                       <Button asChild className="w-full">
                         <Link href="/dashboard/profile">
@@ -144,12 +144,12 @@ export default async function EscrowDashboardPage() {
 
         <TrustBadgeRail preset="dashboard" tone="light" compact />
 
-        <section className="grid gap-5 xl:grid-cols-[0.82fr_1.18fr]">
+        <section className="grid gap-5 xl:grid-cols-[minmax(280px,0.78fr)_minmax(0,1.22fr)]">
           <MotionCard index={2} className="p-5 sm:p-6">
             <div className="eyebrow text-champagne-700">Access checklist</div>
-                <h2 className="mt-2 font-display text-2xl font-semibold text-slate-950">
-                  Required before escrow opens.
-                </h2>
+            <h2 className="mt-2 text-balance font-display text-2xl font-semibold text-slate-950">
+              Required before escrow opens.
+            </h2>
             <div className="mt-5 space-y-3">
               <GateRow icon={FolderOpen} label="Escrow request" complete={Boolean(primaryCase)} />
               <GateRow icon={ShieldCheck} label="KYC verification" complete={verified} />
@@ -164,9 +164,9 @@ export default async function EscrowDashboardPage() {
           ) : (
             <MotionCard index={3} className="p-5 sm:p-6">
               <div className="eyebrow text-champagne-700">Verification status</div>
-                <h2 className="mt-2 font-display text-xl font-semibold text-slate-950">
-                  {verified ? "Identity approved." : "KYC still required."}
-                </h2>
+              <h2 className="mt-2 text-balance font-display text-xl font-semibold text-slate-950">
+                {verified ? "Identity approved." : "KYC still required."}
+              </h2>
               <div className="mt-5 rounded-md border border-slate-200 bg-slate-50 p-4">
                 <div className="text-[10px] uppercase tracking-[0.16em] text-slate-500">
                   Current KYC status
@@ -327,10 +327,12 @@ function GateRow({
   return (
     <div className="flex min-w-0 flex-wrap items-center justify-between gap-3 rounded-md border border-foreground/[0.06] bg-foreground/[0.025] px-4 py-3">
       <div className="flex min-w-0 items-center gap-3">
-        <Icon className="h-4 w-4 text-champagne-600" strokeWidth={1.6} />
-        <span className="min-w-0 break-words text-[13px] font-medium text-foreground">{label}</span>
+        <Icon className="h-4 w-4 shrink-0 text-champagne-600" strokeWidth={1.6} />
+        <span className="min-w-0 text-[13px] font-medium text-foreground">{label}</span>
       </div>
-      <Badge variant={complete ? "success" : "warning"}>{complete ? "Done" : "Required"}</Badge>
+      <Badge variant={complete ? "success" : "warning"} className="shrink-0">
+        {complete ? "Done" : "Required"}
+      </Badge>
     </div>
   );
 }
@@ -349,10 +351,12 @@ function GateStep({
   return (
     <div className="min-w-0 rounded-md border border-slate-200 bg-slate-50 p-4">
       <div className="flex items-center justify-between gap-3">
-        <Icon className="h-4 w-4 text-champagne-700" strokeWidth={1.6} />
-        <Badge variant={complete ? "success" : "warning"}>{complete ? "Cleared" : "Required"}</Badge>
+        <Icon className="h-4 w-4 shrink-0 text-champagne-700" strokeWidth={1.6} />
+        <Badge variant={complete ? "success" : "warning"} className="shrink-0">
+          {complete ? "Cleared" : "Required"}
+        </Badge>
       </div>
-      <div className="mt-4 break-words text-[13px] font-semibold text-slate-950">{label}</div>
+      <div className="mt-4 text-[13px] font-semibold text-slate-950">{label}</div>
       <div className="mt-1 text-[12px] leading-5 text-slate-500">{description}</div>
     </div>
   );
@@ -360,11 +364,11 @@ function GateStep({
 
 function AssuranceRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-start justify-between gap-4 rounded-md border border-slate-200 bg-slate-50 px-4 py-3">
-      <span className="shrink-0 text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
+    <div className="flex min-w-0 flex-col gap-1.5 rounded-md border border-slate-200 bg-slate-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+      <span className="min-w-0 text-[11px] font-medium uppercase tracking-[0.14em] text-slate-500">
         {label}
       </span>
-      <span className="min-w-0 max-w-[52%] break-words text-right text-[13px] font-semibold text-slate-950">
+      <span className="min-w-0 text-left text-[13px] font-semibold text-slate-950 sm:max-w-[58%] sm:text-right">
         {value}
       </span>
     </div>
@@ -386,7 +390,7 @@ function ControlRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex min-w-0 flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-foreground/[0.06] pb-3 last:border-b-0">
       <span className="min-w-0 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">{label}</span>
-      <span className="min-w-0 max-w-[55%] break-words text-right text-[13px] font-medium text-foreground">
+      <span className="min-w-0 max-w-[55%] text-right text-[13px] font-medium text-foreground">
         {value}
       </span>
     </div>

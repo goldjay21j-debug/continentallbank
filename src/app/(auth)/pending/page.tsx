@@ -35,14 +35,14 @@ export default async function PendingPage() {
           {status === "rejected"
             ? "Application declined."
             : status === "suspended"
-              ? "Account suspended."
+              ? "Account frozen."
               : "Your application is under review."}
         </h1>
         <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground text-pretty">
           {status === "rejected"
             ? "Continental Bank has elected not to proceed with this application. A relationship manager has been notified and will contact you only if a review is appropriate."
             : status === "suspended"
-              ? "Access to this account has been suspended pending a review. Please contact your relationship manager directly."
+              ? "Portal activity for this account is frozen pending bank review. Please contact your relationship manager directly."
               : "A relationship manager is reviewing your application. You will receive an email when your account is activated. This process typically takes one business day."}
         </p>
       </header>
@@ -75,7 +75,7 @@ export default async function PendingPage() {
                       : "gold"
                 }
               >
-                {status}
+                {status === "suspended" ? "Frozen" : status}
               </Badge>
             </dd>
           </div>

@@ -2,7 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
-import { getAuthedUser, requireAdmin, requireApprovedClient } from "@/lib/auth";
+import {
+  FROZEN_ACCOUNT_ERROR,
+  getAuthedUser,
+  isFrozenAccount,
+  requireAdmin,
+  requireApprovedClient,
+} from "@/lib/auth";
 import { createServiceClient } from "@/lib/supabase/server";
 import { supabaseConfigured } from "@/lib/auth-mode";
 import { issueRefundReceipt } from "@/lib/receipts";
@@ -78,6 +84,7 @@ export async function submitPublicRefundClaim(input: unknown): Promise<ActionRes
  * ---------------------------------------------------------- */
 export async function submitClientRefundDispute(input: unknown): Promise<ActionResult> {
   const user = await requireApprovedClient();
+  if (isFrozenAccount(user.profile)) return { ok: false, error: FROZEN_ACCOUNT_ERROR };
   const parsed = ClientRefundDisputeSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid refund request" };

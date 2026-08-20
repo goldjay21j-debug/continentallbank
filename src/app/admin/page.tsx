@@ -54,6 +54,7 @@ import {
   adminRecoveryMetrics,
 } from "@/lib/portal/queries";
 import { formatCurrency, formatDateTime, maskAccountNumber } from "@/lib/utils";
+import { formatWithdrawalMethod } from "@/lib/withdrawal-methods";
 
 export const metadata = { title: "Operations" };
 
@@ -634,7 +635,7 @@ export default async function AdminOverviewPage() {
                         </div>
                       </td>
                       <td className="px-5 py-4 text-[13px] capitalize text-ivory-100/66">
-                        {formatMethod(request.method)}
+                        {formatWithdrawalMethod(request.method)}
                       </td>
                       <td className="px-5 py-4 text-right text-[13.5px] font-semibold tabular-figures text-ivory-100">
                         {formatCurrency(request.amount, request.currency)}
